@@ -16,7 +16,7 @@ import EventPage from "./src/containers/EventPage";
 import MyLikes from "./src/containers/MyLikes";
 import ArtistPage from "./src/containers/ArtistPage";
 import MyProfile from "./src/containers/MyProfile";
-import MyCalendar from "./src/containers/ArtistPage";
+import MyCalendar from "./src/containers/MyCalendar";
 import MySettings from "./src/containers/MySettings";
 
 //
@@ -24,6 +24,9 @@ import MySettings from "./src/containers/MySettings";
 StatusBar.setBarStyle("light-content");
 
 const App = StackNavigator({
+  HomePageUpcomingScreen: {
+    screen: HomePageUpcoming
+  },
   OnBoardingScreen: {
     screen: OnBoarding
   },
@@ -38,9 +41,6 @@ const App = StackNavigator({
   },
   AllowGeolocalisationScreen: {
     screen: AllowGeolocalisation
-  },
-  HomePageUpcomingScreen: {
-    screen: HomePageUpcoming
   },
   HomePagePopularScreen: {
     screen: HomePagePopular
