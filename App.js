@@ -18,12 +18,14 @@ import ArtistPage from "./src/containers/ArtistPage";
 import MyProfile from "./src/containers/MyProfile";
 import MyCalendar from "./src/containers/MyCalendar";
 import MySettings from "./src/containers/MySettings";
+import HomePage from "./src/containers/HomePage";
 
 //
 
 StatusBar.setBarStyle("light-content");
 
 const App = StackNavigator({
+  HomePage: { screen: HomePage },
   HomePageUpcomingScreen: {
     screen: HomePageUpcoming
   },

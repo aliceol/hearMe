@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  StatusBar,
   ScrollView,
-  TouchableOpacity,
   ActivityIndicator,
   StyleSheet
 } from "react-native";
+
 import axios from "axios";
+
 export default class EventPage extends Component {
   static navigationOptions = {
     title: "EventPage"
@@ -19,19 +19,14 @@ export default class EventPage extends Component {
     isLoading: true
   };
 
-  componentDidMount() {
-    this.getThisEvent();
-  }
-
   getThisEvent() {
     axios
       .get(
-        "https://api.songkick.com/api/3.0/events/" +
-          this.props.navigation.state.params.id +
-          ".json?apikey=HNm0lW1pe8ODasVv"
+        "https://hearme-api.herokuapp.com/api/event/" +
+          this.props.navigation.state.params.id
       )
       .then(response => {
-        console.log(response.data);
+        console.log("data", response.data);
         this.setState({
           thisEvent: response.data,
           isLoading: false
@@ -49,22 +44,14 @@ export default class EventPage extends Component {
     } else {
       return (
         <ScrollView>
-          <Text>
-            {this.state.thisEvent.resultsPage.results.event.start.date}
-          </Text>
-          <Text>
-            {this.state.thisEvent.resultsPage.results.event.displayName}
-          </Text>
-          <Text>{this.state.thisEvent.resultsPage.results.event.type}</Text>
-          {/* <Text>
-            Line Up :{
-              this.state.thisEvent.resultsPage.results.event.performance.artist
-                .displayName
-            }
-          </Text> */}
+          <Text>{this.state.thisEvent.title}</Text>
         </ScrollView>
       );
     }
+  }
+
+  componentDidMount() {
+    this.getThisEvent();
   }
 }
 
