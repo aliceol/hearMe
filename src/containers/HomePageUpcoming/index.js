@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {
   Text,
   View,
@@ -6,10 +6,17 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-  StyleSheet
+  StyleSheet,
+  SectionList
 } from "react-native";
+import { withNavigation } from "react-navigation";
+
+const moment = require("moment");
+moment().format();
 
 import axios from "axios";
+
+import ConcertCard from "../../components/ConcertCard";
 
 export default class HomePageUpcoming extends Component {
   static navigationOptions = {
@@ -17,27 +24,89 @@ export default class HomePageUpcoming extends Component {
   };
 
   state = {
-    events: {},
+    events: [],
+    page: 1,
     isLoading: true,
     error: ""
   };
 
-  componentDidMount() {
-    this.getEvents();
+  // to be modified with our own API
+  getEvents() {
+    axios
+      .get("https://hearme-api.herokuapp.com/api/city/31422/" + this.state.page)
+      .then(response => {
+        console.log(response);
+        this.setState({
+          events: [
+            ...this.state.events,
+            ...response.data.response.resultsPage.results.event
+          ],
+          isLoading: false,
+          isLoadingMore: false
+        });
+      })
+      .catch(function(error) {
+        console.log(
+          "There has been a problem with your operation: " + error.message
+        );
+        throw error;
+      });
+  }
+  // after reaching the end of the displayed events list, this function is called to display 50 more events.
+  handleLoadMore = () => {
+    if (!this.state.isLoadingMore) {
+      this.setState(
+        {
+          page: this.state.page + 1,
+          isLoadingMore: true
+        },
+        () => {
+          this.getEvents();
+        }
+      );
+    }
+  };
+
+  // Storing in an array all dates at which events are happening
+  getDates(events) {
+    dates = [];
+    for (let i = 0; i < events.length; i++) {
+      if (dates.indexOf(events[i].start.date) === -1) {
+        dates.push(events[i].start.date);
+      }
+    }
+    return dates;
   }
 
-  getEvents() {
-    console.log("1");
-    axios
-      .get(
-        "https://api.songkick.com/api/3.0/metro_areas/28909/calendar.json?apikey={api-key}"
-      )
-      .then(response => {
-        this.setState({
-          events: response.data,
-          isLoading: false
-        });
+  // rendering in an array all events happening on a defined date
+  renderEventsCard(date, events) {
+    eventsByDate = [];
+    for (let i = 0; i < events.length; i++) {
+      if (events[i].start.date === date) {
+        eventsByDate.push(
+          <ConcertCard event={events[i]} navigate={this.props.navigate} />
+        );
+      }
+    }
+    return eventsByDate;
+  }
+
+  // creating object with adequate formatting for generating the section list
+  renderSectionListContent(events) {
+    let dates = this.getDates(events);
+    let sectionContents = [];
+    for (let i = 0; i < dates.length; i++) {
+      sectionContents.push({
+        title: dates[i],
+        data: this.renderEventsCard(dates[i], events)
       });
+    }
+    return sectionContents;
+  }
+
+  // formating the date header before the list of events happening at this date
+  renderDateTitle(date) {
+    return moment(date).format("dddd") + ", " + moment(date).format("MMMM Do");
   }
 
   render() {
@@ -48,25 +117,52 @@ export default class HomePageUpcoming extends Component {
         </View>
       );
     } else {
-      let artist = null;
+      sectionListData = this.renderSectionListContent(this.state.events);
+      // SectionList used with onEndReached for infinite scrolling
+      return (
+        <SectionList
+          renderItem={({ item, index, section }) => (
+            <View key={index}>{item}</View>
+          )}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={{ fontWeight: "bold" }}>
+              {this.renderDateTitle(title)}
+            </Text>
+          )}
+          sections={sectionListData}
+          keyExtractor={(item, index) => item + index}
+          onEndReached={this.handleLoadMore}
+          onEndReachedThreshold={100}
+        />
+      );
+    }
+  }
+  componentDidMount() {
+    this.getEvents();
+  }
+}
 
-      myEvents = [];
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
+  }
+});
+
+//Contents of the render before updating to sectionList
+{
+  /* 
+  myEvents = [];
       for (
         let i = 0;
         i < this.state.events.resultsPage.results.event.length;
-        i++ // if (
-      ) //   this.state.events.resultsPage.results.event[i].performance.artist
-      //     .displayName === null ||
-      //   this.state.events.resultsPage.results.event[i].performance.artist
-      //     .displayName === undefined
-      // ) {
-      //   artist = "Inconnu";
-      // } else {
-      //   artist = this.state.events.resultsPage.results.event[i].performance
-      //     .artist.displayName;
-      // }
-
-      {
+        i++
+      ) {
         myEvents.push(
           <TouchableOpacity
             style={{ marginBottom: 10 }}
@@ -89,33 +185,11 @@ export default class HomePageUpcoming extends Component {
               {this.state.events.resultsPage.results.event[i].displayName}
             </Text>
             <Text>{this.state.events.resultsPage.results.event[i].type}</Text>
-            {/* <Text>Line Up :{artist}</Text> */}
-          </TouchableOpacity>
-        );
-      }
-
-      // for (
-      //   let j = 0;
-      //   j <
-      //   this.state.events.resultsPage.results.event[i].performance.displayName
-      //     .length;
-      //   j++
-      // ) {
-      //   myEvents.push(
-      //     <View>
-      //       <Text>
-      //         Line Up :{
-      //           this.state.events.resultsPage.results.event[i].performance
-      //             .displayName[j]
-      //         }
-      //       </Text>
-      //     </View>
-      //   );
-      // }
-
-      console.log(this.state.events.resultsPage.results.event.length);
-      return (
-        <ScrollView>
+            
+            </TouchableOpacity>
+          );
+        }
+  <ScrollView>
           <View style={{ marginBottom: 10 }}>{myEvents}</View>
 
           <View>
@@ -153,20 +227,5 @@ export default class HomePageUpcoming extends Component {
               <Text style={{ fontSize: 10 }}>Go To MyProfileScreen</Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
-      );
-    }
-  }
+        </ScrollView> */
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center"
-  },
-  horizontal: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    padding: 10
-  }
-});

@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity
 } from "react-native";
+import { withNavigation } from "react-navigation";
 export default class HomePagePopular extends Component {
   static navigationOptions = {
     title: "HomePagePopular"
