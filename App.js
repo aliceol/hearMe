@@ -28,10 +28,11 @@ import ChooseLocation from "./src/containers/ChooseLocation";
 StatusBar.setBarStyle("light-content");
 
 const App = StackNavigator({
+  HomePage: { screen: HomePage },
   MyProfile: {
     screen: MyProfile
   },
-  HomePage: { screen: HomePage },
+
   HomePageUpcoming: {
     screen: HomePageUpcoming
   },
