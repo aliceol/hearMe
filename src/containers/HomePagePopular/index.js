@@ -18,7 +18,7 @@ export default class HomePagePopular extends Component {
         <TouchableOpacity
           style={{ marginTop: 100 }}
           onPress={() => {
-            this.props.navigation.navigate("EventPageScreen");
+            this.props.navigation.navigate("EventPage");
           }}
         >
           <Text style={{ fontSize: 10 }}>Go To EventPageScreen</Text>
@@ -26,7 +26,7 @@ export default class HomePagePopular extends Component {
         <TouchableOpacity
           style={{ marginTop: 100 }}
           onPress={() => {
-            this.props.navigation.navigate("HomePageUpcomingScreen");
+            this.props.navigation.navigate("HomePageUpcoming");
           }}
         >
           <Text style={{ fontSize: 10 }}>Go To HomePageUpcomingScreen</Text>
@@ -34,7 +34,7 @@ export default class HomePagePopular extends Component {
         <TouchableOpacity
           style={{ marginTop: 100 }}
           onPress={() => {
-            this.props.navigation.navigate("MyLikesScreen");
+            this.props.navigation.navigate("MyLikes");
           }}
         >
           <Text style={{ fontSize: 10 }}>Go To MyLikesScreen</Text>
@@ -42,7 +42,7 @@ export default class HomePagePopular extends Component {
         <TouchableOpacity
           style={{ marginTop: 100 }}
           onPress={() => {
-            this.props.navigation.navigate("MyProfileScreen");
+            this.props.navigation.navigate("MyProfile");
           }}
         >
           <Text style={{ fontSize: 10 }}>Go To MyProfileScreen</Text>
