@@ -19,51 +19,64 @@ import MyProfile from "./src/containers/MyProfile";
 import MyCalendar from "./src/containers/MyCalendar";
 import MySettings from "./src/containers/MySettings";
 import HomePage from "./src/containers/HomePage";
+import EditUsername from "./src/containers/EditUsername";
+import EditEmail from "./src/containers/EditEmail";
+import ChooseLocation from "./src/containers/ChooseLocation";
 
 //
 
 StatusBar.setBarStyle("light-content");
 
 const App = StackNavigator({
-  HomePage: { screen: HomePage },
-  HomePageUpcomingScreen: {
-    screen: HomePageUpcoming
-  },
-  OnBoardingScreen: {
-    screen: OnBoarding
-  },
-  CreateAccountScreen: {
-    screen: CreateAccount
-  },
-  AccountInformationScreen: {
-    screen: AccountInformation
-  },
-  AllowNotificationScreen: {
-    screen: AllowNotification
-  },
-  AllowGeolocalisationScreen: {
-    screen: AllowGeolocalisation
-  },
-  HomePagePopularScreen: {
-    screen: HomePagePopular
-  },
-  EventPageScreen: {
-    screen: EventPage
-  },
-  MyLikesScreen: {
-    screen: MyLikes
-  },
-  ArtistPageScreen: {
-    screen: ArtistPage
-  },
-  MyProfileScreen: {
+  MyProfile: {
     screen: MyProfile
   },
-  MyCalendarScreen: {
+  HomePage: { screen: HomePage },
+  HomePageUpcoming: {
+    screen: HomePageUpcoming
+  },
+  OnBoarding: {
+    screen: OnBoarding
+  },
+  CreateAccount: {
+    screen: CreateAccount
+  },
+  AccountInformation: {
+    screen: AccountInformation
+  },
+  AllowNotification: {
+    screen: AllowNotification
+  },
+  AllowGeolocalisation: {
+    screen: AllowGeolocalisation
+  },
+  HomePagePopular: {
+    screen: HomePagePopular
+  },
+  EventPage: {
+    screen: EventPage
+  },
+  MyLikes: {
+    screen: MyLikes
+  },
+  ArtistPage: {
+    screen: ArtistPage
+  },
+
+  ChooseLocation: {
+    screen: ChooseLocation
+  },
+  MyCalendar: {
     screen: MyCalendar
   },
-  MySettingsScreen: {
+  MySettings: {
     screen: MySettings
+  },
+  EditUsername: {
+    screen: EditUsername
+  },
+  EditEmail: {
+    screen: EditEmail
   }
 });
 
