@@ -22,6 +22,7 @@ import HomePage from "./src/containers/HomePage";
 import EditUsername from "./src/containers/EditUsername";
 import EditEmail from "./src/containers/EditEmail";
 import ChooseLocation from "./src/containers/ChooseLocation";
+import ChoosePicture from "./src/containers/ChoosePicture";
 
 //
 
@@ -30,6 +31,9 @@ StatusBar.setBarStyle("light-content");
 const App = StackNavigator({
   MyProfile: {
     screen: MyProfile
+  },
+  ChoosePicture: {
+    screen: ChoosePicture
   },
   HomePage: { screen: HomePage },
   HomePageUpcoming: {
