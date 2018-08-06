@@ -1,24 +1,9 @@
-import React, { Component } from "react";
-import Icon from "react-native-vector-icons/FontAwesome";
-import Avatar from "../../components/Avatar";
-
+import React, { Component } from "../../react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import Icon from "../../react-native-vector-icons/FontAwesome";
+import Avatar from "../../../components/Avatar";
 
-export default class Profile extends Component {
-  static navigationOptions = {
-    headerBackTitle: null,
-
-    headerLeftContainerStyle: { paddingLeft: 10 },
-    headerTintColor: "#b2bec3",
-    title: "Profile",
-    headerStyle: {
-      backgroundColor: "#2d3436"
-    },
-    headerTitleStyle: {
-      color: "white"
-    }
-  };
-
+export default class MyProfile extends React.Component {
   render() {
     return (
       <React.Fragment>

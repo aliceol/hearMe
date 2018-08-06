@@ -1,5 +1,5 @@
 {
-  "name": "HearMe",
+  "name": "hearme",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,10 +8,13 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "debug": "^3.1.0",
     "loadash": "^1.0.0",
     "moment": "^2.22.2",
     "react": "16.4.1",
     "react-native": "0.56.0",
+    "react-native-elements": "^0.19.1",
+    "react-native-modalbox": "^1.6.0",
     "react-native-camera-roll-picker": "^1.2.3",
     "react-native-image-picker": "^0.26.10",
     "react-native-swipeout": "^2.3.4",
@@ -28,5 +31,17 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aliceol/hearMe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aliceol/hearMe/issues"
+  },
+  "homepage": "https://github.com/aliceol/hearMe#readme",
+  "description": ""
 }

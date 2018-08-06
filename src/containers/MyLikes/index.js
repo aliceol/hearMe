@@ -32,19 +32,19 @@ export default class MyLikes extends Component {
     this.setState({ refreshing: true });
   };
 
-  static navigationOptions = {
-    headerBackTitle: null,
+  // static navigationOptions = {
+  //   headerBackTitle: null,
 
-    headerLeftContainerStyle: { paddingLeft: 10 },
-    headerTintColor: "white",
-    title: "My Likes",
-    headerStyle: {
-      backgroundColor: "#3498db"
-    },
-    headerTitleStyle: {
-      color: "white"
-    }
-  };
+  //   headerLeftContainerStyle: { paddingLeft: 10 },
+  //   headerTintColor: "white",
+  //   title: "My Likes",
+  //   headerStyle: {
+  //     backgroundColor: "#3498db"
+  //   },
+  //   headerTitleStyle: {
+  //     color: "white"
+  //   }
+  // };
 
   //function to get artist information from the SongKick API to be modified with our own API
   getArtistInfo = artist_id => {
@@ -180,10 +180,10 @@ export default class MyLikes extends Component {
   }
   componentDidMount() {
     //receiving the data from the parent component
-    const artists = this.props.navigation.state.params.artists;
+    /* const artists = this.props.navigation.state.params.artists;
     for (let i = 0; i < artists.length; i++) {
       this.getArtistInfo(artists[i]);
-    }
+    } */
   }
 }
 

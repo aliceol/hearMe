@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import {
   View,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ImageBackground
 } from "react-native";
-import { withNavigation } from "react-navigation";
+
 const moment = require("moment");
 moment().format();
 
@@ -62,7 +62,7 @@ export default class TabViewExample extends React.Component {
         <TouchableOpacity
           style={styles.concertCard}
           onPress={() => {
-            this.props.navigate("EventPageScreen", {
+            this.props.navigate("EventPage", {
               id: this.props.event.id,
               eventName: this.props.event.displayName
             });
@@ -70,16 +70,25 @@ export default class TabViewExample extends React.Component {
         >
           <ImageBackground
             source={imageSource}
-            style={{ width: "100%", height: 100 }}
+            style={{ width: "100%", height: 150 }}
           >
             <View style={{ height: 150, width: "100%", margin: 10 }}>
-              <Text>{this.renderDateCard(this.props.event.start.date)}</Text>
+              <View style={styles.dateCard}>
+                <Text style={styles.dateCardText}>
+                  {this.renderDateCard(this.props.event.start.date)}
+                </Text>
+              </View>
             </View>
           </ImageBackground>
-          <View>
-            <Text>{this.props.event.venue.displayName}</Text>
-            <Text numberOfLines={1}>
-              Line up: {this.getLineUp(this.props.event)}
+          <View style={[styles.concertInfo]}>
+            <Text style={[styles.infoText, , styles.bold]}>
+              {this.props.event.venue.displayName === "Unknown venue"
+                ? ""
+                : this.props.event.venue.displayName}
+            </Text>
+            <Text numberOfLines={1} style={styles.infoText}>
+              <Text style={styles.bold}> Line up: </Text>{" "}
+              {this.getLineUp(this.props.event)}
             </Text>
           </View>
         </TouchableOpacity>
@@ -89,8 +98,31 @@ export default class TabViewExample extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  concertcard: {
+  concertCard: {
     borderRadius: 10,
-    overflow: "hidden"
+    overflow: "hidden",
+    marginBottom: 15
+  },
+  concertInfo: {
+    backgroundColor: "#DFE6E9",
+    padding: 5
+  },
+  infoText: {
+    paddingVertical: 3
+  },
+  bold: {
+    fontWeight: "bold"
+  },
+  dateCard: {
+    backgroundColor: "rgba(0,0,0,0.5)",
+    borderRadius: 3,
+    width: 35,
+    textAlign: "center",
+    overflow: "hidden",
+    padding: 3
+  },
+  dateCardText: {
+    color: "white",
+    textAlign: "center"
   }
 });

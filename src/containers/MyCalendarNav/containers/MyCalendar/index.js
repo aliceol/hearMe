@@ -3,18 +3,18 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
 
-export default class MyLikes extends Component {
-  static navigationOptions = {
-    headerLeftContainerStyle: { paddingLeft: 10 },
-    headerTintColor: "white",
-    title: "MyCalendar",
-    headerStyle: {
-      backgroundColor: "#3498db"
-    },
-    headerTitleStyle: {
-      color: "white"
-    }
-  };
+export default class MyCalendar extends Component {
+  // static navigationOptions = {
+  //   headerLeftContainerStyle: { paddingLeft: 10 },
+  //   headerTintColor: "white",
+  //   title: "MyCalendar",
+  //   headerStyle: {
+  //     backgroundColor: "#3498db"
+  //   },
+  //   headerTitleStyle: {
+  //     color: "white"
+  //   }
+  // };
   render() {
     return (
       <React.Fragment>
