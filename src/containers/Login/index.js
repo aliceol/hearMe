@@ -90,7 +90,7 @@ export default class Login extends Component {
                     })
                     .then(response => {
                       if (response.data && response.data.token) {
-                        this.props.navigation.navigate("HomePage");
+                        this.props.navigation.navigate("TabScreen");
                         console.log(response.data);
                       }
                     })
