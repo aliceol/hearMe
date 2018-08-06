@@ -32,15 +32,19 @@ import Login from "./src/containers/Login";
 StatusBar.setBarStyle("light-content");
 
 const App = createStackNavigator({
+  HomePage: { screen: HomePage },
   Welcome: {
     screen: Welcome
   },
-  HomePage: { screen: HomePage },
+
   SignUp: {
     screen: SignUp
   },
   Login: {
     screen: Login
+  },
+  EventPage: {
+    screen: EventPage
   },
 
   MyProfile: {
@@ -51,6 +55,9 @@ const App = createStackNavigator({
   },
   OnBoarding: {
     screen: OnBoarding
+  },
+  ArtistPage: {
+    screen: ArtistPage
   },
   CreateAccount: {
     screen: CreateAccount
@@ -70,15 +77,10 @@ const App = createStackNavigator({
   HomePagePopular: {
     screen: HomePagePopular
   },
-  EventPage: {
-    screen: EventPage
-  },
   MyLikes: {
     screen: MyLikes
   },
-  ArtistPage: {
-    screen: ArtistPage
-  },
+
   ChooseLocation: {
     screen: ChooseLocation
   },

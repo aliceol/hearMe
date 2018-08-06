@@ -4,7 +4,7 @@ import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 export default class ButtonLike extends Component {
   //by default the button is "liked"(toggle:true) if the user accesses the artist from his "My_Likes"
   state = {
-    toggle: true
+    toggle: false
   };
 
   _onPress() {

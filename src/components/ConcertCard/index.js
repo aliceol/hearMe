@@ -9,6 +9,8 @@ import {
   ImageBackground
 } from "react-native";
 
+import { withNavigation } from "react-navigation";
+
 const moment = require("moment");
 moment().format();
 
@@ -62,9 +64,9 @@ export default class TabViewExample extends React.Component {
         <TouchableOpacity
           style={styles.concertCard}
           onPress={() => {
+            console.log("pressed");
             this.props.navigate("EventPage", {
-              id: this.props.event.id,
-              eventName: this.props.event.displayName
+              id: this.props.event.id
             });
           }}
         >

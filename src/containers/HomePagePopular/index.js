@@ -61,7 +61,6 @@ export default class HomePageUpcoming extends Component {
         </View>
       );
     } else {
-      console.log("else");
       return (
         <FlatList
           style={[
@@ -73,7 +72,6 @@ export default class HomePageUpcoming extends Component {
           data={this.state.events}
           keyExtractor={(item, index) => item.displayName}
           renderItem={obj => {
-            console.log("item", obj);
             return (
               <ConcertCard event={obj.item} navigate={this.props.navigate} />
             );
