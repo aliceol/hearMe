@@ -63,12 +63,12 @@ export default class ChooseLocation extends Component {
     });
   };
 
-  handleChangeText = query => {
+  /* handleChangeText = query => {
     this.setState(
       state => ({ ...state, query: query || "" }),
       () => this.compareCities()
     );
-  };
+  }; */
 
   handleClear = () => {
     this.handleChangeText("");

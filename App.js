@@ -1,4 +1,4 @@
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 import React, { Component } from "react";
 import { StatusBar } from "react-native";
 import { Platform, StyleSheet, Text, View } from "react-native";
@@ -27,7 +27,7 @@ import ChooseLocation from "./src/containers/ChooseLocation";
 
 StatusBar.setBarStyle("light-content");
 
-const App = StackNavigator({
+const App = createStackNavigator({
   HomePage: { screen: HomePage },
   MyProfile: {
     screen: MyProfile

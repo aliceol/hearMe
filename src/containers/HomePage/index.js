@@ -22,7 +22,6 @@ export default class TabViewPage extends React.Component {
     super();
     this.state = {
       index: 0,
-
       cityName: "Paris",
       cityCode: "28909",
       routes: [
@@ -43,7 +42,8 @@ export default class TabViewPage extends React.Component {
   }
 
   static navigationOptions = {
-    title: "HomePage"
+    title: "HomePage",
+    header: null
   };
 
   citiesCodes = {
@@ -75,8 +75,6 @@ export default class TabViewPage extends React.Component {
   };
 
   navigateToCity = cityName => {
-    console.log(this.citiesCodes[cityName]);
-    console.log("props", this.props);
     const cityCode = this.citiesCodes[cityName];
     let newRoutes = [...this.state.routes];
     newRoutes[0].cityCode = cityCode;
