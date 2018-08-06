@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { SearchBar } from "react-native-elements";
 
 import Icon from "react-native-vector-icons/FontAwesome";
-import axios from "../../../node_modules/axios";
+import axios from "axios";
 
 export default class ChooseLocation extends Component {
   static navigationOptions = {

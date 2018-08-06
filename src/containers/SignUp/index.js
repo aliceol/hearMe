@@ -13,6 +13,7 @@ export default class SignUp extends Component {
     userName: "",
     email: "",
     password: "",
+    passwordtwo: "",
     btnNextDisable: true
   };
 
@@ -22,8 +23,13 @@ export default class SignUp extends Component {
         [key]: value
       },
       () => {
-        const { userName, email, password } = this.state;
-        if (userName.length >= 3 && email.length >= 3 && password.length >= 3) {
+        const { userName, email, password, passwordtwo } = this.state;
+        if (
+          userName.length >= 3 &&
+          email.length >= 3 &&
+          password.length >= 3 &&
+          passwordtwo === password
+        ) {
           this.setState({
             btnNextDisable: false
           });
@@ -83,14 +89,25 @@ export default class SignUp extends Component {
             style={styles.input}
           />
           <TextInput
+            onSubmitEditing={() => this.passwordTwoInput.focus()}
             value={this.state.password}
             onChangeText={text => this.onChange("password", text)}
             placeholderTextColor="#ecf0f1"
             secureTextEntry={true}
-            returnKeyType="go"
+            returnKeyType="next"
             placeholder="password"
             style={styles.input}
             ref={input => (this.passwordInput = input)}
+          />
+          <TextInput
+            value={this.state.passwordtwo}
+            onChangeText={text => this.onChange("passwordtwo", text)}
+            placeholderTextColor="#ecf0f1"
+            secureTextEntry={true}
+            returnKeyType="go"
+            placeholder="please repeat your password"
+            style={styles.input}
+            ref={input => (this.passwordTwoInput = input)}
           />
           <View style={styles.nextContainer}>
             {!this.state.btnNextDisable ? (

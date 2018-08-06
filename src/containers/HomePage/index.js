@@ -41,11 +41,6 @@ export default class TabViewPage extends React.Component {
     };
   }
 
-  static navigationOptions = {
-    title: "HomePage",
-    header: null
-  };
-
   citiesCodes = {
     Paris: "28909",
     Berlin: "28443",
