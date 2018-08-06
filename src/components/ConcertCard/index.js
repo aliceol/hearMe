@@ -9,6 +9,8 @@ import {
   ImageBackground
 } from "react-native";
 
+import { withNavigation } from "react-navigation";
+
 const moment = require("moment");
 moment().format();
 
@@ -62,9 +64,9 @@ export default class TabViewExample extends React.Component {
         <TouchableOpacity
           style={styles.concertCard}
           onPress={() => {
+            console.log("pressed");
             this.props.navigate("EventPage", {
-              id: this.props.event.id,
-              eventName: this.props.event.displayName
+              id: this.props.event.id
             });
           }}
         >
@@ -81,11 +83,27 @@ export default class TabViewExample extends React.Component {
             </View>
           </ImageBackground>
           <View style={[styles.concertInfo]}>
-            <Text style={[styles.infoText, , styles.bold]}>
-              {this.props.event.venue.displayName === "Unknown venue"
-                ? ""
-                : this.props.event.venue.displayName}
-            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text style={[styles.infoText, , styles.bold]}>
+                {this.props.event.venue.displayName === "Unknown venue"
+                  ? ""
+                  : this.props.event.venue.displayName}
+              </Text>
+              <View style={styles.time}>
+                {this.props.event.start.time ? (
+                  <Text style={styles.infoText}>
+                    {this.props.event.start.time.slice(0, 5)}
+                  </Text>
+                ) : (
+                  <Text />
+                )}
+              </View>
+            </View>
             <Text numberOfLines={1} style={styles.infoText}>
               <Text style={styles.bold}> Line up: </Text>{" "}
               {this.getLineUp(this.props.event)}
@@ -124,5 +142,9 @@ const styles = StyleSheet.create({
   dateCardText: {
     color: "white",
     textAlign: "center"
+  },
+  time: {
+    justifyContent: "center",
+    paddingRight: 3
   }
 });

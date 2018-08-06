@@ -27,10 +27,10 @@ export default class TabViewPage extends React.Component {
       routes: [
         {
           key: "upcoming",
-          title: "UpcomingEvents",
+          title: "Upcoming Events",
           cityCode: "28909"
         },
-        { key: "popular", title: "PopularVenues" }
+        { key: "popular", title: "Popular Events", cityCode: "28909" }
       ],
       isOpen: false,
       isDisabled: false,
@@ -59,8 +59,9 @@ export default class TabViewPage extends React.Component {
             <TouchableOpacity
               onPress={() => this.navigateToCity(this.state.cities[i])}
               key={this.state.cities[i]}
+              style={styles.cityButton}
             >
-              <Text>{this.state.cities[i]}</Text>
+              <Text style={{ fontSize: 20 }}>{this.state.cities[i]}</Text>
             </TouchableOpacity>
           );
         }
@@ -185,7 +186,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     flexDirection: "row",
     alignItems: "center",
-    color: "whitesmoke"
+    color: "whitesmoke",
+    marginTop: 20
   },
   cityDisplay: {
     fontSize: 30,
@@ -216,5 +218,9 @@ const styles = StyleSheet.create({
   closeIcon: {
     marginTop: 20,
     margin: 10
+  },
+  cityButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10
   }
 });

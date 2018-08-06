@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
+import axios from "axios";
 
 import {
   StyleSheet,
@@ -8,7 +9,8 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  ImageBackground
+  ImageBackground,
+  ActivityIndicator
 } from "react-native";
 import ButtonLike from "../../components/ButtonLike";
 
@@ -16,7 +18,7 @@ export default class LoginForm extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeftContainerStyle: { paddingLeft: 10 },
     headerTintColor: "white",
-    title: navigation.state.params.title,
+    // title: navigation.state.params.title,
     headerStyle: {
       backgroundColor: "rgba(45,141,214,100)"
     },
@@ -24,61 +26,132 @@ export default class LoginForm extends Component {
       color: "white"
     }
   });
+
+  state = {
+    thisArtist: [],
+    isLoading: true
+  };
+
+  componentDidMount() {
+    this.getArtistInfo();
+  }
+
+  getArtistInfo() {
+    axios
+      .get(
+        "https://hearme-api.herokuapp.com/api/artist/" +
+          this.props.navigation.state.params.id +
+          "-" +
+          this.props.navigation.state.params.name +
+          "/1"
+      )
+      .then(response => {
+        console.log("data", response.data);
+        this.setState({
+          thisArtist: response.data,
+          isLoading: false
+        });
+      });
+  }
+
   //onLike function will call the API to register the Like.
   onLike = () => {};
   render() {
-    return (
-      <React.Fragment>
-        <View style={styles.container}>
-          <ImageBackground
-            style={styles.artistImage}
-            source={require("../../images/artist_2.jpg")}
-            imageStyle={{ borderRadius: 40 }}
+    if (this.state.isLoading) {
+      return (
+        <View style={[styles.container, styles.horizontal]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
+    } else {
+      const myEvent = [];
+      const myResult = this.state.thisArtist.response.resultsPage.results;
+      let eventName = "";
+      let eventCity = "";
+
+      for (let i = 0; i < myResult.event.length; i++) {
+        if (myResult.event[i].displayName.length > 25) {
+          eventName = myResult.event[i].displayName.substr(0, 25) + "...";
+        } else {
+          eventName = myResult.event[i].displayName;
+        }
+
+        if (myResult.event[i].location.city.length > 13) {
+          eventCity = myResult.event[i].location.city.substr(0, 13) + "...";
+        } else {
+          eventCity = myResult.event[i].location.city;
+        }
+        myEvent.push(
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate("EventPage", {
+                id: myResult.event[i].id,
+                name: myResult.event[i].displayName
+              });
+            }}
+            style={styles.unitEvent}
           >
-            <Image
-              style={styles.icons}
-              source={require("../../images/player.png")}
-            />
-          </ImageBackground>
-          <ButtonLike onLike={this.onLike} />
-        </View>
-        <View style={styles.WholeCalendar}>
-          <Text style={styles.upcomingEvents}>Upcoming Events</Text>
-          <ScrollView>
-            <View style={styles.unitEvent}>
-              <View style={styles.date}>
-                <Text>WED</Text>
-                <Text style={styles.themeColor}>20</Text>
-                <Text style={styles.themeColor}>JUN</Text>
-              </View>
-              <View style={styles.centralContent}>
-                <Text>Venue Name</Text>
-              </View>
+            <Text style={styles.date}>{myResult.event[i].start.date}</Text>
+            <Text>{eventName}</Text>
+            <Text>{eventCity}</Text>
+          </TouchableOpacity>
+        );
+      }
+      return (
+        <React.Fragment>
+          <View style={styles.container}>
+            <ImageBackground
+              style={styles.artistImage}
+              source={require("../../images/artist_2.jpg")}
+              imageStyle={{ borderRadius: 40 }}
+            >
+              <Image
+                style={styles.icons}
+                source={require("../../images/player.png")}
+              />
+            </ImageBackground>
+            {/* <Text>{this.props.navigation.state.params.name}</Text> */}
+            <ButtonLike onLike={this.onLike} />
+          </View>
+          <View style={styles.WholeCalendar}>
+            <Text style={styles.upcomingEvents}>Upcoming Events</Text>
+            {/* <ScrollView>
+              <View style={styles.unitEvent}>
+                <View style={styles.date}>
+                  <Text>WED</Text>
+                  <Text style={styles.themeColor}>20</Text>
+                  <Text style={styles.themeColor}>JUN</Text>
+                </View>
+                <View style={styles.centralContent}>
+                  <Text>Venue Name</Text>
+                </View>
 
-              <View style={styles.location}>
-                <Icon name="map-marker" size={20} style={styles.mapPicker} />
-                <Text>City</Text>
+                <View style={styles.location}>
+                  <Icon name="map-marker" size={20} style={styles.mapPicker} />
+                  <Text>City</Text>
+                </View>
               </View>
-            </View>
-            <View style={styles.unitEvent}>
-              <View style={styles.date}>
-                <Text>WED</Text>
-                <Text style={styles.themeColor}>20</Text>
-                <Text style={styles.themeColor}>JUN</Text>
-              </View>
-              <View style={styles.centralContent}>
-                <Text>Venue Name</Text>
-              </View>
+              <View style={styles.unitEvent}>
+                <View style={styles.date}>
+                  <Text>WED</Text>
+                  <Text style={styles.themeColor}>20</Text>
+                  <Text style={styles.themeColor}>JUN</Text>
+                </View>
+                <View style={styles.centralContent}>
+                  <Text>Venue Name</Text>
+                </View>
 
-              <View style={styles.location}>
-                <Icon name="map-marker" size={20} style={styles.mapPicker} />
-                <Text>City</Text>
+                <View style={styles.location}>
+                  <Icon name="map-marker" size={20} style={styles.mapPicker} />
+                  <Text>City</Text>
+                </View>
               </View>
-            </View>
-          </ScrollView>
-        </View>
-      </React.Fragment>
-    );
+            </ScrollView> */}
+            <ScrollView>{myEvent}</ScrollView>
+          </View>
+        </React.Fragment>
+      );
+    }
   }
 }
 
