@@ -1,53 +1,139 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {
   Text,
   View,
   StatusBar,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator,
+  StyleSheet,
+  SectionList,
+  FlatList
 } from "react-native";
 import { withNavigation } from "react-navigation";
-export default class HomePagePopular extends Component {
+
+const moment = require("moment");
+moment().format();
+
+import axios from "axios";
+
+import ConcertCard from "../../components/ConcertCard";
+
+export default class HomePageUpcoming extends Component {
   static navigationOptions = {
-    title: "HomePagePopular"
+    title: "HomePageUpcoming"
   };
+
+  state = {
+    events: [],
+    page: 1,
+    isLoading: true,
+    error: ""
+  };
+
+  getEvents() {
+    axios
+      .get(
+        "https://hearme-api.herokuapp.com/api/city/popular/" +
+          this.props.route.cityCode +
+          "/" +
+          this.state.page
+      )
+      .then(response => {
+        this.setState({
+          events: response.data,
+          isLoading: false
+        });
+      })
+      .catch(function(error) {
+        console.log(
+          "There has been a problem with your operation: " + error.message
+        );
+        throw error;
+      });
+  }
+
   render() {
-    return (
-      <View>
-        <Text>This is the HomePagePopular Page</Text>
-        <TouchableOpacity
-          style={{ marginTop: 100 }}
-          onPress={() => {
-            this.props.navigation.navigate("EventPage");
+    if (this.state.isLoading) {
+      return (
+        <View style={[styles.container, styles.horizontal]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
+    } else {
+      console.log("else");
+      return (
+        <FlatList
+          style={[
+            {
+              padding: 10
+            },
+            styles.backgroundOfPage
+          ]}
+          data={this.state.events}
+          keyExtractor={(item, index) => item.displayName}
+          renderItem={obj => {
+            console.log("item", obj);
+            return (
+              <ConcertCard event={obj.item} navigate={this.props.navigate} />
+            );
           }}
-        >
-          <Text style={{ fontSize: 10 }}>Go To EventPageScreen</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ marginTop: 100 }}
-          onPress={() => {
-            this.props.navigation.navigate("HomePageUpcoming");
-          }}
-        >
-          <Text style={{ fontSize: 10 }}>Go To HomePageUpcomingScreen</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ marginTop: 100 }}
-          onPress={() => {
-            this.props.navigation.navigate("MyLikes");
-          }}
-        >
-          <Text style={{ fontSize: 10 }}>Go To MyLikesScreen</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ marginTop: 100 }}
-          onPress={() => {
-            this.props.navigation.navigate("MyProfile");
-          }}
-        >
-          <Text style={{ fontSize: 10 }}>Go To MyProfileScreen</Text>
-        </TouchableOpacity>
-      </View>
-    );
+        />
+      );
+    }
+  }
+  componentDidMount() {
+    this.getEvents();
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
+  },
+  backgroundOfPage: {
+    backgroundColor: "#F4F8FF"
+  }
+});
+
+/* <SectionList
+          
+          renderItem={({ item, index, section }) => (
+            <View key={index}>{item}</View>
+          )}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text
+              style={[
+                {
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  textAlign: "center",
+                  marginBottom: 10,
+                  paddingVertical: 5,
+                  fontWeight: "bold",
+                  color: "#2D3436"
+                },
+                styles.backgroundOfPage
+              ]}
+            >
+              {this.renderDateTitle(title)}
+            </Text>
+          )}
+          sections={sectionListData}
+          keyExtractor={(item, index) => item + index}
+        /> */
+/* <Flatlist
+          data={this.state.events}
+          keyExtractor={(item, index) => item}
+          renderItem={({ obj }) => <Text>{obj.title}</Text>}
+        /> */
+
+/* <ConcertCard event={obj.item} navigate={this.props.navigate} /> */
