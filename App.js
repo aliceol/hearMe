@@ -22,13 +22,26 @@ import HomePage from "./src/containers/HomePage";
 import EditUsername from "./src/containers/EditUsername";
 import EditEmail from "./src/containers/EditEmail";
 import ChooseLocation from "./src/containers/ChooseLocation";
-import ChoosePicture from "./src/containers/ChoosePicture";
+
+import Welcome from "./src/containers/Welcome";
+import SignUp from "./src/containers/SignUp";
+import Login from "./src/containers/Login";
+
 
 //
 
 StatusBar.setBarStyle("light-content");
 
 const App = StackNavigator({
+  Welecome: {
+    screen: Welcome
+  },
+  SignUp: {
+    screen: SignUp
+  },
+  Login: {
+    screen: Login
+  },
   MyProfile: {
     screen: MyProfile
   },
