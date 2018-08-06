@@ -41,7 +41,7 @@ export default class Login extends Component {
     headerTintColor: "white",
     title: "Login",
     headerStyle: {
-      backgroundColor: "#2d3436"
+      backgroundColor: "#44bec7"
     },
     headerTitleStyle: {
       color: "white"
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 44,
-    backgroundColor: "#2d3436",
+    backgroundColor: "#44bec7",
     borderRadius: 4,
     marginBottom: 15,
     color: "white",
