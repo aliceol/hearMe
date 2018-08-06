@@ -45,7 +45,11 @@ export default class Profile extends Component {
               <View style={styles.oneOption}>
                 <View style={styles.iconAndText}>
                   <View>
-                    <Icon name="calendar" size={20} />
+                    <Icon
+                      name="calendar"
+                      size={20}
+                      style={styles.fontAwesomeCal}
+                    />
                   </View>
                   <View>
                     <Text style={styles.optionTitle}>My Calendar</Text>
@@ -61,7 +65,11 @@ export default class Profile extends Component {
             >
               <View style={styles.oneOption}>
                 <View style={styles.iconAndText}>
-                  <Icon name="location-arrow" size={20} />
+                  <Icon
+                    name="location-arrow"
+                    size={20}
+                    style={styles.fontAwesomeLoc}
+                  />
 
                   <Text style={styles.optionTitle}>Location</Text>
                 </View>
@@ -78,7 +86,11 @@ export default class Profile extends Component {
             >
               <View style={styles.lastOption}>
                 <View style={styles.iconAndText}>
-                  <Icon name="heart" size={20} />
+                  <Icon
+                    name="heart"
+                    size={20}
+                    style={styles.fontAwesomeHeart}
+                  />
 
                   <Text style={styles.optionTitle}>My Likes</Text>
                 </View>
@@ -103,6 +115,16 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 30
   },
+  fontAwesomeCal: {
+    color: "#0084ff"
+  },
+  fontAwesomeLoc: {
+    color: "#44bec7"
+  },
+  fontAwesomeHeart: {
+    color: "#fa3c4c"
+  },
+
   addPhoto: {
     color: "white"
   },
@@ -136,16 +158,16 @@ const styles = StyleSheet.create({
   },
   optionTitle: {
     fontSize: 16,
-    fontWeight: "300",
+    fontWeight: "400",
     marginLeft: 30
   },
   chevron: {
-    color: "#3498db"
+    color: "#2c3e50"
   },
   allOptions: {
     backgroundColor: "whitesmoke",
     marginTop: 50,
-    borderColor: "#3498db",
+    borderColor: "#2c3e50",
     borderBottomWidth: 1,
     borderTopWidth: 1
   },
@@ -162,7 +184,7 @@ const styles = StyleSheet.create({
   oneOption: {
     padding: 20,
     borderBottomWidth: 1,
-    borderColor: "#3498db",
+    borderColor: "#2c3e50",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"

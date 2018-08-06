@@ -66,7 +66,6 @@ const App = StackNavigator({
   ArtistPage: {
     screen: ArtistPage
   },
-
   ChooseLocation: {
     screen: ChooseLocation
   },

@@ -8,7 +8,7 @@ class Avatar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatar: require("../../images/test_camera.png")
+      avatar: require("../../images/ic_tag_faces.png")
     };
     // this.setState est appelé dans un callback dans showImagePicker, pensez donc bien à binder la fonction _avatarClicked
     this._avatarClicked = this._avatarClicked.bind(this);
@@ -53,9 +53,9 @@ const styles = StyleSheet.create({
   avatar: {
     width: 120,
     height: 120,
-    borderRadius: 120 / 2
-    // borderColor: "#2d3436",
-    // borderWidth: 2
+    borderRadius: 120 / 2,
+    borderColor: "#2d3436",
+    borderWidth: 2
   }
 });
 
