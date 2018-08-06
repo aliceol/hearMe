@@ -27,15 +27,19 @@ export default class HomePageUpcoming extends Component {
     events: [],
     page: 1,
     isLoading: true,
-    error: ""
+    error: "",
+    isLoadingMore: false
   };
 
-  // to be modified with our own API
   getEvents() {
     axios
-      .get("https://hearme-api.herokuapp.com/api/city/28909/" + this.state.page)
+      .get(
+        "https://hearme-api.herokuapp.com/api/city/upcoming/" +
+          this.props.route.cityCode +
+          "/" +
+          this.state.page
+      )
       .then(response => {
-        console.log(response);
         this.setState({
           events: [
             ...this.state.events,

@@ -1,32 +1,149 @@
 import React, { Fragment } from "react";
-import { View, StyleSheet, Dimensions, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  TouchableOpacity
+} from "react-native";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
+
+import { SearchBar } from "react-native-elements";
+
 import Icon from "react-native-vector-icons/FontAwesome";
+
+import Modal from "react-native-modalbox";
 
 import HomePageUpcoming from "../HomePageUpcoming";
 import HomePagePopular from "../HomePagePopular";
 
 export default class TabViewPage extends React.Component {
-  state = {
-    index: 0,
-    routes: [
-      { key: "upcoming", title: "UpcomingEvents" },
-      { key: "popular", title: "PopularVenues" }
-    ]
-  };
+  constructor() {
+    super();
+    this.state = {
+      index: 0,
+      cityName: "Paris",
+      cityCode: "28909",
+      routes: [
+        {
+          key: "upcoming",
+          title: "UpcomingEvents",
+          cityCode: "28909"
+        },
+        { key: "popular", title: "PopularVenues" }
+      ],
+      isOpen: false,
+      isDisabled: false,
+      swipeToClose: true,
+      cities: ["Paris", "Berlin", "Barcelona", "London", "Oslo"],
+      query: "",
+      matchingCities: []
+    };
+  }
 
   static navigationOptions = {
-    title: "HomePage"
+    title: "HomePage",
+    header: null
+  };
+
+  citiesCodes = {
+    Paris: "28909",
+    Berlin: "28443",
+    Barcelona: "28714",
+    London: "24426",
+    Oslo: "31422"
+  };
+
+  compareCities = () => {
+    let queryLength = this.state.query.length;
+    let matchingCities = [];
+    if (queryLength > 0) {
+      for (let i = 0; i < this.state.cities.length; i++) {
+        if (this.state.query === this.state.cities[i].slice(0, queryLength)) {
+          matchingCities.push(
+            <TouchableOpacity
+              onPress={() => this.navigateToCity(this.state.cities[i])}
+              key={this.state.cities[i]}
+            >
+              <Text>{this.state.cities[i]}</Text>
+            </TouchableOpacity>
+          );
+        }
+      }
+    }
+    this.setState({ matchingCities: matchingCities });
+  };
+
+  navigateToCity = cityName => {
+    const cityCode = this.citiesCodes[cityName];
+    let newRoutes = [...this.state.routes];
+    newRoutes[0].cityCode = cityCode;
+    this.setState(
+      {
+        cityName: cityName,
+        cityCode: cityCode,
+        query: "",
+        matchingCities: [],
+        routes: newRoutes
+      },
+      () => {
+        this.refs.modalSearch.close();
+      }
+    );
+  };
+
+  handleChangeText = query => {
+    this.setState(
+      state => ({ ...state, query: query || "" }),
+      () => this.compareCities()
+    );
+  };
+
+  handleClear = () => {
+    this.handleChangeText("");
   };
 
   render() {
-    // The search button is an image without onPress function. To be replaced by an icon with the onPress function to expand the search bar.
     return (
       <Fragment>
+        <Modal
+          style={[styles.modal, styles.modalSearch]}
+          ref={"modalSearch"}
+          swipeToClose={this.state.swipeToClose}
+          onClosed={this.onClose}
+          onOpened={this.onOpen}
+          onClosingState={this.onClosingState}
+        >
+          <TouchableOpacity onPress={() => this.refs.modalSearch.close()}>
+            <Icon name="times" size={30} style={styles.closeIcon} />
+          </TouchableOpacity>
+
+          <SearchBar
+            lightTheme
+            clearIcon={{ color: "black" }}
+            onChangeText={this.handleChangeText}
+            onClear={this.handleClear}
+            placeholder="Where do you want to go?"
+            containerStyle={styles.container}
+            inputContainerStyle={styles.inputContainer}
+            inputStyle={styles.input}
+            value={this.state.query}
+          />
+          <View>{this.state.matchingCities}</View>
+        </Modal>
         <View style={styles.citySearch}>
-          <Text style={styles.cityDisplay}>Paris</Text>
-          <Icon name="search" size={30} />
+          <Text style={styles.cityDisplay}>{this.state.cityName}</Text>
+          <TouchableOpacity onPress={() => this.refs.modalSearch.open()}>
+            <Icon name="search" size={30} />
+          </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={styles.mapViewButton}
+          onPress={() => console.log("pressed")}
+        >
+          <Icon name="map-marker" size={30} />
+          <Text style={styles.mapViewText}>Map View</Text>
+        </TouchableOpacity>
         <TabView
           navigationState={this.state}
           renderTabBar={props => (
@@ -64,6 +181,7 @@ export default class TabViewPage extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  modalSearch: {},
   citySearch: {
     backgroundColor: "#F4F8FF",
     height: 60,
@@ -81,5 +199,27 @@ const styles = StyleSheet.create({
   searchIcon: {
     height: 30,
     width: 30
+  },
+  mapViewButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    height: 80,
+    width: 80,
+    borderRadius: 40,
+    backgroundColor: "grey",
+    color: "black",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 999
+  },
+  mapViewText: { textAlign: "center", fontSize: 12, marginTop: 3 },
+  container: { backgroundColor: "transparent" },
+  input: { backgroundColor: "transparent" },
+  inputContainer: { backgroundColor: "transparent" },
+  closeIcon: {
+    marginTop: 20,
+    margin: 10
   }
 });

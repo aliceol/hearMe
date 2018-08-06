@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import {
   View,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ImageBackground
 } from "react-native";
-import { withNavigation } from "react-navigation";
+
 const moment = require("moment");
 moment().format();
 
@@ -62,7 +62,7 @@ export default class TabViewExample extends React.Component {
         <TouchableOpacity
           style={styles.concertCard}
           onPress={() => {
-            this.props.navigate("EventPageScreen", {
+            this.props.navigate("EventPage", {
               id: this.props.event.id,
               eventName: this.props.event.displayName
             });
@@ -101,11 +101,7 @@ const styles = StyleSheet.create({
   concertCard: {
     borderRadius: 10,
     overflow: "hidden",
-    marginBottom: 15,
-    shadowOpacity: 0.75,
-    shadowRadius: 5,
-    shadowColor: "red",
-    shadowOffset: { height: 0, width: 0 }
+    marginBottom: 15
   },
   concertInfo: {
     backgroundColor: "#DFE6E9",
