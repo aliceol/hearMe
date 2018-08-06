@@ -3,11 +3,8 @@ package com.hearme;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-<<<<<<< HEAD
 import com.horcrux.svg.SvgPackage;
-=======
 import com.imagepicker.ImagePickerPackage;
->>>>>>> 694cc3560a8d2a8b37c2cb49b72fa8de071d51ab
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -29,11 +26,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-<<<<<<< HEAD
             new SvgPackage(),
-=======
             new ImagePickerPackage(),
->>>>>>> 694cc3560a8d2a8b37c2cb49b72fa8de071d51ab
             new VectorIconsPackage()
       );
     }

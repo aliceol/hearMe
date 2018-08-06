@@ -1,11 +1,8 @@
 rootProject.name = 'HearMe'
-<<<<<<< HEAD
 include ':react-native-svg'
 project(':react-native-svg').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-svg/android')
-=======
 include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
->>>>>>> 694cc3560a8d2a8b37c2cb49b72fa8de071d51ab
 include ':react-native-vector-icons'
 project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
 
