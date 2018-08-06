@@ -33,7 +33,7 @@ export default class HomePageUpcoming extends Component {
   // to be modified with our own API
   getEvents() {
     axios
-      .get("https://hearme-api.herokuapp.com/api/city/31422/" + this.state.page)
+      .get("https://hearme-api.herokuapp.com/api/city/28909/" + this.state.page)
       .then(response => {
         console.log(response);
         this.setState({
@@ -121,11 +121,32 @@ export default class HomePageUpcoming extends Component {
       // SectionList used with onEndReached for infinite scrolling
       return (
         <SectionList
+          style={[
+            {
+              paddingHorizontal: 10
+            },
+            styles.backgroundOfPage
+          ]}
           renderItem={({ item, index, section }) => (
             <View key={index}>{item}</View>
           )}
           renderSectionHeader={({ section: { title } }) => (
-            <Text style={{ fontWeight: "bold" }}>
+            <Text
+              style={[
+                {
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  textAlign: "center",
+                  marginBottom: 10,
+                  paddingVertical: 5,
+                  fontWeight: "bold",
+                  color: "#2D3436"
+                },
+                styles.backgroundOfPage
+              ]}
+            >
               {this.renderDateTitle(title)}
             </Text>
           )}
@@ -151,6 +172,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 10
+  },
+  backgroundOfPage: {
+    backgroundColor: "#F4F8FF"
   }
 });
 

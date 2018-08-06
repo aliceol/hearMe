@@ -35,8 +35,10 @@ export default class TabViewPage extends React.Component {
               indicatorStyle={{
                 backgroundColor: "grey"
               }}
-              style={{ backgroundColor: "none" }}
-              labelStyle={{ color: "black" }}
+              style={{ backgroundColor: "#F4F8FF" }}
+              labelStyle={{
+                color: "black"
+              }}
             />
           )}
           renderScene={SceneMap({
@@ -63,13 +65,14 @@ export default class TabViewPage extends React.Component {
 
 const styles = StyleSheet.create({
   citySearch: {
-    backgroundColor: "white",
-    height: 70,
+    backgroundColor: "#F4F8FF",
+    height: 60,
     display: "flex",
     justifyContent: "space-between",
     paddingHorizontal: 30,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    color: "whitesmoke"
   },
   cityDisplay: {
     fontSize: 30,
@@ -78,8 +81,5 @@ const styles = StyleSheet.create({
   searchIcon: {
     height: 30,
     width: 30
-  },
-  tabView: {
-    backgroundColor: "red"
   }
 });
