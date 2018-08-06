@@ -10,7 +10,7 @@ import MyCalendarNav from "../MyCalendarNav";
 
 export default createBottomTabNavigator(
   {
-    HomePage: {
+    Home: {
       screen: HomePage,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
@@ -22,7 +22,7 @@ export default createBottomTabNavigator(
         inactiveTintColor: "gray"
       }
     },
-    MyCalendarNav: {
+    "My Calendar": {
       screen: MyCalendarNav,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
@@ -34,7 +34,7 @@ export default createBottomTabNavigator(
         inactiveTintColor: "gray"
       }
     },
-    MyLikes: {
+    Likes: {
       screen: MyLikes,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
@@ -46,7 +46,7 @@ export default createBottomTabNavigator(
         inactiveTintColor: "gray"
       }
     },
-    MyProfileNav: {
+    Profile: {
       screen: MyProfileNav,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
@@ -61,7 +61,7 @@ export default createBottomTabNavigator(
   },
 
   {
-    initialRouteName: "HomePage",
+    initialRouteName: "Home",
     navigationOptions: {
       headerStyle: {
         backgroundColor: "#f4511e"

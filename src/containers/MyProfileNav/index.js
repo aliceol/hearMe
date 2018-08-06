@@ -1,12 +1,15 @@
 import { createStackNavigator } from "react-navigation";
 import MyProfile from "./containers/MyProfile";
-import MyLikes from "../MyLikes";
-import ChooseLocation from "../ChooseLocation";
+import MySettings from "./containers/MySettings";
+import ChooseLocation from "./containers/ChooseLocation";
+import EditUsername from "./containers/EditUsername";
+import EditEmail from "./containers/EditEmail";
 
-const MyProfileNav = createStackNavigator({
+const Profile = createStackNavigator({
   MyProfile: {
     screen: MyProfile,
     navigationOptions: {
+      headerBackTitle: null,
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "#b2bec3",
       title: "My Profile",
@@ -14,24 +17,11 @@ const MyProfileNav = createStackNavigator({
         backgroundColor: "#2d3436"
       },
       headerTitleStyle: {
-        color: "black"
+        color: "white"
       }
     }
   },
-  /* MyCalendar: {
-    screen: MyCalendar,
-    navigationOptions: {
-      headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
-      title: "My Calendar",
-      headerStyle: {
-        backgroundColor: "#2d3436"
-      },
-      headerTitleStyle: {
-        color: "black"
-      }
-    }
-  }, */
+
   ChooseLocation: {
     screen: ChooseLocation,
     navigationOptions: {
@@ -46,19 +36,47 @@ const MyProfileNav = createStackNavigator({
       }
     }
   },
-  MyLikes: {
-    screen: MyLikes,
+  MySettings: {
+    screen: MySettings,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "#b2bec3",
-      title: "My Likes",
+      title: "Settings",
       headerStyle: {
         backgroundColor: "#2d3436"
       },
       headerTitleStyle: {
-        color: "black"
+        color: "white"
+      }
+    }
+  },
+  EditUsername: {
+    screen: EditUsername,
+    navigationOptions: {
+      headerLeftContainerStyle: { paddingLeft: 10 },
+      headerTintColor: "#b2bec3",
+      title: "Edit Username",
+      headerStyle: {
+        backgroundColor: "#2d3436"
+      },
+      headerTitleStyle: {
+        color: "white"
+      }
+    }
+  },
+  EditEmail: {
+    screen: EditEmail,
+    navigationOptions: {
+      headerLeftContainerStyle: { paddingLeft: 10 },
+      headerTintColor: "#b2bec3",
+      title: "Edit email",
+      headerStyle: {
+        backgroundColor: "#2d3436"
+      },
+      headerTitleStyle: {
+        color: "white"
       }
     }
   }
 });
-export default MyProfileNav;
+export default Profile;

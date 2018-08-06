@@ -8,15 +8,6 @@ export default class MyProfile extends React.Component {
     return (
       <React.Fragment>
         <View style={styles.container}>
-          <TouchableOpacity
-            s
-            onPress={() => {
-              this.props.navigation.navigate("MySettings");
-            }}
-          >
-            <Icon name="cog" size={30} style={styles.containercog} />
-          </TouchableOpacity>
-
           <View style={styles.photocontainer}>
             <Avatar />
             <Text style={styles.usernameDisplay}>Username</Text>
@@ -25,25 +16,20 @@ export default class MyProfile extends React.Component {
           <View style={styles.allOptions}>
             <TouchableOpacity
               onPress={() => {
-                this.props.navigation.navigate("MyCalendar");
+                this.props.navigation.navigate("MySettings");
               }}
             >
               <View style={styles.oneOption}>
                 <View style={styles.iconAndText}>
                   <View>
-                    <Icon
-                      name="calendar"
-                      size={20}
-                      style={styles.fontAwesomeCal}
-                    />
+                    <Icon name="cog" size={20} style={styles.fontAwesomeCal} />
                   </View>
-                  <View>
-                    <Text style={styles.optionTitle}>My Calendar</Text>
-                  </View>
+                  <Text style={styles.optionTitle}>Settings</Text>
                 </View>
                 <Icon name="chevron-right" size={20} style={styles.chevron} />
               </View>
             </TouchableOpacity>
+
             <TouchableOpacity
               onPress={() => {
                 this.props.navigation.navigate("ChooseLocation");
@@ -63,7 +49,7 @@ export default class MyProfile extends React.Component {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 this.props.navigation.navigate("MyLikes", {
                   artists: [2596951, 253846, 757422]
@@ -79,6 +65,25 @@ export default class MyProfile extends React.Component {
                   />
 
                   <Text style={styles.optionTitle}>My Likes</Text>
+                </View>
+                <Icon name="chevron-right" size={20} style={styles.chevron} />
+              </View>
+            </TouchableOpacity> */}
+
+            <TouchableOpacity
+              onPress={() => {
+                console.log("PRESSED");
+              }}
+            >
+              <View style={styles.lastOption}>
+                <View style={styles.iconAndText}>
+                  <Icon
+                    name="rocket"
+                    size={20}
+                    style={styles.fontAwesomeHeart}
+                  />
+
+                  <Text style={styles.optionTitle}>Spotify Connect</Text>
                 </View>
                 <Icon name="chevron-right" size={20} style={styles.chevron} />
               </View>
@@ -145,7 +150,9 @@ const styles = StyleSheet.create({
   optionTitle: {
     fontSize: 16,
     fontWeight: "400",
-    marginLeft: 30
+    marginLeft: 30,
+
+    width: "100%"
   },
   chevron: {
     color: "#2c3e50"

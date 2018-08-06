@@ -27,6 +27,12 @@ StatusBar.setBarStyle("light-content");
 
 const App = createStackNavigator(
   {
+    SignUp: {
+      screen: SignUp
+    },
+    TabScreen: {
+      screen: TabScreen
+    },
     Welcome: {
       screen: Welcome
     },
