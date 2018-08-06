@@ -23,15 +23,28 @@ import EditUsername from "./src/containers/EditUsername";
 import EditEmail from "./src/containers/EditEmail";
 import ChooseLocation from "./src/containers/ChooseLocation";
 
+import Welcome from "./src/containers/Welcome";
+import SignUp from "./src/containers/SignUp";
+import Login from "./src/containers/Login";
+
 //
 
 StatusBar.setBarStyle("light-content");
 
 const App = createStackNavigator({
+
+  Welcome: {
+    screen: Welcome
+  },
+  SignUp: {
+    screen: SignUp
+  },
+  Login: {
+    screen: Login
+  },
   HomePage: { screen: HomePage },
   MyProfile: {
-    screen: MyProfile
-  },
+    screen: MyProfile},
 
   HomePageUpcoming: {
     screen: HomePageUpcoming
@@ -41,6 +54,9 @@ const App = createStackNavigator({
   },
   CreateAccount: {
     screen: CreateAccount
+  },
+  MyProfile: {
+    screen: MyProfile
   },
   AccountInformation: {
     screen: AccountInformation
@@ -63,7 +79,6 @@ const App = createStackNavigator({
   ArtistPage: {
     screen: ArtistPage
   },
-
   ChooseLocation: {
     screen: ChooseLocation
   },

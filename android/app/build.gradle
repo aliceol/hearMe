@@ -137,7 +137,11 @@ android {
 }
 
 dependencies {
+<<<<<<< HEAD
     compile project(':react-native-svg')
+=======
+    compile project(':react-native-image-picker')
+>>>>>>> 694cc3560a8d2a8b37c2cb49b72fa8de071d51ab
     compile project(':react-native-vector-icons')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
