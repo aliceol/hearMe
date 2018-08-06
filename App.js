@@ -22,9 +22,11 @@ import HomePage from "./src/containers/HomePage";
 import EditUsername from "./src/containers/EditUsername";
 import EditEmail from "./src/containers/EditEmail";
 import ChooseLocation from "./src/containers/ChooseLocation";
+
 import Welcome from "./src/containers/Welcome";
 import SignUp from "./src/containers/SignUp";
 import Login from "./src/containers/Login";
+
 
 //
 
@@ -42,6 +44,9 @@ const App = StackNavigator({
   },
   MyProfile: {
     screen: MyProfile
+  },
+  ChoosePicture: {
+    screen: ChoosePicture
   },
   HomePage: { screen: HomePage },
   HomePageUpcoming: {
@@ -74,7 +79,6 @@ const App = StackNavigator({
   ArtistPage: {
     screen: ArtistPage
   },
-
   ChooseLocation: {
     screen: ChooseLocation
   },

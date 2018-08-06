@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Avatar from "../../components/Avatar";
 
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
@@ -18,18 +19,6 @@ export default class Profile extends Component {
     }
   };
 
-  state = {
-    userModel: {
-      id: "",
-      username: "",
-      profilePic: "",
-      loc: [],
-      favArtists: [],
-      events: [],
-      profilePic: ""
-    }
-  };
-
   render() {
     return (
       <React.Fragment>
@@ -43,11 +32,7 @@ export default class Profile extends Component {
           </TouchableOpacity>
 
           <View style={styles.photocontainer}>
-            <Image
-              style={styles.userphoto}
-              source={require("../../images/placeholder_2.jpg")}
-            />
-
+            <Avatar />
             <Text style={styles.usernameDisplay}>Username</Text>
           </View>
 
@@ -58,7 +43,18 @@ export default class Profile extends Component {
               }}
             >
               <View style={styles.oneOption}>
-                <Text style={styles.optionTitle}>My Calendar</Text>
+                <View style={styles.iconAndText}>
+                  <View>
+                    <Icon
+                      name="calendar"
+                      size={20}
+                      style={styles.fontAwesomeCal}
+                    />
+                  </View>
+                  <View>
+                    <Text style={styles.optionTitle}>My Calendar</Text>
+                  </View>
+                </View>
                 <Icon name="chevron-right" size={20} style={styles.chevron} />
               </View>
             </TouchableOpacity>
@@ -68,7 +64,15 @@ export default class Profile extends Component {
               }}
             >
               <View style={styles.oneOption}>
-                <Text style={styles.optionTitle}>Location</Text>
+                <View style={styles.iconAndText}>
+                  <Icon
+                    name="location-arrow"
+                    size={20}
+                    style={styles.fontAwesomeLoc}
+                  />
+
+                  <Text style={styles.optionTitle}>Location</Text>
+                </View>
                 <Icon name="chevron-right" size={20} style={styles.chevron} />
               </View>
             </TouchableOpacity>
@@ -81,7 +85,15 @@ export default class Profile extends Component {
               }}
             >
               <View style={styles.lastOption}>
-                <Text style={styles.optionTitle}>My Likes</Text>
+                <View style={styles.iconAndText}>
+                  <Icon
+                    name="heart"
+                    size={20}
+                    style={styles.fontAwesomeHeart}
+                  />
+
+                  <Text style={styles.optionTitle}>My Likes</Text>
+                </View>
                 <Icon name="chevron-right" size={20} style={styles.chevron} />
               </View>
             </TouchableOpacity>
@@ -93,7 +105,7 @@ export default class Profile extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#a29bfe" },
+  container: { flex: 1, backgroundColor: "whitesmoke" },
 
   containercog: {
     position: "absolute",
@@ -103,41 +115,59 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 30
   },
+  fontAwesomeCal: {
+    color: "#0084ff"
+  },
+  fontAwesomeLoc: {
+    color: "#44bec7"
+  },
+  fontAwesomeHeart: {
+    color: "#fa3c4c"
+  },
 
+  addPhoto: {
+    color: "white"
+  },
   settingcog: {
     width: 25,
     height: 25,
     marginTop: 20
   },
-  userphoto: {
-    borderColor: "#3498db",
-    borderWidth: 2,
-    width: 90,
-    height: 90,
-    borderRadius: 90 / 2
+  plusContainer: {
+    backgroundColor: "#2d3436",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 120,
+    width: 120,
+    borderRadius: 120 / 2,
+    marginBottom: 20
   },
+
   photocontainer: {
     marginTop: 40,
     alignItems: "center",
-    height: 120,
     flexDirection: "column",
-    justifyContent: "space-between"
+    justifyContent: "center",
+
+    height: 130
   },
   usernameDisplay: {
     fontWeight: "bold",
-    fontSize: 18
+    fontSize: 18,
+    textAlign: "center"
   },
   optionTitle: {
     fontSize: 16,
-    fontWeight: "300"
+    fontWeight: "400",
+    marginLeft: 30
   },
   chevron: {
-    color: "#3498db"
+    color: "#2c3e50"
   },
   allOptions: {
     backgroundColor: "whitesmoke",
     marginTop: 50,
-    borderColor: "#3498db",
+    borderColor: "#2c3e50",
     borderBottomWidth: 1,
     borderTopWidth: 1
   },
@@ -147,10 +177,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
+  iconAndText: {
+    flexDirection: "row",
+    width: "40%"
+  },
   oneOption: {
     padding: 20,
     borderBottomWidth: 1,
-    borderColor: "#3498db",
+    borderColor: "#2c3e50",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"

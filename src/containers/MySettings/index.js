@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Icon from "react-native-vector-icons/FontAwesome";
+
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
 export default class Settings extends Component {
@@ -48,10 +50,8 @@ export default class Settings extends Component {
           <View style={styles.optionsBlock2}>
             <View style={styles.settingOptionsBlock2}>
               <Text style={styles.settingInfo}>Logout</Text>
-              <Image
-                style={styles.logoutlogo}
-                source={require("../../images/logout.png")}
-              />
+
+              <Icon name="sign-out" size={20} style={styles.logoutlogo} />
             </View>
           </View>
         </TouchableOpacity>
