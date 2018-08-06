@@ -42,7 +42,7 @@ export default class SignUp extends Component {
     headerTintColor: "white",
     title: "Sign Up",
     headerStyle: {
-      backgroundColor: "#2d3436"
+      backgroundColor: "#0084ff"
     },
     headerTitleStyle: {
       color: "white"
@@ -75,12 +75,12 @@ export default class SignUp extends Component {
             placeholderTextColor="#ecf0f1"
             returnKeyType="next"
             onSubmitEditing={() => this.passwordInput.focus()}
+            ref={input => (this.email = input)}
             keyboardType="email-address"
             placeholder="email"
             autoCapitalize="none"
             autoCorrect={false}
             style={styles.input}
-            ref={input => (this.email = input)}
           />
           <TextInput
             value={this.state.password}
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 44,
-    backgroundColor: "#2d3436",
+    backgroundColor: "#0084ff",
     borderRadius: 4,
     marginBottom: 15,
     color: "white",

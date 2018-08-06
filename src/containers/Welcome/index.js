@@ -1,47 +1,54 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  Dimensions
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class Welcome extends Component {
   static navigationOptions = {
-    headerBackTitle: null,
-
-    headerLeftContainerStyle: { paddingLeft: 10 },
-    headerTintColor: "#b2bec3",
-    title: "Create Your Account",
-    headerStyle: {
-      backgroundColor: "#2d3436"
-    },
-    headerTitleStyle: {
-      color: "white"
-    }
+    header: null
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <Icon name="music" size={70} style={styles.hearmeLogo} />
-        <Text style={styles.welcomeText}>Exploring concerts nearby..</Text>
+      <View>
+        <ImageBackground
+          style={{
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height
+          }}
+          source={require("../../images/bg-test-2.jpg")}
+        >
+          <View style={styles.container}>
+            <Text style={styles.hearmeLogo}>HearMe</Text>
+            <Text style={styles.welcomeText}>Exploring concerts nearby</Text>
+          </View>
 
-        <View style={styles.connectOptions}>
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={() => {
-              this.props.navigation.navigate("SignUp");
-            }}
-          >
-            <Text style={styles.buttonText}>Create an account</Text>
-          </TouchableOpacity>
+          <View style={styles.connectOptions}>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() => {
+                this.props.navigation.navigate("SignUp");
+              }}
+            >
+              <Text style={styles.buttonText}>Create an account</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.LoginButtonContainer}
-            onPress={() => {
-              this.props.navigation.navigate("Login");
-            }}
-          >
-            <Text style={styles.LoginButtonText}>Login</Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={styles.LoginButtonContainer}
+              onPress={() => {
+                this.props.navigation.navigate("Login");
+              }}
+            >
+              <Text style={styles.LoginButtonText}>Login</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
       </View>
     );
   }
@@ -57,12 +64,17 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   welcomeText: {
-    fontSize: 15
+    fontSize: 20,
+    color: "whitesmoke",
+    fontWeight: "600"
   },
 
   hearmeLogo: {
-    marginTop: 50,
-    marginBottom: 20
+    marginTop: 30,
+    marginBottom: 10,
+    color: "dodgerblue",
+    fontWeight: "900",
+    fontSize: 40
   },
 
   connectOptions: {
@@ -76,16 +88,16 @@ const styles = StyleSheet.create({
 
   LoginButtonContainer: {
     marginTop: 20,
-    backgroundColor: "white",
+    backgroundColor: "#44bec7",
     padding: 8,
     borderRadius: 5,
-    borderColor: "#2980b9",
+    borderColor: "white",
     borderWidth: 2,
     width: "100%"
   },
 
   buttonContainer: {
-    backgroundColor: "#2980b9",
+    backgroundColor: "#0084ff",
     padding: 8,
     borderRadius: 5,
     borderColor: "white",
@@ -100,7 +112,7 @@ const styles = StyleSheet.create({
   },
   LoginButtonText: {
     textAlign: "center",
-    color: "#2980b9",
+    color: "white",
     fontWeight: "700",
     lineHeight: 35
   }

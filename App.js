@@ -27,13 +27,12 @@ import Welcome from "./src/containers/Welcome";
 import SignUp from "./src/containers/SignUp";
 import Login from "./src/containers/Login";
 
-
 //
 
 StatusBar.setBarStyle("light-content");
 
 const App = StackNavigator({
-  Welecome: {
+  Welcome: {
     screen: Welcome
   },
   SignUp: {
@@ -41,12 +40,6 @@ const App = StackNavigator({
   },
   Login: {
     screen: Login
-  },
-  MyProfile: {
-    screen: MyProfile
-  },
-  ChoosePicture: {
-    screen: ChoosePicture
   },
   HomePage: { screen: HomePage },
   HomePageUpcoming: {
@@ -57,6 +50,9 @@ const App = StackNavigator({
   },
   CreateAccount: {
     screen: CreateAccount
+  },
+  MyProfile: {
+    screen: MyProfile
   },
   AccountInformation: {
     screen: AccountInformation
