@@ -18,7 +18,7 @@ export default class LoginForm extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeftContainerStyle: { paddingLeft: 10 },
     headerTintColor: "white",
-    title: navigation.state.params.title,
+    // title: navigation.state.params.title,
     headerStyle: {
       backgroundColor: "rgba(45,141,214,100)"
     },
@@ -110,7 +110,7 @@ export default class LoginForm extends Component {
                 source={require("../../images/player.png")}
               />
             </ImageBackground>
-            <Text>{this.props.navigation.state.params.name}</Text>
+            {/* <Text>{this.props.navigation.state.params.name}</Text> */}
             <ButtonLike onLike={this.onLike} />
           </View>
           <View style={styles.WholeCalendar}>

@@ -27,18 +27,19 @@ export default class HomePageUpcoming extends Component {
     events: [],
     page: 1,
     isLoading: true,
-    error: ""
+    error: "",
+    isLoadingMore: false
   };
 
-  // to be modified with our own API
   getEvents() {
     axios
       .get(
-        "https://hearme-api.herokuapp.com/api/city/upcoming/31422/" +
+        "https://hearme-api.herokuapp.com/api/city/upcoming/" +
+          this.props.route.cityCode +
+          "/" +
           this.state.page
       )
       .then(response => {
-        console.log(response);
         this.setState({
           events: [
             ...this.state.events,
@@ -124,11 +125,32 @@ export default class HomePageUpcoming extends Component {
       // SectionList used with onEndReached for infinite scrolling
       return (
         <SectionList
+          style={[
+            {
+              paddingHorizontal: 10
+            },
+            styles.backgroundOfPage
+          ]}
           renderItem={({ item, index, section }) => (
             <View key={index}>{item}</View>
           )}
           renderSectionHeader={({ section: { title } }) => (
-            <Text style={{ fontWeight: "bold" }}>
+            <Text
+              style={[
+                {
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  textAlign: "center",
+                  marginBottom: 10,
+                  paddingVertical: 5,
+                  fontWeight: "bold",
+                  color: "#2D3436"
+                },
+                styles.backgroundOfPage
+              ]}
+            >
               {this.renderDateTitle(title)}
             </Text>
           )}
@@ -154,81 +176,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 10
+  },
+  backgroundOfPage: {
+    backgroundColor: "#F4F8FF"
   }
 });
-
-//Contents of the render before updating to sectionList
-{
-  /* 
-  myEvents = [];
-      for (
-        let i = 0;
-        i < this.state.events.resultsPage.results.event.length;
-        i++
-      ) {
-        myEvents.push(
-          <TouchableOpacity
-            style={{ marginBottom: 10 }}
-            key={this.state.events.resultsPage.results.event[i].id}
-            onPress={() => {
-              this.props.navigation.navigate("EventPageScreen", {
-                id: this.state.events.resultsPage.results.event[i].id,
-                eventName: this.state.events.resultsPage.results.event[i]
-                  .displayName
-              });
-            }}
-          >
-            <Text style={{}}>
-              {this.state.events.resultsPage.results.event[i].id}
-            </Text>
-            <Text>
-              {this.state.events.resultsPage.results.event[i].start.date}
-            </Text>
-            <Text>
-              {this.state.events.resultsPage.results.event[i].displayName}
-            </Text>
-            <Text>{this.state.events.resultsPage.results.event[i].type}</Text>
-            
-            </TouchableOpacity>
-          );
-        }
-  <ScrollView>
-          <View style={{ marginBottom: 10 }}>{myEvents}</View>
-
-          <View>
-            <Text>This is the HomePageUpcoming Page</Text>
-            <TouchableOpacity
-              style={{ marginTop: 100 }}
-              onPress={() => {
-                this.props.navigation.navigate("EventPageScreen");
-              }}
-            >
-              <Text style={{ fontSize: 10 }}>Go To EventPageScreen</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{ marginTop: 100 }}
-              onPress={() => {
-                this.props.navigation.navigate("HomePagePopularScreen");
-              }}
-            >
-              <Text style={{ fontSize: 10 }}>Go To HomePagePopularScreen</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{ marginTop: 100 }}
-              onPress={() => {
-                this.props.navigation.navigate("MyLikesScreen");
-              }}
-            >
-              <Text style={{ fontSize: 10 }}>Go To MyLikesScreen</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{ marginTop: 100 }}
-              onPress={() => {
-                this.props.navigation.navigate("MyProfileScreen");
-              }}
-            >
-              <Text style={{ fontSize: 10 }}>Go To MyProfileScreen</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView> */
-}

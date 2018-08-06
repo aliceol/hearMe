@@ -1,4 +1,4 @@
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 import React, { Component } from "react";
 import { StatusBar } from "react-native";
 import { Platform, StyleSheet, Text, View } from "react-native";
@@ -31,25 +31,33 @@ import Login from "./src/containers/Login";
 
 StatusBar.setBarStyle("light-content");
 
-const App = StackNavigator({
-  EventPage: {
-    screen: EventPage
-  },
+const App = createStackNavigator({
   HomePage: { screen: HomePage },
-  HomePageUpcoming: {
-    screen: HomePageUpcoming
-  },
   Welcome: {
     screen: Welcome
   },
+
   SignUp: {
     screen: SignUp
   },
   Login: {
     screen: Login
   },
+  EventPage: {
+    screen: EventPage
+  },
+
+  MyProfile: {
+    screen: MyProfile
+  },
+  HomePageUpcoming: {
+    screen: HomePageUpcoming
+  },
   OnBoarding: {
     screen: OnBoarding
+  },
+  ArtistPage: {
+    screen: ArtistPage
   },
   CreateAccount: {
     screen: CreateAccount
@@ -72,9 +80,7 @@ const App = StackNavigator({
   MyLikes: {
     screen: MyLikes
   },
-  ArtistPage: {
-    screen: ArtistPage
-  },
+
   ChooseLocation: {
     screen: ChooseLocation
   },

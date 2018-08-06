@@ -25,6 +25,7 @@ export default class EventPage extends Component {
   };
 
   getThisEvent() {
+    console.log(this.props.navigation.state.params);
     axios
       .get(
         "https://hearme-api.herokuapp.com/api/event/" +
