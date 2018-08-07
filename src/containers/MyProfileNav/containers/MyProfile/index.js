@@ -109,8 +109,9 @@ export default class MyProfile extends React.Component {
             <TouchableOpacity
               style={styles.oneOption}
               onPress={() => {
-                console.log("PRESSED");
+                this.props.navigation.navigate("SpotifyConnect");
               }}
+              style={styles.oneOption}
             >
               <View style={styles.iconAndText}>
                 <View style={{ width: 40 }}>

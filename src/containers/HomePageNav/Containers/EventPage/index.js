@@ -107,9 +107,14 @@ export default class EventPage extends Component {
             />
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() =>
-                AlertIOS.alert("You just added this event to your calendar")
-              }
+              // onPress={() =>
+              //   axios.get(
+              //     "//link avec id de l'event "
+              //     ///then console.log(req.user.events)
+              //     // dans MyCalendar --> faire le componentdidmount pour récupérer le tableau des events de l'utilisateur
+              //   )
+              //   AlertIOS.alert("You just added this event to your calendar")
+              // }
             >
               <Icon
                 name="plus-circle"
