@@ -76,7 +76,7 @@ export default class EventPage extends Component {
           >
             <View>
               <Image
-                source={require("../../components/ConcertCard/photos/concert3.jpg")}
+                source={require("../../Components/ConcertCard/photos/concert3.jpg")}
                 style={styles.artistsPicture}
               />
               <Icon
@@ -103,7 +103,7 @@ export default class EventPage extends Component {
           <View>
             <Image
               style={styles.image}
-              source={require("../../components/ConcertCard/photos/concert1.jpg")}
+              source={require("../../Components/ConcertCard/photos/concert1.jpg")}
             />
             <TouchableOpacity
               style={styles.addButton}

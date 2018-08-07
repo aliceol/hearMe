@@ -1,24 +1,15 @@
 import { createStackNavigator } from "react-navigation";
-import ArtistPage from "./containers/ArtistPage";
-import EventPage from "./containers/EventPage";
-import HomePage from "./containers/HomePage";
-import HomePagePopular from "./containers/HomePagePopular";
-import HomePageUpcoming from "./containers/HomePageUpcoming";
+import ArtistPage from "./Containers/ArtistPage";
+import EventPage from "./Containers/EventPage";
+import HomePage from "./Containers/HomePage";
+import HomePagePopular from "./Containers/HomePagePopular";
+import HomePageUpcoming from "./Containers/HomePageUpcoming";
 
 const Home = createStackNavigator({
   HomePage: {
     screen: HomePage,
     navigationOptions: {
-      headerBackTitle: null,
-      headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
-      title: "Home",
-      headerStyle: {
-        backgroundColor: "#2d3436"
-      },
-      headerTitleStyle: {
-        color: "white"
-      }
+      header: null
     }
   },
 
