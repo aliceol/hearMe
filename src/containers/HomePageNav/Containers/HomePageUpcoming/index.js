@@ -32,22 +32,21 @@ export default withNavigation(
       isLoadingMore: false
     };
 
-    getEvents() {
-      axios
-        .get(
-          "https://hearme-api.herokuapp.com/api/city/upcoming/" +
-            this.props.route.cityCode +
-            "/" +
-            this.state.page
-        )
-        .then(response => {
-          this.setState({
-            events: [
-              ...this.state.events,
-              ...response.data.response.resultsPage.results.event
-            ],
-            isLoading: false,
-            isLoadingMore: false
+  getEvents() {
+    axios
+      .get(
+        "https://hearme-api.herokuapp.com/api/city/upcoming/" +
+          this.props.route.cityCode +
+          "/" +
+          this.state.page
+      )
+      .then(response => {
+        console.log(response);
+        this.setState({
+          events: [...this.state.events, ...response.data],
+          isLoading: false,
+          isLoadingMore: false
+
           });
         })
         .catch(function(error) {
@@ -55,6 +54,7 @@ export default withNavigation(
             "There has been a problem with your operation: " + error.message
           );
           throw error;
+
         });
     }
     // after reaching the end of the displayed events list, this function is called to display 50 more events.
