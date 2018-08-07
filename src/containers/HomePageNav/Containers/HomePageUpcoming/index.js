@@ -32,6 +32,7 @@ export default withNavigation(
       isLoadingMore: false
     };
 
+<<<<<<< HEAD
   getEvents() {
     axios
       .get(
@@ -47,6 +48,21 @@ export default withNavigation(
           isLoading: false,
           isLoadingMore: false
 
+=======
+    getEvents() {
+      axios
+        .get(
+          "https://hearme-api.herokuapp.com/api/city/upcoming/" +
+            this.props.route.cityCode +
+            "/" +
+            this.state.page
+        )
+        .then(response => {
+          this.setState({
+            events: [...this.state.events, ...response.data],
+            isLoading: false,
+            isLoadingMore: false
+>>>>>>> route for upcoming events updated
           });
         })
         .catch(function(error) {
