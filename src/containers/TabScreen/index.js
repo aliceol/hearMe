@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import { createBottomTabNavigator } from "react-navigation";
-import HomePage from "../HomePageNav/Containers/HomePage";
+import HomePageNav from "../HomePageNav";
 import MyLikes from "../MyLikes";
 import MyProfileNav from "../MyProfileNav";
 import MyCalendarNav from "../MyCalendarNav";
@@ -11,7 +11,7 @@ import MyCalendarNav from "../MyCalendarNav";
 export default createBottomTabNavigator(
   {
     Home: {
-      screen: HomePage,
+      screen: HomePageNav,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
           return <Icon name="home" size={30} color={tintColor} />;

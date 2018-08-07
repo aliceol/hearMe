@@ -12,7 +12,7 @@ import {
   ImageBackground,
   ActivityIndicator
 } from "react-native";
-import ButtonLike from "../../components/ButtonLike";
+import ButtonLike from "../../Components/ButtonLike";
 
 export default class LoginForm extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -102,12 +102,12 @@ export default class LoginForm extends Component {
           <View style={styles.container}>
             <ImageBackground
               style={styles.artistImage}
-              source={require("../../images/artist_2.jpg")}
+              source={require("../../../../images/artist_2.jpg")}
               imageStyle={{ borderRadius: 40 }}
             >
               <Image
                 style={styles.icons}
-                source={require("../../images/player.png")}
+                source={require("../../../../images/player.png")}
               />
             </ImageBackground>
             {/* <Text>{this.props.navigation.state.params.name}</Text> */}
