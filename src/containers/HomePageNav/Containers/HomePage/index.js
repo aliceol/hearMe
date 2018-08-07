@@ -17,6 +17,8 @@ import Modal from "react-native-modalbox";
 import HomePageUpcoming from "../HomePageUpcoming";
 import HomePagePopular from "../HomePagePopular";
 
+import TabViewComponent from "../../Components/TabViewComponent";
+
 export default class TabViewPage extends React.Component {
   constructor() {
     super();
@@ -100,6 +102,7 @@ export default class TabViewPage extends React.Component {
   };
 
   render() {
+    console.log("props", this.props);
     return (
       <Fragment>
         <Modal
@@ -140,10 +143,10 @@ export default class TabViewPage extends React.Component {
           <Icon name="map-marker" size={30} />
           <Text style={styles.mapViewText}>Map View</Text>
         </TouchableOpacity>
-        <TabView
+        {/* <TabView
           navigationState={this.state}
           renderTabBar={props => (
-            <TabBar /* Component used for styling of the TabView element, see  https://github.com/react-native-community/react-native-tab-view*/
+            <TabBar
               {...props}
               indicatorStyle={{
                 backgroundColor: "grey"
@@ -156,21 +159,16 @@ export default class TabViewPage extends React.Component {
           )}
           renderScene={SceneMap({
             upcoming: props => (
-              <HomePageUpcoming
-                {...props}
-                navigate={this.props.navigation.navigate}
-              />
+              <HomePageUpcoming {...props} navigation={this.props.navigation} />
             ),
             popular: props => (
-              <HomePagePopular
-                {...props}
-                navigate={this.props.navigation.navigate}
-              />
+              <HomePagePopular {...props} navigation={this.props.navigation} />
             )
           })}
           onIndexChange={index => this.setState({ index })}
           initialLayout={{ height: 0, width: Dimensions.get("window").width }}
-        />
+        /> */}
+        <TabViewComponent state={this.state} />
       </Fragment>
     );
   }
