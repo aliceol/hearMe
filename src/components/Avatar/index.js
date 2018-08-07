@@ -23,6 +23,7 @@ class Avatar extends React.Component {
       } else {
         console.log("Photo : ", response.uri);
         let requireSource = { uri: response.uri };
+        console.log(requireSource);
         this.setState({
           avatar: requireSource
         });

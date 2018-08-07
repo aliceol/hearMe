@@ -5,11 +5,15 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView
+  TouchableOpacity
 } from "react-native";
 
 export default class EditUsername extends Component {
+  state = {
+    userName: "",
+    btnSaveDisable: true
+  };
+
   static navigationOptions = {
     headerBackTitle: null,
     headerLeftContainerStyle: { paddingLeft: 10 },
@@ -23,32 +27,64 @@ export default class EditUsername extends Component {
     }
   };
 
+  onChange = (key, value) => {
+    console.log("Hello 2");
+    this.setState(
+      {
+        [key]: value
+      },
+      () => {
+        const { userName } = this.state;
+        if (userName.length >= 1) {
+          this.setState({
+            btnSaveDisable: false
+          });
+        } else {
+          this.setState({
+            btnSaveDisable: true
+          });
+        }
+      }
+    );
+  };
+
+  renderBtn() {
+    if (this.state.userName.length >= 1) {
+      console.log(this.state.userName.length);
+
+      return (
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={Keyboard.dismiss}
+        >
+          <Text style={styles.buttonText}>SAVE</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
+    console.log("Hello 1");
+
     return (
-      <React.Fragment>
+      <View>
         <Text style={styles.instructions}>
           Please enter your username and hit save
         </Text>
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior="padding"
-          keyboardVerticalOffset={64}
-        >
-          <TextInput
-            placeholderTextColor="black"
-            placeholder="current_username"
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.input}
-          />
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={Keyboard.dismiss}
-          >
-            <Text style={styles.buttonText}>SAVE</Text>
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
-      </React.Fragment>
+
+        <TextInput
+          value={this.state.userName}
+          onChangeText={text => this.onChange("userName", text)}
+          placeholderTextColor="black"
+          placeholder="current_username"
+          autoCapitalize="none"
+          autoCorrect={false}
+          style={styles.input}
+        />
+        {this.renderBtn()}
+      </View>
     );
   }
 }
