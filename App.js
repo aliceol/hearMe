@@ -26,6 +26,7 @@ import TabScreen from "./src/containers/TabScreen";
 
 StatusBar.setBarStyle("light-content");
 
+<<<<<<< HEAD
 const App = createStackNavigator({
   /* WelcomeNav: {
       screen: WelcomeNav
@@ -43,6 +44,18 @@ const App = createStackNavigator({
     screen: TabScreen,
     navigationOptions: {
       header: null
+=======
+const App = createStackNavigator(
+  {
+    Welcome: {
+      screen: Welcome
+    },
+    Login: {
+      screen: Login
+    },
+    SignUp: {
+      screen: SignUp
+>>>>>>> App.js modified temporarely
     }
   }
 
@@ -109,6 +122,16 @@ const App = createStackNavigator({
     EditEmail: {
       screen: EditEmail
     } */
+<<<<<<< HEAD
 });
+=======
+  },
+  {
+    navigationOptions: {
+      header: null
+    }
+  }
+);
+>>>>>>> App.js modified temporarely
 
 export default App;
