@@ -4,6 +4,7 @@ import MySettings from "./containers/MySettings";
 import ChooseLocation from "./containers/ChooseLocation";
 import EditUsername from "./containers/EditUsername";
 import EditEmail from "./containers/EditEmail";
+import SpotifyConnect from "./containers/SpotifyConnect";
 
 const Profile = createStackNavigator({
   MyProfile: {
@@ -70,6 +71,20 @@ const Profile = createStackNavigator({
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "#b2bec3",
       title: "Edit email",
+      headerStyle: {
+        backgroundColor: "#2d3436"
+      },
+      headerTitleStyle: {
+        color: "white"
+      }
+    }
+  },
+  SpotifyConnect: {
+    screen: SpotifyConnect,
+    navigationOptions: {
+      headerLeftContainerStyle: { paddingLeft: 10 },
+      headerTintColor: "#b2bec3",
+      title: "Spotify Connect",
       headerStyle: {
         backgroundColor: "#2d3436"
       },
