@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import { createBottomTabNavigator } from "react-navigation";
-import HomePage from "../HomePage";
+import HomePage from "../HomePageNav/Containers/HomePage";
 import MyLikes from "../MyLikes";
 import MyProfileNav from "../MyProfileNav";
 import MyCalendarNav from "../MyCalendarNav";

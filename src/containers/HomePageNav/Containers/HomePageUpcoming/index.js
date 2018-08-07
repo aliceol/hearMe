@@ -16,7 +16,7 @@ moment().format();
 
 import axios from "axios";
 
-import ConcertCard from "../../components/ConcertCard";
+import ConcertCard from "../../Components/ConcertCard";
 
 export default class HomePageUpcoming extends Component {
   static navigationOptions = {
