@@ -14,6 +14,7 @@ export default class MyProfile extends React.Component {
           </View>
 
           <View style={styles.allOptions}>
+            {/* 
             <TouchableOpacity
               onPress={() => {
                 this.props.navigation.navigate("MySettings");
@@ -21,10 +22,10 @@ export default class MyProfile extends React.Component {
             >
               <View style={styles.oneOption}>
                 <View style={styles.iconAndText}>
-                  <View>
-                    <Icon name="cog" size={20} style={styles.fontAwesomeCal} />
+                  <View style={{ paddingLeft: 30 }}>
+                    <Icon name="cog" size={30} style={styles.fontAwesomeCal} />
+                    <Text style={styles.optionTitle}>Settings</Text>
                   </View>
-                  <Text style={styles.optionTitle}>Settings</Text>
                 </View>
                 <Icon name="chevron-right" size={20} style={styles.chevron} />
               </View>
@@ -39,7 +40,7 @@ export default class MyProfile extends React.Component {
                 <View style={styles.iconAndText}>
                   <Icon
                     name="location-arrow"
-                    size={20}
+                    size={30}
                     style={styles.fontAwesomeLoc}
                   />
 
@@ -47,7 +48,7 @@ export default class MyProfile extends React.Component {
                 </View>
                 <Icon name="chevron-right" size={20} style={styles.chevron} />
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             {/* <TouchableOpacity
               onPress={() => {
@@ -69,24 +70,61 @@ export default class MyProfile extends React.Component {
                 <Icon name="chevron-right" size={20} style={styles.chevron} />
               </View>
             </TouchableOpacity> */}
-
             <TouchableOpacity
+              style={styles.oneOption}
+              onPress={() => {
+                this.props.navigation.navigate("MySettings");
+              }}
+            >
+              <View style={styles.iconAndText}>
+                <View style={{ width: 40 }}>
+                  <Icon name="cog" size={30} style={styles.fontAwesomeCog} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.optionTitle}>Settings</Text>
+                </View>
+              </View>
+              <Icon name="chevron-right" size={20} style={styles.chevron} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.oneOption}
               onPress={() => {
                 console.log("PRESSED");
               }}
             >
-              <View style={styles.lastOption}>
-                <View style={styles.iconAndText}>
+              <View style={styles.iconAndText}>
+                <View style={{ width: 40 }}>
                   <Icon
-                    name="rocket"
-                    size={20}
-                    style={styles.fontAwesomeHeart}
+                    name="location-arrow"
+                    size={30}
+                    style={styles.fontAwesomeLoc}
                   />
-
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.optionTitle}>Location</Text>
+                </View>
+              </View>
+              <Icon name="chevron-right" size={20} style={styles.chevron} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.oneOption}
+              onPress={() => {
+                console.log("PRESSED");
+              }}
+            >
+              <View style={styles.iconAndText}>
+                <View style={{ width: 40 }}>
+                  <Icon
+                    name="spotify"
+                    size={30}
+                    style={styles.fontAwesomeSpotify}
+                  />
+                </View>
+                <View style={{ flex: 1 }}>
                   <Text style={styles.optionTitle}>Spotify Connect</Text>
                 </View>
-                <Icon name="chevron-right" size={20} style={styles.chevron} />
               </View>
+              <Icon name="chevron-right" size={20} style={styles.chevron} />
             </TouchableOpacity>
           </View>
         </View>
@@ -106,14 +144,14 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 30
   },
-  fontAwesomeCal: {
+  fontAwesomeCog: {
     color: "#0084ff"
   },
   fontAwesomeLoc: {
     color: "#44bec7"
   },
-  fontAwesomeHeart: {
-    color: "#fa3c4c"
+  fontAwesomeSpotify: {
+    color: "#1db954"
   },
 
   addPhoto: {
@@ -150,7 +188,7 @@ const styles = StyleSheet.create({
   optionTitle: {
     fontSize: 16,
     fontWeight: "400",
-    marginLeft: 30,
+    // marginLeft: 30,
 
     width: "100%"
   },
@@ -161,7 +199,6 @@ const styles = StyleSheet.create({
     backgroundColor: "whitesmoke",
     marginTop: 50,
     borderColor: "#2c3e50",
-    borderBottomWidth: 1,
     borderTopWidth: 1
   },
   lastOption: {
@@ -172,13 +209,17 @@ const styles = StyleSheet.create({
   },
   iconAndText: {
     flexDirection: "row",
-    width: "40%"
+
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1
   },
   oneOption: {
+    flexDirection: "row",
     padding: 20,
     borderBottomWidth: 1,
     borderColor: "#2c3e50",
-    flexDirection: "row",
+    /* height: 100, */
     alignItems: "center",
     justifyContent: "space-between"
   }

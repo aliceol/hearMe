@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  KeyboardAvoidingView,
   TextInput
 } from "react-native";
 
@@ -152,12 +153,11 @@ const styles = StyleSheet.create({
 
   signupInfo: {
     fontSize: 15,
-    margin: 20,
     textAlign: "justify",
-    lineHeight: 25
+    margin: 20
   },
   allInputs: {
-    padding: 20
+    paddingHorizontal: 20
   },
 
   nextContainer: {

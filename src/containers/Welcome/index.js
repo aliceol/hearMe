@@ -26,14 +26,14 @@ export default class Welcome extends Component {
         >
           <View style={styles.container}>
             <Text style={styles.hearmeLogo}>HearMe</Text>
-            <Text style={styles.welcomeText}>Exploring concerts nearby</Text>
+            <Text style={styles.welcomeText}>Explore concerts nearby</Text>
           </View>
 
           <View style={styles.connectOptions}>
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={() => {
-                this.props.navigation.navigate("SignUp");
+                this.props.navigation.navigate("SignUpScreen");
               }}
             >
               <Text style={styles.buttonText}>Create an account</Text>
@@ -42,7 +42,7 @@ export default class Welcome extends Component {
             <TouchableOpacity
               style={styles.LoginButtonContainer}
               onPress={() => {
-                this.props.navigation.navigate("Login");
+                this.props.navigation.navigate("LoginScreen");
               }}
             >
               <Text style={styles.LoginButtonText}>Login</Text>
