@@ -94,13 +94,14 @@ export default class MyLikes extends Component {
                 {
                   text: "Yes",
                   onPress: () => {
-                    let newArtist = [...this.state.artists];
-                    for (let i = 0; i < newArtist.length; i++) {
-                      if (newArtist[i].artist.id === item.artist.id) {
-                        newArtist.splice(i, 1);
+                    //axios --> call the API to remove the item from the list
+                    let newArtists = [...this.state.artists];
+                    for (let i = 0; i < newArtists.length; i++) {
+                      if (newArtists[i].artist.id === item.artist.id) {
+                        newArtists.splice(i, 1);
                       }
                     }
-                    this.setState({ artists: newArtist });
+                    this.setState({ artists: newArtists });
                   }
                 }
               ]
@@ -179,6 +180,7 @@ export default class MyLikes extends Component {
     }
   }
   componentDidMount() {
+    axios.get("");
     //receiving the data from the parent component
     const artists = this.props.navigation.state.params.artists;
     for (let i = 0; i < artists.length; i++) {
