@@ -180,10 +180,10 @@ export default class MyLikes extends Component {
   }
   componentDidMount() {
     //receiving the data from the parent component
-    /* const artists = this.props.navigation.state.params.artists;
+    const artists = this.props.navigation.state.params.artists;
     for (let i = 0; i < artists.length; i++) {
       this.getArtistInfo(artists[i]);
-    } */
+    }
   }
 }
 

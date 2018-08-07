@@ -17,30 +17,36 @@ import HomePage from "./src/containers/HomePage";
 import EditUsername from "./src/containers/EditUsername";
 import EditEmail from "./src/containers/EditEmail";
 import ChooseLocation from "./src/containers/ChooseLocation"; */
-
 import Welcome from "./src/containers/Welcome";
 import SignUp from "./src/containers/SignUp";
 import Login from "./src/containers/Login";
+
+/* import WelcomeNav from "./src/containers/WelcomeNav"; */
 import TabScreen from "./src/containers/TabScreen";
 
 StatusBar.setBarStyle("light-content");
 
-const App = createStackNavigator(
-  {
-    TabScreen: {
-      screen: TabScreen
-    },
-    Welcome: {
-      screen: Welcome
-    },
-    Login: {
-      screen: Login
-    },
-    SignUp: {
-      screen: SignUp
+const App = createStackNavigator({
+  /* WelcomeNav: {
+      screen: WelcomeNav
+    }, */
+  WelcomeScreen: {
+    screen: Welcome
+  },
+  SignUpScreen: {
+    screen: SignUp
+  },
+  LoginScreen: {
+    screen: Login
+  },
+  TabScreen: {
+    screen: TabScreen,
+    navigationOptions: {
+      header: null
     }
+  }
 
-    /* HomePage: { screen: HomePage },
+  /* HomePage: { screen: HomePage },
 
     Welcome: {
       screen: Welcome
@@ -103,12 +109,6 @@ const App = createStackNavigator(
     EditEmail: {
       screen: EditEmail
     } */
-  },
-  {
-    navigationOptions: {
-      header: null
-    }
-  }
-);
+});
 
 export default App;
