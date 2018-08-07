@@ -32,23 +32,6 @@ export default withNavigation(
       isLoadingMore: false
     };
 
-<<<<<<< HEAD
-  getEvents() {
-    axios
-      .get(
-        "https://hearme-api.herokuapp.com/api/city/upcoming/" +
-          this.props.route.cityCode +
-          "/" +
-          this.state.page
-      )
-      .then(response => {
-        console.log(response);
-        this.setState({
-          events: [...this.state.events, ...response.data],
-          isLoading: false,
-          isLoadingMore: false
-
-=======
     getEvents() {
       axios
         .get(
@@ -58,11 +41,11 @@ export default withNavigation(
             this.state.page
         )
         .then(response => {
+          console.log(response);
           this.setState({
             events: [...this.state.events, ...response.data],
             isLoading: false,
             isLoadingMore: false
->>>>>>> route for upcoming events updated
           });
         })
         .catch(function(error) {
@@ -70,7 +53,6 @@ export default withNavigation(
             "There has been a problem with your operation: " + error.message
           );
           throw error;
-
         });
     }
     // after reaching the end of the displayed events list, this function is called to display 50 more events.
