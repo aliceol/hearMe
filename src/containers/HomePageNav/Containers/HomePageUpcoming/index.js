@@ -40,11 +40,9 @@ export default class HomePageUpcoming extends Component {
           this.state.page
       )
       .then(response => {
+        console.log(response);
         this.setState({
-          events: [
-            ...this.state.events,
-            ...response.data.response.resultsPage.results.event
-          ],
+          events: [...this.state.events, ...response.data],
           isLoading: false,
           isLoadingMore: false
         });
