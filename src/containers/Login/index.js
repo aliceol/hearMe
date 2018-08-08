@@ -9,6 +9,8 @@ import {
   TextInput
 } from "react-native";
 
+import store from "react-native-simple-store";
+
 export default class Login extends Component {
   state = {
     email: "",
@@ -91,13 +93,8 @@ export default class Login extends Component {
                     })
                     .then(response => {
                       if (response.data && response.data.token) {
-                        store.save("userToken", {}).then(() =>
-                          store.update("userToken", {
-                            token: response.data.token
-                          })
-                        );
-                        this.props.navigation.navigate("TabScreen");
-                        console.log(response.data);
+                        store.save("userToken", { token: response.data.token });
+                        this.props.navigation.navigate("TabScreen", {});
                       }
                     })
                     .catch(err => {

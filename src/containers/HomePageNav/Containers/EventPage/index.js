@@ -12,6 +12,7 @@ import {
 } from "react-native";
 
 import { withNavigation } from "react-navigation";
+import MapView from "react-native-maps";
 
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -25,19 +26,19 @@ export default class EventPage extends Component {
   };
 
   getThisEvent() {
-
     axios
       .get(
         "https://hearme-api.herokuapp.com/api/event/" +
           this.props.navigation.state.params.id
       )
       .then(response => {
-
         this.setState({
           thisEvent: response.data,
-          isLoading: false
+          isLoading: false,
+          userToken: this.props.navigation.state.params.token
         });
-      });
+      })
+      .catch(err => console.log("getThisEvent", err));
   }
 
   refreshData = () => {
@@ -45,20 +46,11 @@ export default class EventPage extends Component {
     this.getThisEvent();
   };
 
-  render() {
-    console.log("propsevent", this.props);
-    //this.props.navigation.state.params ? this.refreshData() : null;
-    if (this.state.isLoading) {
-      return (
-        <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
-      );
-    } else {
+  renderEventArtists() {
+    if (this.state.thisEvent.performance) {
       const eventArtists = [];
-
       let artistName = "";
-      console.log("state", this.state.thisEvent);
+
       for (let i = 0; i < this.state.thisEvent.performance.length; i++) {
         if (
           this.state.thisEvent.performance[i].artist.displayName.length > 12
@@ -73,6 +65,7 @@ export default class EventPage extends Component {
         }
         eventArtists.push(
           <TouchableOpacity
+            key={i}
             style={styles.artists}
             onPress={() => {
               this.props.navigation.navigate("ArtistPage", {
@@ -103,8 +96,21 @@ export default class EventPage extends Component {
             </Text>
           </TouchableOpacity>
         );
+        if (i === this.state.thisEvent.performance.length - 1) {
+          return eventArtists;
+        }
       }
+    }
+  }
 
+  render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={[styles.container, styles.horizontal]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
+    } else {
       return (
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -129,7 +135,6 @@ export default class EventPage extends Component {
                     AlertIOS.alert(
                       "You just added this event to your calendar"
                     );
-                    console.log(response);
                   })
               }
             >
@@ -141,15 +146,19 @@ export default class EventPage extends Component {
               />
             </TouchableOpacity>
           </View>
-          <View style={styles.infoView}>
-            <Text style={styles.venueName}>
-              {this.state.thisEvent.venue.name}
-            </Text>
-            <Text style={styles.venueAddress}>
-              {this.state.thisEvent.venue.address}
-            </Text>
-            <Text style={styles.eventTitle}>{this.state.thisEvent.title}</Text>
-          </View>
+          {this.state.thisEvent.venue ? (
+            <View style={styles.infoView}>
+              <Text style={styles.venueName}>
+                {this.state.thisEvent.venue.name}
+              </Text>
+              <Text style={styles.venueAddress}>
+                {this.state.thisEvent.venue.address}
+              </Text>
+              <Text style={styles.eventTitle}>
+                {this.state.thisEvent.title}
+              </Text>
+            </View>
+          ) : null}
           <Text
             style={{
               height: 1,
@@ -164,7 +173,7 @@ export default class EventPage extends Component {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             >
-              {eventArtists}
+              {this.renderEventArtists()}
             </ScrollView>
           </View>
           <Text
@@ -175,7 +184,20 @@ export default class EventPage extends Component {
               backgroundColor: "grey"
             }}
           />
+
           <View style={styles.infoView}>
+            <MapView
+              style={{
+                height: 100,
+                width: Dimensions.get("window").width - 20
+              }}
+              initialRegion={{
+                latitude: 48.856614,
+                longitude: 2.3522219,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+              }}
+            />
             <Text style={styles.titles}>Description</Text>
             <Text>
               Dumque ibi diu moratur commeatus opperiens, quorum translationem

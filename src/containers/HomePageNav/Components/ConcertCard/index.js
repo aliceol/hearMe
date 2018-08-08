@@ -72,7 +72,7 @@ export default withNavigation(
             }}
           >
             <ImageBackground
-              source={imageSource}
+              source={require("./photos/concert1.jpg")}
               style={{ width: "100%", height: 150 }}
             >
               <View style={{ height: 150, width: "100%", margin: 10 }}>
