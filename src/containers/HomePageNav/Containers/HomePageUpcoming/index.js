@@ -133,7 +133,6 @@ export default withNavigation(
     }
 
     render() {
-      console.log("props3", this.props);
       if (this.state.isLoading) {
         return (
           <View style={[styles.container, styles.horizontal]}>
@@ -184,7 +183,6 @@ export default withNavigation(
     }
     componentDidMount() {
       this.getEvents();
-      console.log("props ----", this.props);
     }
   }
 );
