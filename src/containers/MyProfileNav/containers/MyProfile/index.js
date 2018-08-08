@@ -2,9 +2,33 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "../../../../components/Avatar";
+import store from "react-native-simple-store";
+
+import axios from "axios";
 
 export default class MyProfile extends React.Component {
+  // state = {
+  //   isLoading: true,
+  //   userName: ""
+  // };
+
+  // componentDidMount() {
+  //   axios
+  //     .get("https://hearme-api.herokuapp.com/api/user/getMyInfo")
+  //     .then(response => {
+  //       console.log(response);
+  //       this.setState({
+  //         userName: response.data,
+  //         isLoading: false
+  //       });
+  //       console.log(response.data);
+  //     });
+  // }
+
   render() {
+    // if (this.state.isLoading) {
+    //   return <Text>is loading</Text>;
+    // } else
     return (
       <React.Fragment>
         <View style={styles.container}>

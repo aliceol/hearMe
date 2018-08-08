@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
+import store from "react-native-simple-store";
+
 
 import {
   StyleSheet,
@@ -14,18 +16,6 @@ import {
 import store from "react-native-simple-store";
 
 export default class MyCalendar extends Component {
-  // static navigationOptions = {
-  //   headerLeftContainerStyle: { paddingLeft: 10 },
-  //   headerTintColor: "white",
-  //   title: "MyCalendar",
-  //   headerStyle: {
-  //     backgroundColor: "#3498db"
-  //   },
-  //   headerTitleStyle: {
-  //     color: "white"
-  //   }
-  // };
-
   state = {
     myCalendar: [],
     isLoading: true
@@ -34,7 +24,6 @@ export default class MyCalendar extends Component {
   getMyCalendar() {
     store.get("userToken").then(res => {
       console.log(res.token);
-
       const config = {
         headers: {
           Authorization: "Bearer " + res.token
@@ -48,12 +37,8 @@ export default class MyCalendar extends Component {
             myCalendar: response,
             isLoading: false
           });
-        });
+      });
     });
-  }
-
-  componentDidMount() {
-    this.getMyCalendar();
   }
 
   render() {
@@ -91,10 +76,14 @@ export default class MyCalendar extends Component {
             </View>
           </ScrollView>
         </React.Fragment>
-      );
+     );
     }
   }
-}
+      componentDidMount() {
+    this.getMyCalendar();
+  }
+    }
+
 
 const styles = StyleSheet.create({
   container: {},
