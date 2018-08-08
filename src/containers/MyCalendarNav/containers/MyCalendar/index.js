@@ -1,20 +1,37 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
+import axios from "axios";
+import store from "react-native-simple-store";
 
 import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
 
 export default class MyCalendar extends Component {
-  // static navigationOptions = {
-  //   headerLeftContainerStyle: { paddingLeft: 10 },
-  //   headerTintColor: "white",
-  //   title: "MyCalendar",
-  //   headerStyle: {
-  //     backgroundColor: "#3498db"
-  //   },
-  //   headerTitleStyle: {
-  //     color: "white"
-  //   }
-  // };
+  state = {
+    events: {},
+    isLoading: true
+  };
+  componentDidMount() {
+    console.log("mounted");
+
+    store.get("userToken").then(res => {
+      USER_TOKEN = res.token;
+
+      axios
+        .get("https://hearme-api.herokuapp.com/api/user/getMyCalendar", {
+          headers: { Authorization: "Bearer " + USER_TOKEN }
+        })
+
+        .then(response => {
+          // this.setState(
+          // events: response.data,
+          // isLoading: false
+          console.log("bonj", response.data);
+        });
+    });
+  }
+
+  _keyExtractor = (item, index) => item._id;
+
   render() {
     return (
       <React.Fragment>

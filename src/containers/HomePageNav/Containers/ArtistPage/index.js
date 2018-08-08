@@ -46,7 +46,6 @@ export default class LoginForm extends Component {
           "/1"
       )
       .then(response => {
-        console.log("data", response.data);
         this.setState({
           thisArtist: response.data,
           isLoading: false
