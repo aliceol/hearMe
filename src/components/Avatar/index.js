@@ -3,6 +3,7 @@
 import React from "react";
 import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import ImagePicker from "react-native-image-picker";
+import axios from "axios";
 
 class Avatar extends React.Component {
   constructor(props) {
@@ -22,11 +23,23 @@ class Avatar extends React.Component {
         console.log("Erreur : ", response.error);
       } else {
         console.log("Photo : ", response.uri);
-        let requireSource = { uri: response.uri };
-        console.log(requireSource);
+        let source = { uri: "data:image/jpeg;base64," + response.data };
+        console.log(source);
         this.setState({
-          avatar: requireSource
+          avatar: source
         });
+        UpdatePhoto = () => {
+          axios
+            .post("https://hearme-api.herokuapp.com/api/user/uploadPicture", {
+              ...this.state //copie du state
+            })
+            .then(response => {
+              conosle.log(response);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        };
       }
     });
   }

@@ -25,7 +25,7 @@ const MyCalNav = createStackNavigator({
         backgroundColor: "#2d3436"
       },
       headerTitleStyle: {
-        color: "black"
+        color: "white"
       }
     }
   }

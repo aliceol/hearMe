@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
+import moment from "moment";
 
 import {
   StyleSheet,
@@ -42,7 +43,6 @@ export default class LoginForm extends Component {
           "/1"
       )
       .then(response => {
-        console.log("data", response.data);
         this.setState({
           thisArtist: response.data,
           isLoading: false
@@ -89,7 +89,9 @@ export default class LoginForm extends Component {
             }}
             style={styles.unitEvent}
           >
-            <Text style={styles.date}>{myResult.event[i].start.date}</Text>
+            <Text style={styles.date}>
+              {moment(myResult.event[i].start.date).format("MMM Do YY")}
+            </Text>
             <Text>{eventName}</Text>
             <Text>{eventCity}</Text>
           </TouchableOpacity>

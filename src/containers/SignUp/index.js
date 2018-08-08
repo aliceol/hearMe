@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import store from "react-native-simple-store";
+
 import {
   StyleSheet,
   View,
@@ -115,6 +117,7 @@ export default class SignUp extends Component {
                 disabled={this.state.btnNextDisable}
                 style={styles.nextButton}
                 onPress={() => {
+                  console.log("store", store);
                   axios
                     .post("https://hearme-api.herokuapp.com/api/user/sign_up", {
                       userName: this.state.userName,
@@ -123,12 +126,18 @@ export default class SignUp extends Component {
                     })
                     .then(response => {
                       if (response.data && response.data.token) {
-                        this.props.navigation.navigate("TabScreen");
                         console.log(response.data);
+
+                        store.save("userToken", {}).then(() =>
+                          store.update("userToken", {
+                            token: response.data.token
+                          })
+                        );
+                        this.props.navigation.navigate("TabScreen");
                       }
                     })
                     .catch(err => {
-                      console.log(err.response);
+                      console.log("err", err.response);
                       if (err.response.status === 400) {
                         alert("E-mail or username already registered");
                       }
