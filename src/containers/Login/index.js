@@ -9,8 +9,6 @@ import {
   TextInput
 } from "react-native";
 
-import store from "react-native-simple-store";
-
 export default class Login extends Component {
   state = {
     email: "",

@@ -3,7 +3,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
 import store from "react-native-simple-store";
 
-
 import {
   StyleSheet,
   View,
@@ -12,8 +11,6 @@ import {
   Image,
   ActivityIndicator
 } from "react-native";
-
-import store from "react-native-simple-store";
 
 export default class MyCalendar extends Component {
   state = {
@@ -37,7 +34,7 @@ export default class MyCalendar extends Component {
             myCalendar: response,
             isLoading: false
           });
-      });
+        });
     });
   }
 
@@ -76,14 +73,13 @@ export default class MyCalendar extends Component {
             </View>
           </ScrollView>
         </React.Fragment>
-     );
+      );
     }
   }
-      componentDidMount() {
+  componentDidMount() {
     this.getMyCalendar();
   }
-    }
-
+}
 
 const styles = StyleSheet.create({
   container: {},
