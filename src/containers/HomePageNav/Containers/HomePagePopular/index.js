@@ -26,6 +26,10 @@ export default class HomePageUpcoming extends Component {
 
   state = {
     events: [],
+<<<<<<< HEAD
+=======
+
+>>>>>>> minor changes
     isLoading: true,
     error: ""
   };
@@ -34,7 +38,12 @@ export default class HomePageUpcoming extends Component {
     axios
       .get(
         "https://hearme-api.herokuapp.com/api/city/popular/" +
+<<<<<<< HEAD
           this.props.route.cityCode
+=======
+          this.props.route.cityCode +
+          "/"
+>>>>>>> minor changes
       )
       .then(response => {
         this.setState({
