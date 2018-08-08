@@ -25,12 +25,14 @@ export default class EventPage extends Component {
   };
 
   getThisEvent() {
+
     axios
       .get(
         "https://hearme-api.herokuapp.com/api/event/" +
           this.props.navigation.state.params.id
       )
       .then(response => {
+
         this.setState({
           thisEvent: response.data,
           isLoading: false
@@ -38,7 +40,14 @@ export default class EventPage extends Component {
       });
   }
 
+  refreshData = () => {
+    this.setState({ isLoading: true });
+    this.getThisEvent();
+  };
+
   render() {
+    console.log("propsevent", this.props);
+    //this.props.navigation.state.params ? this.refreshData() : null;
     if (this.state.isLoading) {
       return (
         <View style={[styles.container, styles.horizontal]}>
@@ -49,7 +58,7 @@ export default class EventPage extends Component {
       const eventArtists = [];
 
       let artistName = "";
-
+      console.log("state", this.state.thisEvent);
       for (let i = 0; i < this.state.thisEvent.performance.length; i++) {
         if (
           this.state.thisEvent.performance[i].artist.displayName.length > 12
@@ -97,7 +106,10 @@ export default class EventPage extends Component {
       }
 
       return (
-        <ScrollView style={styles.container}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.container}
+        >
           <View>
             <Image
               style={styles.image}
@@ -149,8 +161,8 @@ export default class EventPage extends Component {
           <View style={styles.infoView}>
             <Text style={styles.titles}>Line Up</Text>
             <ScrollView
-              horizontal="true"
-              showsHorizontalScrollIndicator="false"
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
             >
               {eventArtists}
             </ScrollView>
@@ -183,6 +195,16 @@ export default class EventPage extends Component {
 
   componentDidMount() {
     this.getThisEvent();
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "willFocus",
+      () => {
+        this.getThisEvent();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.willFocusSubscription.remove();
   }
 }
 

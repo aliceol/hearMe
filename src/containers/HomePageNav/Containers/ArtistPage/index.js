@@ -33,10 +33,6 @@ export default class LoginForm extends Component {
     isLoading: true
   };
 
-  componentDidMount() {
-    this.getArtistInfo();
-  }
-
   getArtistInfo() {
     axios
       .get(
@@ -81,6 +77,8 @@ export default class LoginForm extends Component {
         } else {
           eventCity = myResult.event[i].location.city;
         }
+        console.log("id", myResult.event[i].id);
+        console.log("name", myResult.event[i].name);
         myEvent.push(
           <TouchableOpacity
             onPress={() => {
@@ -154,6 +152,10 @@ export default class LoginForm extends Component {
         </React.Fragment>
       );
     }
+  }
+
+  componentDidMount() {
+    this.getArtistInfo();
   }
 }
 
