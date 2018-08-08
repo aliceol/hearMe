@@ -80,6 +80,7 @@ export default withNavigation(
       }
       return dates;
     }
+    
 
     // rendering in an array all events happening on a defined date
     renderEventsCard(date, events) {
