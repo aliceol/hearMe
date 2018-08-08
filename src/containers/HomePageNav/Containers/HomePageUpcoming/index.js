@@ -18,6 +18,8 @@ import axios from "axios";
 
 import ConcertCard from "../../Components/ConcertCard";
 
+import store from "react-native-simple-store";
+
 export default withNavigation(
   class HomePageUpcoming extends Component {
     static navigationOptions = {
@@ -41,7 +43,6 @@ export default withNavigation(
             this.state.page
         )
         .then(response => {
-          console.log(response);
           this.setState({
             events: [...this.state.events, ...response.data],
             isLoading: false,
@@ -80,7 +81,6 @@ export default withNavigation(
       }
       return dates;
     }
-    
 
     // rendering in an array all events happening on a defined date
     renderEventsCard(date, events) {
