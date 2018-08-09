@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import {
   Text,
   View,
+  Button,
   ScrollView,
   ActivityIndicator,
   StyleSheet,
   Image,
   Dimensions,
   TouchableOpacity,
-  AlertIOS
+  AlertIOS,
+  WebView
 } from "react-native";
 
 import { withNavigation } from "react-navigation";
@@ -103,6 +105,66 @@ export default class EventPage extends Component {
     }
   }
 
+  renderMap = event => {
+    if (event.lat) {
+      return (
+        <MapView
+          style={{
+            height: 300,
+            width: Dimensions.get("window").width - 20
+          }}
+          initialRegion={{
+            latitude: Number(event.lat),
+            longitude: Number(event.lng),
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01
+          }}
+        >
+          <MapView.Marker
+            coordinate={{
+              latitude: Number(event.lat),
+              longitude: Number(event.lng)
+            }}
+            title={event.name}
+          />
+        </MapView>
+      );
+    }
+  };
+
+  renderAddtionalDetails = event => {
+    if (event.additionalDetails) {
+      return (
+        <View>
+          <Text style={styles.titles}>Additionnal Details</Text>
+          <Text>{event.additionalDetails}</Text>
+        </View>
+      );
+    }
+  };
+
+  renderBio = event => {
+    console.log(this.props);
+    if (event.biography) {
+      return (
+        <View>
+          <Text style={styles.titles}>
+            {event.performance[0].artist.displayName} Biography
+          </Text>
+          <Text>{event.biography}</Text>
+          <Button
+            title="Read More..."
+            onPress={() =>
+              this.props.navigation.navigate("BiographyWebView", {
+                event: event
+              })
+            }
+          />
+        </View>
+      );
+    }
+  };
+  // {event.biographyLink}
   render() {
     if (this.state.isLoading) {
       return (
@@ -111,6 +173,7 @@ export default class EventPage extends Component {
         </View>
       );
     } else {
+      console.log("stateffh", this.state);
       return (
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -119,7 +182,9 @@ export default class EventPage extends Component {
           <View>
             <Image
               style={styles.image}
-              source={require("../../Components/ConcertCard/photos/concert1.jpg")}
+              source={{
+                uri: "https:" + this.state.thisEvent.photoURI
+              }}
             />
             <TouchableOpacity
               style={styles.addButton}
@@ -186,18 +251,9 @@ export default class EventPage extends Component {
           />
 
           <View style={styles.infoView}>
-            <MapView
-              style={{
-                height: 100,
-                width: Dimensions.get("window").width - 20
-              }}
-              initialRegion={{
-                latitude: 48.856614,
-                longitude: 2.3522219,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421
-              }}
-            />
+            {this.renderMap(this.state.thisEvent.venue)}
+            {this.renderBio(this.state.thisEvent)}
+            {this.renderAddtionalDetails(this.state.thisEvent)}
             <Text style={styles.titles}>Description</Text>
             <Text>
               Dumque ibi diu moratur commeatus opperiens, quorum translationem
@@ -238,7 +294,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: Dimensions.get("window").width,
-    height: 200
+    height: Dimensions.get("window").width
   },
   addButton: {
     position: "absolute",
