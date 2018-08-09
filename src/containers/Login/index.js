@@ -13,7 +13,7 @@ export default class Login extends Component {
   state = {
     email: "",
     password: "",
-    btnNextDisable: false
+    btnNextDisable: true
   };
 
   onChange = (key, value) => {
