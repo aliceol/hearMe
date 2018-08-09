@@ -11,10 +11,22 @@ class Avatar extends React.Component {
     super(props);
     this.state = {
       files: [],
-      avatar: require("../../images/ic_tag_faces.png")
+      avatar: require("../../images/white-bg.jpg") // photo blanche
     };
     // this.setState est appelé dans un callback dans showImagePicker, pensez donc bien à binder la fonction _avatarClicked
     this._avatarClicked = this._avatarClicked.bind(this);
+  }
+
+  componentDidMount() {
+    store.get("userAvatar").then(userAvatar => {
+      console.log("userAvatar", userAvatar);
+      if (userAvatar) {
+        this.setState({ avatar: { uri: userAvatar.secure_url } });
+      } else {
+        // photo par defaut
+        this.setState({ avatar: require("../../images/ic_tag_faces.png") });
+      }
+    });
   }
 
   _avatarClicked() {
@@ -52,7 +64,8 @@ class Avatar extends React.Component {
                   config
                 )
                 .then(response => {
-                  console.log(response);
+                  console.log("response.data", response.data);
+                  store.save("userAvatar", response.data); // store.save("secure-url": secure_url)
                 })
                 .catch(err => {
                   console.log(err);

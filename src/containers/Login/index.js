@@ -9,13 +9,11 @@ import {
   TextInput
 } from "react-native";
 
-import store from "react-native-simple-store";
-
 export default class Login extends Component {
   state = {
     email: "",
     password: "",
-    btnNextDisable: true
+    btnNextDisable: false
   };
 
   onChange = (key, value) => {
@@ -93,6 +91,8 @@ export default class Login extends Component {
                     })
                     .then(response => {
                       if (response.data && response.data.token) {
+                        store.delete("userAvatar");
+
                         store.save("userToken", { token: response.data.token });
                         this.props.navigation.navigate("TabScreen", {});
                       }
