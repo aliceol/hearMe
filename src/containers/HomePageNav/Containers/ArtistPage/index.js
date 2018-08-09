@@ -115,38 +115,6 @@ export default class LoginForm extends Component {
           </View>
           <View style={styles.WholeCalendar}>
             <Text style={styles.upcomingEvents}>Upcoming Events</Text>
-            {/* <ScrollView>
-              <View style={styles.unitEvent}>
-                <View style={styles.date}>
-                  <Text>WED</Text>
-                  <Text style={styles.themeColor}>20</Text>
-                  <Text style={styles.themeColor}>JUN</Text>
-                </View>
-                <View style={styles.centralContent}>
-                  <Text>Venue Name</Text>
-                </View>
-
-                <View style={styles.location}>
-                  <Icon name="map-marker" size={20} style={styles.mapPicker} />
-                  <Text>City</Text>
-                </View>
-              </View>
-              <View style={styles.unitEvent}>
-                <View style={styles.date}>
-                  <Text>WED</Text>
-                  <Text style={styles.themeColor}>20</Text>
-                  <Text style={styles.themeColor}>JUN</Text>
-                </View>
-                <View style={styles.centralContent}>
-                  <Text>Venue Name</Text>
-                </View>
-
-                <View style={styles.location}>
-                  <Icon name="map-marker" size={20} style={styles.mapPicker} />
-                  <Text>City</Text>
-                </View>
-              </View>
-            </ScrollView> */}
             <ScrollView>{myEvent}</ScrollView>
           </View>
         </React.Fragment>

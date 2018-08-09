@@ -9,7 +9,8 @@ import {
   Text,
   ScrollView,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from "react-native";
 
 export default class MyCalendar extends Component {
@@ -31,7 +32,7 @@ export default class MyCalendar extends Component {
         .then(response => {
           console.log("data", response);
           this.setState({
-            myCalendar: response,
+            myCalendar: response.data,
             isLoading: false
           });
         });
@@ -46,31 +47,46 @@ export default class MyCalendar extends Component {
         </View>
       );
     } else {
-      // let myCalendarEvents = [];
+      let myCalendarEvents = [];
+      console.log(this.state.myCalendar);
 
-      // for (let i = 0; i<this.state.myCalendar.length; i++){
-
-      // }
-
-      return (
-        <React.Fragment>
-          <ScrollView style={styles.wholeCalendar}>
+      for (let i = 0; i < this.state.myCalendar.length; i++) {
+        myCalendarEvents.push(
+          <TouchableOpacity
+            onPress={() => {
+              console.log("pressed2", this.props);
+              this.props.navigation.navigate("EventPage", {
+                id: this.state.myCalendar[i].songKickId
+              });
+            }}
+          >
             <View style={styles.unitEvent}>
               <View style={styles.date}>
-                <Text>WED</Text>
-                <Text style={styles.themeColor}>20</Text>
-                <Text style={styles.themeColor}>JUN</Text>
+                <Text style={styles.themeColor}>
+                  {this.state.myCalendar[i].start.date}
+                </Text>
               </View>
               <View style={styles.centralContent}>
-                <Text style={styles.artistName}>Artist Name</Text>
-                <Text>Venue Name</Text>
+                <Text style={styles.artistName}>
+                  {this.state.myCalendar[i].performance[0].artist.displayName}
+                </Text>
+                <Text>{this.state.myCalendar[i].venue.name}</Text>
               </View>
 
               <View style={styles.location}>
                 <Icon name="map-marker" size={20} style={styles.mapPicker} />
-                <Text>Paris, FR</Text>
+                <Text>{this.state.myCalendar[i].venue.city} , </Text>
+                <Text>{this.state.myCalendar[i].venue.country}</Text>
               </View>
             </View>
+          </TouchableOpacity>
+        );
+      }
+
+      return (
+        <React.Fragment>
+          <ScrollView style={styles.wholeCalendar}>
+            <View>{myCalendarEvents}</View>
           </ScrollView>
         </React.Fragment>
       );

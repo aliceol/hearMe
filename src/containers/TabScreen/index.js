@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import { createBottomTabNavigator } from "react-navigation";
 import HomePageNav from "../HomePageNav";
-import MyLikes from "../MyLikes";
+import MyLikesNav from "../MyLikesNav";
 import MyProfileNav from "../MyProfileNav";
 import MyCalendarNav from "../MyCalendarNav";
 
@@ -34,8 +34,8 @@ export default createBottomTabNavigator(
         inactiveTintColor: "gray"
       }
     },
-    Likes: {
-      screen: MyLikes,
+    "My Likes": {
+      screen: MyLikesNav,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
           return <Icon name="heart" size={30} color={tintColor} />;
