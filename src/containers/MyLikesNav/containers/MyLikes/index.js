@@ -21,9 +21,12 @@ import {
   TouchableOpacity
 } from "react-native";
 
+import store from "react-native-simple-store";
+
 export default class MyLikes extends Component {
   state = {
-    artists: [],
+    myLikes: [],
+    isLoading: true,
     refreshing: false,
     activeRowKey: null
   };
@@ -32,43 +35,34 @@ export default class MyLikes extends Component {
     this.setState({ refreshing: true });
   };
 
-  // static navigationOptions = {
-  //   headerBackTitle: null,
+  getMyLikes() {
+    store.get("userToken").then(res => {
+      console.log(res.token);
 
-  //   headerLeftContainerStyle: { paddingLeft: 10 },
-  //   headerTintColor: "white",
-  //   title: "My Likes",
-  //   headerStyle: {
-  //     backgroundColor: "#3498db"
-  //   },
-  //   headerTitleStyle: {
-  //     color: "white"
-  //   }
-  // };
-
-  //function to get artist information from the SongKick API to be modified with our own API
-  getArtistInfo = artist_id => {
-    axios
-      .get(
-        "https://api.songkick.com/api/3.0/artists/" +
-          artist_id +
-          ".json?apikey=HNm0lW1pe8ODasVv"
-      )
-      .then(response => {
-        let newState = { ...this.state };
-        newState.artists.push(response.data.resultsPage.results);
-        this.setState(newState, () => {
-          console.log(
-            `l'artiste ${artist_id} a été ajouté`,
-            this.state.artists
-          );
+      const config = {
+        headers: {
+          Authorization: "Bearer " + res.token
+        }
+      };
+      axios
+        .get("https://hearme-api.herokuapp.com/api/user/getMyLikes", config)
+        .then(response => {
+          console.log(response.data);
+          this.setState({
+            myLikes: response.data,
+            isLoading: false
+          });
         });
-      });
-  };
+    });
+  }
+
+  componentDidMount() {
+    this.getMyLikes();
+  }
 
   //rendering one artist from the SK API
   renderArtistItem = ({ item }, index) => {
-    let artistName = item.artist.displayName;
+    let artistName = item.displayName;
     const swipeSettings = {
       autoClose: true,
       onClose: () => {
@@ -95,13 +89,13 @@ export default class MyLikes extends Component {
                   text: "Yes",
                   onPress: () => {
                     //axios --> call the API to remove the item from the list
-                    let newArtists = [...this.state.artists];
-                    for (let i = 0; i < newArtists.length; i++) {
-                      if (newArtists[i].artist.id === item.artist.id) {
-                        newArtists.splice(i, 1);
+                    let newArtists = [...this.state.myLikes];
+                    for (let j = 0; j < newArtists.length; j++) {
+                      if (newArtists[j].songKickId === item.songKickId) {
+                        newArtists.splice(j, 1);
                       }
                     }
-                    this.setState({ artists: newArtists });
+                    this.setState({ myLikes: newArtists });
                   }
                 }
               ]
@@ -119,31 +113,32 @@ export default class MyLikes extends Component {
           style={styles.touchableView}
           onPress={() => {
             this.props.navigation.navigate("ArtistPage", {
-              title: item.artist.displayName
+              id: item.songKickId,
+              name: item.displayName
             });
           }}
         >
           <View style={styles.unitArtist}>
             <ImageBackground
               style={styles.artistImage}
-              source={require("../../images/artist_2.jpg")}
+              source={require("../../../../images/artist_2.jpg")}
               imageStyle={{ borderRadius: 40 }}
             >
               <Image
                 style={styles.icons}
-                source={require("../../images/player.png")}
+                source={require("../../../../images/player.png")}
               />
             </ImageBackground>
 
             <View style={styles.artistInfo}>
               <View>
-                <Text style={styles.artistName}>{artistName}</Text>
-                <Text style={styles.artistDate}>
+                <Text style={styles.artistName}>{item.displayName}</Text>
+                {/* <Text style={styles.artistDate}>
                   On tour until:{" "}
                   {item.artist.onTourUntil
                     ? moment(item.artist.onTourUntil).format("MMM Do YY")
                     : "N/A"}
-                </Text>
+                </Text> */}
               </View>
               <Icon name="chevron-right" size={25} style={styles.chevron} />
             </View>
@@ -153,7 +148,7 @@ export default class MyLikes extends Component {
     );
   };
 
-  //rendering the FlatList "renderArtistList" calling the the function renderArtistItem
+  // rendering the FlatList "renderArtistList" calling the the function renderArtistItem
   renderArtistsList() {
     return (
       <FlatList
@@ -163,8 +158,8 @@ export default class MyLikes extends Component {
             onRefresh={this._onRefresh}
           />
         }
-        keyExtractor={(item, index) => item.artist.id.toString()}
-        data={_.orderBy(this.state.artists, ["artist.onTourUntil"], ["asc"])}
+        keyExtractor={(item, index) => item.songKickId.toString()}
+        data={this.state.myLikes}
         renderItem={this.renderArtistItem}
       />
     );
@@ -173,18 +168,22 @@ export default class MyLikes extends Component {
   //rendering the complete list of artist
 
   render() {
-    if (this.state.artists.length === 0) {
+    if (this.state.isLoading) {
       return <Text>is Loading</Text>;
     } else {
       return <React.Fragment>{this.renderArtistsList()}</React.Fragment>;
-    }
-  }
-  componentDidMount() {
-    axios.get("");
-    //receiving the data from the parent component
-    const artists = this.props.navigation.state.params.artists;
-    for (let i = 0; i < artists.length; i++) {
-      this.getArtistInfo(artists[i]);
+      // const like = [];
+      // for (let i = 0; i < this.state.myLikes.length; i++) {
+      //   like.push(
+      //     <TouchableOpacity>
+      //       <View>
+      //         <Text>{this.state.myLikes[i].displayName}</Text>
+      //       </View>
+      //     </TouchableOpacity>
+      //   );
+      // }
+
+      // return <React.Fragment>{this.renderArtistsList()}</React.Fragment>;
     }
   }
 }
