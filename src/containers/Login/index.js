@@ -91,6 +91,8 @@ export default class Login extends Component {
                     })
                     .then(response => {
                       if (response.data && response.data.token) {
+                        store.delete("userAvatar");
+
                         store.save("userToken", { token: response.data.token });
                         this.props.navigation.navigate("TabScreen", {});
                       }
