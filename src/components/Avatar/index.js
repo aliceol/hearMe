@@ -24,7 +24,7 @@ class Avatar extends React.Component {
         this.setState({ avatar: { uri: userAvatar.secure_url } });
       } else {
         // photo par defaut
-        this.setState({ avatar: require("../../images/ic_tag_faces.png") });
+        this.setState({ avatar: require("../../images/camera-icon-2.png") });
       }
     });
   }
@@ -57,7 +57,7 @@ class Avatar extends React.Component {
               };
               axios
                 .post(
-                  "http://localhost:3000/api/user/uploadPicture",
+                  "https://hearme-api.herokuapp.com/api/user/uploadPicture",
                   {
                     ...this.state //copie du state
                   },
@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 120 / 2,
-    borderColor: "#2d3436",
-    borderWidth: 2
+    borderColor: "#2d3436"
+    // borderWidth: 2
   }
 });
 

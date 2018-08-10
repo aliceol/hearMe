@@ -19,7 +19,6 @@ export default class EditUsername extends Component {
 
   componentDidMount() {
     store.get("userName").then(res => {
-      console.log(res.userName);
       this.setState({
         userName: res.userName
       });
@@ -40,7 +39,6 @@ export default class EditUsername extends Component {
   };
 
   onChange = (key, value) => {
-    console.log("Hello 2");
     this.setState(
       {
         [key]: value
@@ -62,8 +60,6 @@ export default class EditUsername extends Component {
 
   renderBtn() {
     if (this.state.userName.length >= 1) {
-      console.log(this.state.userName.length);
-
       return (
         <TouchableOpacity
           style={styles.buttonContainer}
@@ -78,8 +74,6 @@ export default class EditUsername extends Component {
   }
 
   render() {
-    console.log("Hello 1");
-
     return (
       <View>
         <Text style={styles.instructions}>
