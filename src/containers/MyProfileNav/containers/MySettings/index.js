@@ -1,9 +1,31 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
+import store from "react-native-simple-store";
 
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
 export default class Settings extends Component {
+  state = {
+    isLoading: true,
+    userName: "",
+    email: ""
+  };
+
+  componentDidMount() {
+    store.get("userName").then(res => {
+      console.log(res.userName);
+      this.setState({
+        userName: res.userName
+      });
+    });
+    store.get("email").then(res => {
+      console.log(res.email);
+      this.setState({
+        email: res.email
+      });
+    });
+  }
+
   static navigationOptions = {
     headerBackTitle: null,
     headerLeftContainerStyle: { paddingLeft: 10 },
@@ -29,8 +51,8 @@ export default class Settings extends Component {
             }}
           >
             <View style={styles.settingOptionsBlock}>
-              <Text style={styles.settingInfo}>Username</Text>
-              <Text style={styles.editableInfo}>NameOfTheUser</Text>
+              <Text style={styles.settingInfo}>userName</Text>
+              <Text style={styles.editableInfo}>{this.state.userName}</Text>
             </View>
           </TouchableOpacity>
 
@@ -41,7 +63,7 @@ export default class Settings extends Component {
           >
             <View style={styles.lastSettingOption}>
               <Text style={styles.settingInfo}>Email</Text>
-              <Text style={styles.editableInfo}>Email@oftheuser</Text>
+              <Text style={styles.editableInfo}>{this.state.email}</Text>
             </View>
           </TouchableOpacity>
         </View>

@@ -7,23 +7,31 @@ import store from "react-native-simple-store";
 import axios from "axios";
 
 export default class MyProfile extends React.Component {
-  // state = {
-  //   isLoading: true,
-  //   userName: ""
-  // };
+  state = {
+    isLoading: true,
+    userName: ""
+  };
 
-  // componentDidMount() {
-  //   axios
-  //     .get("https://hearme-api.herokuapp.com/api/user/getMyInfo")
-  //     .then(response => {
-  //       console.log(response);
-  //       this.setState({
-  //         userName: response.data,
-  //         isLoading: false
-  //       });
-  //       console.log(response.data);
-  //     });
-  // }
+  componentDidMount() {
+    store.get("userToken").then(res => {
+      console.log(res.token);
+      const config = {
+        headers: {
+          Authorization: "Bearer " + res.token
+        }
+      };
+      axios
+        .get("https://hearme-api.herokuapp.com/api/user/getMyInfo", config)
+        .then(response => {
+          console.log(response);
+          this.setState({
+            userName: response.data,
+            isLoading: false
+          });
+          console.log(response.data);
+        });
+    });
+  }
 
   render() {
     // if (this.state.isLoading) {
@@ -34,7 +42,7 @@ export default class MyProfile extends React.Component {
         <View style={styles.container}>
           <View style={styles.photocontainer}>
             <Avatar />
-            <Text style={styles.usernameDisplay}>Username</Text>
+            <Text style={styles.usernameDisplay}>{this.state.userName}</Text>
           </View>
 
           <View style={styles.allOptions}>
