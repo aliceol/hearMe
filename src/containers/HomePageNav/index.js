@@ -5,6 +5,7 @@ import HomePage from "./Containers/HomePage";
 import HomePagePopular from "./Containers/HomePagePopular";
 import HomePageUpcoming from "./Containers/HomePageUpcoming";
 import BiographyWebView from "./Containers/BiographyWebView";
+import MapView from "./Containers/MapView";
 
 const Home = createStackNavigator({
   HomePage: {
@@ -76,6 +77,20 @@ const Home = createStackNavigator({
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "#b2bec3",
       title: "Biography",
+      headerStyle: {
+        backgroundColor: "#2d3436"
+      },
+      headerTitleStyle: {
+        color: "white"
+      }
+    }
+  },
+  MapView: {
+    screen: MapView,
+    navigationOptions: {
+      headerLeftContainerStyle: { paddingLeft: 10 },
+      headerTintColor: "#b2bec3",
+      title: "Map",
       headerStyle: {
         backgroundColor: "#2d3436"
       },
