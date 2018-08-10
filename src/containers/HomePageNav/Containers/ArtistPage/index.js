@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
 import moment from "moment";
-
+import store from "react-native-simple-store";
 import {
   StyleSheet,
   View,
@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
-  ActivityIndicator
+  ActivityIndicator,
+  AlertIOS
 } from "react-native";
 import ButtonLike from "../../Components/ButtonLike";
 
@@ -51,7 +52,28 @@ export default class LoginForm extends Component {
   }
 
   //onLike function will call the API to register the Like.
-  onLike = () => {};
+  onLike = () => {
+    store.get("userToken").then(res => {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + res.token
+        }
+      };
+
+      axios
+        .get(
+          "https://hearme-api.herokuapp.com/api/user/like/artist/" +
+            this.props.navigation.state.params.id,
+          config
+        )
+        ///then console.log(req.user.events)
+        // dans MyCalendar --> faire le componentdidmount pour récupérer le tableau des events de l'utilisateur
+        .then(response => {
+          console.log(response.data);
+          AlertIOS.alert("You just added this artist to your likes");
+        });
+    });
+  };
   render() {
     if (this.state.isLoading) {
       return (
