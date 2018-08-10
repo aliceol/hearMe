@@ -137,7 +137,13 @@ export default class TabViewPage extends React.Component {
         </View>
         <TouchableOpacity
           style={styles.mapViewButton}
-          onPress={() => console.log("pressed")}
+          onPress={() => {
+            console.log("pressed", this.props);
+            this.props.navigation.navigate(
+              "MapView",
+              (cityCode = this.state.cityCode)
+            );
+          }}
         >
           <Icon name="map-marker" size={30} />
           <Text style={styles.mapViewText}>Map View</Text>
