@@ -127,6 +127,7 @@ export default class SignUp extends Component {
                     .then(response => {
                       if (response.data && response.data.token) {
                         console.log(response.data);
+                        store.delete("userAvatar");
 
                         store.save("userToken", {}).then(() =>
                           store.update("userToken", {

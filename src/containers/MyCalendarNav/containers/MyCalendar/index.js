@@ -147,11 +147,10 @@ export default class MyCalendar extends Component {
         </View>
       );
     } else {
+
       return <React.Fragment>{this.renderLikesList()}</React.Fragment>;
     }
   }
-
-  // }
 
   componentDidMount() {
     this.getMyCalendar();

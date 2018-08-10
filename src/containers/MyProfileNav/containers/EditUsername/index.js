@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import store from "react-native-simple-store";
+
 import {
   StyleSheet,
   Keyboard,
@@ -11,8 +13,17 @@ import {
 export default class EditUsername extends Component {
   state = {
     userName: "",
+
     btnSaveDisable: true
   };
+
+  componentDidMount() {
+    store.get("userName").then(res => {
+      this.setState({
+        userName: res.userName
+      });
+    });
+  }
 
   static navigationOptions = {
     headerBackTitle: null,
@@ -28,7 +39,6 @@ export default class EditUsername extends Component {
   };
 
   onChange = (key, value) => {
-    console.log("Hello 2");
     this.setState(
       {
         [key]: value
@@ -50,8 +60,6 @@ export default class EditUsername extends Component {
 
   renderBtn() {
     if (this.state.userName.length >= 1) {
-      console.log(this.state.userName.length);
-
       return (
         <TouchableOpacity
           style={styles.buttonContainer}
@@ -66,8 +74,6 @@ export default class EditUsername extends Component {
   }
 
   render() {
-    console.log("Hello 1");
-
     return (
       <View>
         <Text style={styles.instructions}>
@@ -76,9 +82,11 @@ export default class EditUsername extends Component {
 
         <TextInput
           value={this.state.userName}
-          onChangeText={text => this.onChange("userName", text)}
+          onChangeText={text => {
+            this.onChange("userName", text);
+          }}
           placeholderTextColor="black"
-          placeholder="current_username"
+          placeholder={this.state.userName}
           autoCapitalize="none"
           autoCorrect={false}
           style={styles.input}

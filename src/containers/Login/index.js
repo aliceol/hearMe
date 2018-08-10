@@ -91,7 +91,24 @@ export default class Login extends Component {
                     })
                     .then(response => {
                       if (response.data && response.data.token) {
+                        console.log(response.data);
+
+                        if (response.data.account.profilePic) {
+                          store.save(
+                            "userAvatar",
+                            response.data.account.profilePic
+                          );
+                        } else {
+                          store.delete("userAvatar");
+                        }
+
                         store.save("userToken", { token: response.data.token });
+                        store.save("userName", {
+                          userName: response.data.account.userName
+                        });
+                        store.save("email", {
+                          email: response.data.account.email
+                        });
                         this.props.navigation.navigate("TabScreen", {});
                       }
                     })
