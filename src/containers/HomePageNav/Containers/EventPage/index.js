@@ -15,6 +15,7 @@ import {
 
 import { withNavigation } from "react-navigation";
 import MapView from "react-native-maps";
+import store from "react-native-simple-store";
 
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -36,12 +37,34 @@ export default class EventPage extends Component {
       .then(response => {
         this.setState({
           thisEvent: response.data,
-          isLoading: false,
-          userToken: this.props.navigation.state.params.token
+          isLoading: false
         });
       })
       .catch(err => console.log("getThisEvent", err));
   }
+
+  addToCalendar = () => {
+    store.get("userToken").then(res => {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + res.token
+        }
+      };
+
+      axios
+        .get(
+          "https://hearme-api.herokuapp.com/api/user/add/event/" +
+            this.props.navigation.state.params.id,
+          config
+        )
+        ///then console.log(req.user.events)
+        // dans MyCalendar --> faire le componentdidmount pour récupérer le tableau des events de l'utilisateur
+        .then(response => {
+          console.log(response.data);
+          AlertIOS.alert("You just added this event to your calendar");
+        });
+    });
+  };
 
   refreshData = () => {
     this.setState({ isLoading: true });
@@ -51,20 +74,22 @@ export default class EventPage extends Component {
   renderEventArtists() {
     if (this.state.thisEvent.performance) {
       const eventArtists = [];
-      let artistName = "";
+      let artistName = "Hello World";
 
       for (let i = 0; i < this.state.thisEvent.performance.length; i++) {
-        if (
-          this.state.thisEvent.performance[i].artist.displayName.length > 12
-        ) {
-          artistName =
-            this.state.thisEvent.performance[i].artist.displayName.substr(
-              0,
-              12
-            ) + "...";
-        } else {
-          artistName = this.state.thisEvent.performance[i].artist.displayName;
-        }
+        //   if (this.state.thisEvent.performance.length > 0) {
+        //     if (
+        //       this.state.thisEvent.performance[i].artist.displayName.length > 12
+        //     ) {
+        //       artistName =
+        //         this.state.thisEvent.performance[i].artist.displayName.substr(
+        //           0,
+        //           12
+        //         ) + "...";
+        //     } else {
+        //       artistName = this.state.thisEvent.performance[i].artist.displayName;
+        //     }
+        //   }
         eventArtists.push(
           <TouchableOpacity
             key={i}
@@ -188,20 +213,7 @@ export default class EventPage extends Component {
             />
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() =>
-                axios
-                  .get(
-                    "https://hearme-api.herokuapp.com/api/event/" +
-                      this.props.navigation.state.params.id
-                  )
-                  ///then console.log(req.user.events)
-                  // dans MyCalendar --> faire le componentdidmount pour récupérer le tableau des events de l'utilisateur
-                  .then(response => {
-                    AlertIOS.alert(
-                      "You just added this event to your calendar"
-                    );
-                  })
-              }
+              onPress={() => this.addToCalendar()}
             >
               <Icon
                 name="plus-circle"

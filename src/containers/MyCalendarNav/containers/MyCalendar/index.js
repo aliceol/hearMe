@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
+import Swipeout from "react-native-swipeout";
 import store from "react-native-simple-store";
 
 import {
@@ -10,13 +11,18 @@ import {
   ScrollView,
   Image,
   ActivityIndicator,
-  TouchableOpacity
+  RefreshControl,
+  TouchableOpacity,
+  FlatList,
+  Alert
 } from "react-native";
 
 export default class MyCalendar extends Component {
   state = {
     myCalendar: [],
-    isLoading: true
+    isLoading: true,
+    refreshing: false,
+    activeRowKey: null
   };
 
   getMyCalendar() {
@@ -39,6 +45,100 @@ export default class MyCalendar extends Component {
     });
   }
 
+  renderLikesItem = ({ item }, index) => {
+    let eventName = item.displayName;
+    const swipeSettings = {
+      autoClose: true,
+      onClose: () => {
+        if (this.state.activeRowKey != null) {
+          this.setState({ activeRowKey: null });
+        }
+      },
+      onOpen: () => {},
+      right: [
+        {
+          onPress: () => {
+            Alert.alert(
+              "Alert",
+              "Are you sure you want to remove " +
+                eventName +
+                " from your calendar?",
+              [
+                {
+                  text: "No",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                {
+                  text: "Yes",
+                  onPress: () => {
+                    //axios --> call the API to remove the item from the list
+                    let newCalendar = [...this.state.myCalendar];
+                    for (let j = 0; j < newCalendar.length; j++) {
+                      if (newCalendar[j].songKickId === item.songKickId) {
+                        newCalendar.splice(j, 1);
+                      }
+                    }
+                    this.setState({ myCalendar: newCalendar });
+                  }
+                }
+              ]
+            );
+          },
+          text: "Delete",
+          type: "delete"
+        }
+      ]
+    };
+
+    return (
+      <Swipeout {...swipeSettings}>
+        <TouchableOpacity
+          onPress={() => {
+            console.log("pressed2", this.props);
+            this.props.navigation.navigate("EventPage", {
+              id: item.songKickId
+            });
+          }}
+        >
+          <View style={styles.unitEvent}>
+            <View style={styles.date}>
+              <Text style={styles.themeColor}>{item.start.date}</Text>
+            </View>
+            <View style={styles.centralContent}>
+              <Text style={styles.artistName}>
+                {item.performance[0].artist.displayName}
+              </Text>
+              <Text>{item.venue.name}</Text>
+            </View>
+
+            <View style={styles.location}>
+              <Icon name="map-marker" size={20} style={styles.mapPicker} />
+              <Text>{item.venue.city} , </Text>
+              <Text>{item.venue.country}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Swipeout>
+    );
+  };
+
+  renderLikesList() {
+    return (
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }
+        keyExtractor={(item, index) => item.songKickId.toString()}
+        data={this.state.myCalendar}
+        renderItem={this.renderLikesItem}
+      />
+    );
+  }
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -47,51 +147,12 @@ export default class MyCalendar extends Component {
         </View>
       );
     } else {
-      let myCalendarEvents = [];
-      console.log(this.state.myCalendar);
-
-      for (let i = 0; i < this.state.myCalendar.length; i++) {
-        myCalendarEvents.push(
-          <TouchableOpacity
-            onPress={() => {
-              console.log("pressed2", this.props);
-              this.props.navigation.navigate("EventPage", {
-                id: this.state.myCalendar[i].songKickId
-              });
-            }}
-          >
-            <View style={styles.unitEvent}>
-              <View style={styles.date}>
-                <Text style={styles.themeColor}>
-                  {this.state.myCalendar[i].start.date}
-                </Text>
-              </View>
-              <View style={styles.centralContent}>
-                <Text style={styles.artistName}>
-                  {this.state.myCalendar[i].performance[0].artist.displayName}
-                </Text>
-                <Text>{this.state.myCalendar[i].venue.name}</Text>
-              </View>
-
-              <View style={styles.location}>
-                <Icon name="map-marker" size={20} style={styles.mapPicker} />
-                <Text>{this.state.myCalendar[i].venue.city} , </Text>
-                <Text>{this.state.myCalendar[i].venue.country}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        );
-      }
-
-      return (
-        <React.Fragment>
-          <ScrollView style={styles.wholeCalendar}>
-            <View>{myCalendarEvents}</View>
-          </ScrollView>
-        </React.Fragment>
-      );
+      return <React.Fragment>{this.renderLikesList()}</React.Fragment>;
     }
   }
+
+  // }
+
   componentDidMount() {
     this.getMyCalendar();
   }

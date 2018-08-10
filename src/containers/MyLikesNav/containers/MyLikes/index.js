@@ -11,6 +11,7 @@ import _ from "lodash";
 import {
   FlatList,
   RefreshControl,
+  ActivityIndicator,
   Alert,
   StyleSheet,
   View,
@@ -169,7 +170,11 @@ export default class MyLikes extends Component {
 
   render() {
     if (this.state.isLoading) {
-      return <Text>is Loading</Text>;
+      return (
+        <View style={[styles.container, styles.horizontal]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
     } else {
       return <React.Fragment>{this.renderArtistsList()}</React.Fragment>;
       // const like = [];
