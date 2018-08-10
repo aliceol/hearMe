@@ -65,7 +65,6 @@ export default withNavigation(
           <TouchableOpacity
             style={styles.concertCard}
             onPress={() => {
-              console.log("pressed2", this.props);
               this.props.navigation.navigate("EventPage", {
                 id: this.props.event.id
               });
@@ -73,7 +72,7 @@ export default withNavigation(
           >
             <ImageBackground
               source={require("./photos/concert1.jpg")}
-              style={{ width: "100%", height: 150 }}
+              style={{ width: "100%", height: 130 }}
             >
               <View style={{ height: 150, width: "100%", margin: 10 }}>
                 <View style={styles.dateCard}>

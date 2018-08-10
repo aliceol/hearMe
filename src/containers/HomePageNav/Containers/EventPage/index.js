@@ -180,8 +180,8 @@ export default class EventPage extends Component {
           <Button
             title="Read More..."
             onPress={() =>
-              this.props.navigation.navigate("BiographyWebView", {
-                event: event
+              this.props.navigation.navigate("WebView", {
+                URI: "https://www.songkick.com" + event.biographyLink
               })
             }
           />
@@ -266,17 +266,25 @@ export default class EventPage extends Component {
             {this.renderMap(this.state.thisEvent.venue)}
             {this.renderBio(this.state.thisEvent)}
             {this.renderAddtionalDetails(this.state.thisEvent)}
-            <Text style={styles.titles}>Description</Text>
-            <Text>
-              Dumque ibi diu moratur commeatus opperiens, quorum translationem
-              ex Aquitania verni imbres solito crebriores prohibebant auctique
-              torrentes, Herculanus advenit protector domesticus, Hermogenis ex
-              magistro equitum filius, apud Constantinopolim, ut supra
-              rettulimus, populari quondam turbela discerpti. quo verissime
-              referente quae Gallus egerat, damnis super praeteritis maerens et
-              futurorum timore suspensus angorem animi quam diu potuit
-              emendabat.
-            </Text>
+            <Text style={styles.titles}>More Info</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                style={styles.sk_logo}
+                source={require("./Images/powered-by-songkick-pink.png")}
+              />
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate("WebView", {
+                    URI:
+                      this.state.thisEvent.uri.slice(0, 4) +
+                      "s" +
+                      this.state.thisEvent.uri.slice(4)
+                  })
+                }
+              >
+                <Text>Browse this event on SongKick Website</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       );
@@ -301,8 +309,7 @@ export default class EventPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    marginTop: 20
+    backgroundColor: "white"
   },
   image: {
     width: Dimensions.get("window").width,
@@ -357,5 +364,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginBottom: 30,
     marginTop: 5
+  },
+  sk_logo: {
+    width: 100,
+    height: 30,
+    resizeMode: "contain"
   }
 });
