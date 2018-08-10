@@ -16,35 +16,12 @@ import {
 export default class EventPage extends Component {
   static navigationOptions = {};
 
-  getThisEvent() {
-    axios
-      .get(
-        "https://hearme-api.herokuapp.com/api/event/" +
-          this.props.navigation.state.params.id
-      )
-      .then(response => {
-        this.setState({
-          thisEvent: response.data,
-          isLoading: false,
-          userToken: this.props.navigation.state.params.token
-        });
-      })
-      .catch(err => console.log("getThisEvent", err));
-  }
-
-  refreshData = () => {
-    this.setState({ isLoading: true });
-    this.getThisEvent();
-  };
-
   render() {
     console.log("prorrps", this.props);
     return (
       <WebView
         source={{
-          uri:
-            "https://www.songkick.com" +
-            this.props.navigation.state.params.event.biographyLink
+          uri: this.props.navigation.state.params.URI
         }}
         style={{ marginTop: 20 }}
       />

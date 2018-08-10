@@ -108,7 +108,7 @@ export default class EventCarousel extends Component {
                         "e",
                         e
                       );
-                      this.props.navigation.navigate("EventPage", {
+                      this.props.navigation.navigate("VenuePage", {
                         id: this.state.events[i].id
                       });
                     }}
