@@ -129,11 +129,13 @@ export default class SignUp extends Component {
                         console.log(response.data);
                         store.delete("userAvatar");
 
-                        store.save("userToken", {}).then(() =>
-                          store.update("userToken", {
-                            token: response.data.token
-                          })
-                        );
+                        store.save("userToken", { token: response.data.token });
+                        store.save("userName", {
+                          userName: response.data.account.userName
+                        });
+                        store.save("email", {
+                          email: response.data.account.email
+                        });
                         this.props.navigation.navigate("TabScreen");
                       }
                     })

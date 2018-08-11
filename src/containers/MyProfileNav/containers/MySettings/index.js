@@ -18,6 +18,7 @@ export default class Settings extends Component {
         userName: res.userName
       });
     });
+
     store.get("email").then(res => {
       console.log(res.email);
       this.setState({
