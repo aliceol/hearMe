@@ -60,10 +60,7 @@ export default class SignUp extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.signupInfo}>
-          Please enter the following information to create your HearMe account
-          and start exploring concerts nearby!
-        </Text>
+        <Text style={styles.signupInfo}>Create an account</Text>
         <View style={styles.allInputs}>
           <TextInput
             value={this.state.userName}
