@@ -1,6 +1,8 @@
 package com.hearme;
 
 import android.app.Application;
+import com.imagepicker.ImagePickerPackage; 
+
 
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
