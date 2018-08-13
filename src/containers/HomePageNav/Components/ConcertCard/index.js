@@ -71,7 +71,9 @@ export default withNavigation(
             }}
           >
             <ImageBackground
-              source={require("./photos/concert1.jpg")}
+              source={{
+                uri: "https:" + event.performance[0].artist.pictureURI
+              }}
               style={{ width: "100%", height: 130 }}
             >
               <View style={{ height: 150, width: "100%", margin: 10 }}>

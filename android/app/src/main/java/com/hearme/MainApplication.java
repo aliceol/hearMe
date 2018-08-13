@@ -1,11 +1,10 @@
 package com.hearme;
 
 import android.app.Application;
-import com.imagepicker.ImagePickerPackage; 
-
 
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -28,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new VectorIconsPackage(),
+            new MapsPackage(),
             new ImagePickerPackage()
       );
     }
