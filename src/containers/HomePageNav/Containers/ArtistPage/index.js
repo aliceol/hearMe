@@ -69,7 +69,6 @@ export default class LoginForm extends Component {
         ///then console.log(req.user.events)
         // dans MyCalendar --> faire le componentdidmount pour récupérer le tableau des events de l'utilisateur
         .then(response => {
-          console.log(response.data);
           AlertIOS.alert("You just added this artist to your likes");
         });
     });
@@ -99,8 +98,7 @@ export default class LoginForm extends Component {
         } else {
           eventCity = myResult.event[i].location.city;
         }
-        console.log("id", myResult.event[i].id);
-        console.log("name", myResult.event[i].name);
+
         myEvent.push(
           <TouchableOpacity
             onPress={() => {

@@ -27,7 +27,6 @@ export default class MyCalendar extends Component {
 
   getMyCalendar() {
     store.get("userToken").then(res => {
-      console.log(res.token);
       const config = {
         headers: {
           Authorization: "Bearer " + res.token
@@ -36,7 +35,6 @@ export default class MyCalendar extends Component {
       axios
         .get("https://hearme-api.herokuapp.com/api/user/getMyCalendar", config)
         .then(response => {
-          console.log("data", response);
           this.setState({
             myCalendar: response.data,
             isLoading: false
@@ -95,7 +93,6 @@ export default class MyCalendar extends Component {
       <Swipeout {...swipeSettings}>
         <TouchableOpacity
           onPress={() => {
-            console.log("pressed2", this.props);
             this.props.navigation.navigate("EventPage", {
               id: item.songKickId
             });
