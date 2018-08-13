@@ -16,7 +16,6 @@ export default class ChooseLocation extends Component {
     for (let i = 0; i < cities.length; i++) {
       citiesNamesArray.push(cities[i].name);
     }
-    console.log(citiesNamesArray);
     this.setState({ cities: citiesNamesArray });
   };
 
@@ -32,6 +31,14 @@ export default class ChooseLocation extends Component {
     Barcelona: "28714",
     London: "24426",
     Oslo: "31422"
+  };
+
+  citiesCoordinates = {
+    Paris: { lat: 48.8566, lng: 2.3522 },
+    Berlin: { lat: 52.52, lng: 13.405 },
+    Barcelona: { lat: 41.3851, lng: 2.1734 },
+    London: { lat: 51.5074, lng: 0.1278 },
+    Oslo: { lat: 59.9139, lng: 10.7522 }
   };
 
   compareCities = () => {
@@ -55,8 +62,6 @@ export default class ChooseLocation extends Component {
   };
 
   navigateToCity = cityName => {
-    console.log(this.citiesCodes[cityName]);
-    console.log("props", this.props);
     this.props.navigation.replace("HomePage", {
       cityName: cityName,
       cityCode: this.citiesCodes[cityName]

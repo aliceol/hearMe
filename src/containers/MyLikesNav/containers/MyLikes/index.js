@@ -38,8 +38,6 @@ export default class MyLikes extends Component {
 
   getMyLikes() {
     store.get("userToken").then(res => {
-      console.log(res.token);
-
       const config = {
         headers: {
           Authorization: "Bearer " + res.token
@@ -48,7 +46,6 @@ export default class MyLikes extends Component {
       axios
         .get("https://hearme-api.herokuapp.com/api/user/getMyLikes", config)
         .then(response => {
-          console.log(response.data);
           this.setState({
             myLikes: response.data,
             isLoading: false

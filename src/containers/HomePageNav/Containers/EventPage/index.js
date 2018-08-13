@@ -60,7 +60,6 @@ export default class EventPage extends Component {
         ///then console.log(req.user.events)
         // dans MyCalendar --> faire le componentdidmount pour récupérer le tableau des events de l'utilisateur
         .then(response => {
-          console.log(response.data);
           AlertIOS.alert("You just added this event to your calendar");
         });
     });
@@ -144,6 +143,8 @@ export default class EventPage extends Component {
             latitudeDelta: 0.01,
             longitudeDelta: 0.01
           }}
+          rotateEnabled={false}
+          scrollEnabled={false}
         >
           <MapView.Marker
             coordinate={{
@@ -169,7 +170,6 @@ export default class EventPage extends Component {
   };
 
   renderBio = event => {
-    console.log(this.props);
     if (event.biography) {
       return (
         <View>
@@ -198,7 +198,6 @@ export default class EventPage extends Component {
         </View>
       );
     } else {
-      console.log("stateffh", this.state);
       return (
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -208,7 +207,7 @@ export default class EventPage extends Component {
             <Image
               style={styles.image}
               source={{
-                uri: "https:" + this.state.thisEvent.photoURI
+                uri: "https://www.songkick.com/" + this.state.thisEvent.photoURI
               }}
             />
             <TouchableOpacity

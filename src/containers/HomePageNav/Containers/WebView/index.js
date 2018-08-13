@@ -17,7 +17,6 @@ export default class EventPage extends Component {
   static navigationOptions = {};
 
   render() {
-    console.log("prorrps", this.props);
     return (
       <WebView
         source={{

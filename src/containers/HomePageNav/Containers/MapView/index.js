@@ -16,7 +16,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import ConcertCard from "../../Components/ConcertCard";
 
 const horizontalMargin = 1;
-const slideWidth = 310;
+const slideWidth = Dimensions.get("window").width - 20;
 
 const sliderWidth = Dimensions.get("window").width;
 const itemWidth = slideWidth + horizontalMargin * 2;
@@ -24,11 +24,12 @@ const itemHeight = 80;
 
 export default class EventCarousel extends Component {
   state = {
-    latitude: 48.88418,
-    longitude: 2.33219,
+    latitude: this.props.navigation.state.params.coordinates.lat,
+    longitude: this.props.navigation.state.params.coordinates.lng,
     error: null,
     events: [],
-    isLoading: true
+    isLoading: true,
+    activeMarker: 0
   };
 
   removeEventsWithoutLoc(events) {
@@ -62,15 +63,17 @@ export default class EventCarousel extends Component {
     if (!markerData || !mapRef) {
       return;
     }
+
     mapRef.animateToRegion({
       latitude: markerData.venue.lat,
       longitude: markerData.venue.lng,
-      latitudeDelta: 0.0315,
-      longitudeDelta: 0.0258
+      latitudeDelta: 0.02,
+      longitudeDelta: 0.02
     });
   }
 
   render() {
+    console.log("state", this.state, "props", this.props);
     if (this.state.isLoading) {
       return (
         <View style={[styles.container, styles.horizontal]}>
@@ -85,7 +88,7 @@ export default class EventCarousel extends Component {
               (i => {
                 return (
                   <Marker
-                    key={i}
+                    key={this.state.events[i].id}
                     coordinate={{
                       latitude: this.state.events[i].venue.lat,
                       longitude: this.state.events[i].venue.lng
@@ -94,27 +97,22 @@ export default class EventCarousel extends Component {
                     title={this.state.events[i].venue.displayName}
                     description={this.state.events[i].title}
                     onPress={() => {
-                      console.log("i", i, "enent", this.state.events[i]);
                       this._carousel.snapToItem(i);
                     }}
                     onCalloutPress={e => {
-                      console.log(
-                        "evenetblaba",
-                        this.state,
-                        "i",
-                        i,
-                        "event",
-                        this.state.events[i],
-                        "e",
-                        e
-                      );
                       this.props.navigation.navigate("VenuePage", {
                         id: this.state.events[i].id
                       });
                     }}
                   >
                     <Text>
-                      <Icon name="map-pin" size={30} />
+                      <Icon
+                        name="map-pin"
+                        size={30}
+                        style={{
+                          color: i === this.state.activeMarker ? "red" : "black"
+                        }}
+                      />
                     </Text>
                   </Marker>
                 );
@@ -130,12 +128,12 @@ export default class EventCarousel extends Component {
             showsUserLocation={true}
             showsMyLocationButton={true}
             style={styles.map}
-            /* region={{
-              latitude: this.state.latitude,
+            region={{
+              latitude: this.state.latitude - 0.03,
               longitude: this.state.longitude,
-              latitudeDelta: 0.01,
-              longitudeDelta: 0.01
-            }} */
+              latitudeDelta: 0.15,
+              longitudeDelta: 0.15
+            }}
           >
             {allMarkers}
           </MapView>
@@ -167,7 +165,7 @@ export default class EventCarousel extends Component {
     axios
       .get(
         "https://hearme-api.herokuapp.com/api/city/upcoming/" +
-          this.props.navigation.state.params +
+          this.props.navigation.state.params.cityCode +
           "/1"
       )
       .then(response => {
@@ -184,7 +182,7 @@ export default class EventCarousel extends Component {
 
     if (Platform.OS == "ios") {
       // permission will be asked automatically by ios
-      navigator.geolocation.getCurrentPosition(
+      /* navigator.geolocation.getCurrentPosition(
         position => {
           this.setState({
             latitude: position.coords.latitude,
@@ -194,7 +192,7 @@ export default class EventCarousel extends Component {
         },
         error => this.setState({ error: error.message }),
         { enableHighAccuracy: true, timeout: 20000 }
-      );
+      ); */
     }
     if (Platform.OS == "android") {
       PermissionsAndroid.request(

@@ -19,7 +19,7 @@ import axios from "axios";
 
 import ConcertCard from "../../Components/ConcertCard";
 
-export default class HomePageUpcoming extends Component {
+export default class HomePagePopular extends Component {
   static navigationOptions = {
     title: "HomePageUpcoming"
   };

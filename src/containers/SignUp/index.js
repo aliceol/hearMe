@@ -114,7 +114,6 @@ export default class SignUp extends Component {
                 disabled={this.state.btnNextDisable}
                 style={styles.nextButton}
                 onPress={() => {
-                  console.log("store", store);
                   axios
                     .post("https://hearme-api.herokuapp.com/api/user/sign_up", {
                       userName: this.state.userName,
