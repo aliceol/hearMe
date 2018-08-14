@@ -175,6 +175,22 @@ export default class MyCalendar extends Component {
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
       );
+    }
+    if (this.state.myCalendar.length === 0) {
+      return (
+        <ScrollView>
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+          <View style={styles.infoContent}>
+            <Text style={styles.info}>
+              Start adding events to your calendar!
+            </Text>
+            <Text style={styles.emoji}>🎸</Text>
+          </View>
+        </ScrollView>
+      );
     } else {
       return <React.Fragment>{this.renderLikesList()}</React.Fragment>;
     }
@@ -186,6 +202,19 @@ export default class MyCalendar extends Component {
 }
 
 const styles = StyleSheet.create({
+  infoContent: {
+    flexDirection: "column",
+    marginTop: 50
+  },
+  info: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  emoji: {
+    textAlign: "center",
+    fontSize: 50
+  },
   rowitem: {
     padding: 15,
     backgroundColor: "#ecf0f1",

@@ -186,6 +186,21 @@ export default class MyLikes extends Component {
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
       );
+    }
+
+    if (this.state.myLikes.length === 0) {
+      return (
+        <ScrollView>
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+          <View style={styles.infoContent}>
+            <Text style={styles.info}>Start adding artists to your likes!</Text>
+            <Text style={styles.emoji}>🤘</Text>
+          </View>
+        </ScrollView>
+      );
     } else {
       return <React.Fragment>{this.renderArtistsList()}</React.Fragment>;
     }
@@ -193,6 +208,19 @@ export default class MyLikes extends Component {
 }
 
 const styles = StyleSheet.create({
+  infoContent: {
+    flexDirection: "column",
+    marginTop: 50
+  },
+  info: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  emoji: {
+    textAlign: "center",
+    fontSize: 50
+  },
   backgroundScrollView: {
     backgroundColor: "#F4F8FF"
   },

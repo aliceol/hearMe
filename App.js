@@ -27,14 +27,14 @@ import TabScreen from "./src/containers/TabScreen";
 StatusBar.setBarStyle("light-content");
 
 const App = createStackNavigator({
+  WelcomeScreen: {
+    screen: Welcome
+  },
   TabScreen: {
     screen: TabScreen,
     navigationOptions: {
       header: null
     }
-  },
-  WelcomeScreen: {
-    screen: Welcome
   },
 
   SignUpScreen: {

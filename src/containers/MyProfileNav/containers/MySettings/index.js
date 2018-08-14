@@ -46,7 +46,9 @@ export default class Settings extends Component {
         <View style={styles.optionsBlock1}>
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.navigate("EditUsername");
+              this.props.navigation.navigate("EditUsername", {
+                onSave: this.props.navigation.state.params.onSave
+              });
             }}
           >
             <View style={styles.settingOptionsBlock}>
