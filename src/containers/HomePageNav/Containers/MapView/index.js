@@ -73,7 +73,6 @@ export default class EventCarousel extends Component {
   }
 
   render() {
-    console.log("state", this.state, "props", this.props);
     if (this.state.isLoading) {
       return (
         <View style={[styles.container, styles.horizontal]}>

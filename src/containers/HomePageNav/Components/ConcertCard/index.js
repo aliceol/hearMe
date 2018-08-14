@@ -4,8 +4,8 @@ import {
   StyleSheet,
   Dimensions,
   Text,
-  Image,
   TouchableOpacity,
+  Image,
   ImageBackground
 } from "react-native";
 
@@ -15,7 +15,7 @@ const moment = require("moment");
 moment().format();
 
 export default withNavigation(
-  class TabViewExample extends React.Component {
+  class ConcertCard extends React.Component {
     getImage() {
       randomImages = {
         image1: require("./photos/concert1.jpg"),
@@ -58,8 +58,6 @@ export default withNavigation(
     }
 
     render() {
-      let imageSource = this.getImage();
-
       return (
         <Fragment>
           <TouchableOpacity
@@ -71,18 +69,24 @@ export default withNavigation(
             }}
           >
             <ImageBackground
-              source={{
-                uri: "https:" + event.performance[0].artist.pictureURI
-              }}
               style={{ width: "100%", height: 130 }}
+              source={require("../../../../images/placeholder_concert.jpg")}
             >
-              <View style={{ height: 150, width: "100%", margin: 10 }}>
-                <View style={styles.dateCard}>
-                  <Text style={styles.dateCardText}>
-                    {this.renderDateCard(this.props.event.start.date)}
-                  </Text>
+              <ImageBackground
+                source={{
+                  uri:
+                    "https:" + this.props.event.performance[0].artist.pictureURI
+                }}
+                style={{ width: "100%", height: 130 }}
+              >
+                <View style={{ height: 150, width: "100%", margin: 10 }}>
+                  <View style={styles.dateCard}>
+                    <Text style={styles.dateCardText}>
+                      {this.renderDateCard(this.props.event.start.date)}
+                    </Text>
+                  </View>
                 </View>
-              </View>
+              </ImageBackground>
             </ImageBackground>
             <View style={[styles.concertInfo]}>
               <View

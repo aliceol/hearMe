@@ -33,8 +33,7 @@ export default class HomePagePopular extends Component {
   getEvents() {
     axios
       .get(
-        "https://hearme-api.herokuapp.com/api/city/popular/" +
-          this.props.route.cityCode
+        "http://10.90.0.150:3000/api/city/popular/" + this.props.route.cityCode
       )
       .then(response => {
         this.setState({

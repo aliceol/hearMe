@@ -91,8 +91,6 @@ export default class Login extends Component {
                     })
                     .then(response => {
                       if (response.data && response.data.token) {
-                        console.log(response.data);
-
                         if (response.data.account.profilePic) {
                           store.save(
                             "userAvatar",
@@ -113,7 +111,6 @@ export default class Login extends Component {
                       }
                     })
                     .catch(err => {
-                      console.log(err.response.status);
                       if (err.response.status === 401) {
                         alert("Wrong password");
                       } else if (err.response.status === 400) {

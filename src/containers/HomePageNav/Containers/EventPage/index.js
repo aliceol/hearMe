@@ -10,11 +10,12 @@ import {
   Dimensions,
   TouchableOpacity,
   AlertIOS,
-  WebView
+  WebView,
+  ImageBackground
 } from "react-native";
 
 import { withNavigation } from "react-navigation";
-import MapView from "react-native-maps";
+import { MapView, Marker } from "react-native-maps";
 import store from "react-native-simple-store";
 
 import axios from "axios";
@@ -129,8 +130,8 @@ export default class EventPage extends Component {
     }
   }
 
-  renderMap = event => {
-    if (event.lat) {
+  renderMap = venue => {
+    if (venue.lat) {
       return (
         <MapView
           style={{
@@ -138,23 +139,25 @@ export default class EventPage extends Component {
             width: Dimensions.get("window").width - 20
           }}
           initialRegion={{
-            latitude: Number(event.lat),
-            longitude: Number(event.lng),
+            latitude: Number(venue.lat),
+            longitude: Number(venue.lng),
             latitudeDelta: 0.01,
             longitudeDelta: 0.01
           }}
           rotateEnabled={false}
           scrollEnabled={false}
         >
-          <MapView.Marker
+          <Marker
             coordinate={{
-              latitude: Number(event.lat),
-              longitude: Number(event.lng)
+              latitude: Number(venue.lat),
+              longitude: Number(venue.lng)
             }}
-            title={event.name}
+            title={venue.name}
           />
         </MapView>
       );
+    } else {
+      return null;
     }
   };
 
@@ -204,12 +207,18 @@ export default class EventPage extends Component {
           style={styles.container}
         >
           <View>
-            <Image
+            <ImageBackground
+              source={require("../../../../images/placeholder_concert.jpg")}
               style={styles.image}
-              source={{
-                uri: "https://www.songkick.com/" + this.state.thisEvent.photoURI
-              }}
-            />
+            >
+              <Image
+                style={styles.image}
+                source={{
+                  uri:
+                    "https://www.songkick.com/" + this.state.thisEvent.photoURI
+                }}
+              />
+            </ImageBackground>
             <TouchableOpacity
               style={styles.addButton}
               onPress={() => this.addToCalendar()}
@@ -262,14 +271,14 @@ export default class EventPage extends Component {
           />
 
           <View style={styles.infoView}>
-            {this.renderMap(this.state.thisEvent.venue)}
+            {/* {this.renderMap(this.state.thisEvent.venue)} */}
             {this.renderBio(this.state.thisEvent)}
             {this.renderAddtionalDetails(this.state.thisEvent)}
             <Text style={styles.titles}>More Info</Text>
             <View style={{ flexDirection: "row" }}>
               <Image
                 style={styles.sk_logo}
-                source={require("./Images/powered-by-songkick-pink.png")}
+                source={require("../../../../images/powered-by-songkick-pink.png")}
               />
               <TouchableOpacity
                 onPress={() =>
