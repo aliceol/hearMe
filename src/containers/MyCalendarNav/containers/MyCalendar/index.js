@@ -35,7 +35,7 @@ export default class MyCalendar extends Component {
         }
       };
       axios
-        .get("http://10.90.0.150:3000/api/user/getMyCalendar", config)
+        .get("https://hearme-api.herokuapp.com/api/user/getMyCalendar", config)
         .then(response => {
           console.log(response.data);
           this.setState({

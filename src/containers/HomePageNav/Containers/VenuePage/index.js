@@ -40,7 +40,7 @@ export default class Venue extends Component {
     console.log(this.props.navigation.state.params.id);
     axios
       .get(
-        "http://10.90.0.150:3000/api/venues/" +
+        "https://hearme-api.herokuapp.com/api/venues/" +
           this.props.navigation.state.params.id
       )
       .then(response => {
@@ -111,7 +111,7 @@ export default class Venue extends Component {
                               size={20}
                               style={styles.mapMarker}
                             />
-                            <Text style={styles.textCityName}>
+                            <Text style={styles.textTime}>
                               {item.start.time
                                 ? item.start.time.substring(0, 5)
                                 : "N/A"}
@@ -211,13 +211,16 @@ const styles = StyleSheet.create({
     fontWeight: "500"
   },
   markerAndText: {
-    flexDirection: "row"
+    flexDirection: "row",
+    borderColor: "red",
+    borderWidth: 1
   },
-  textCityName: {
+  textTime: {
     fontSize: 20
   },
   mapMarker: {
     marginRight: 10,
+    marginBottom: 0,
     color: "blue"
   },
   content: {

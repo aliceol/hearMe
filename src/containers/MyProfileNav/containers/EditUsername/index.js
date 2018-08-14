@@ -79,14 +79,12 @@ export default class EditUsername extends Component {
                   }
                 )
                 .then(response => {
-                  if (response.data && response.data.token) {
-                    console.log(response.data);
-
-                    store.save("userToken", { token: response.data.token });
-                    store.save("userName", {
-                      userName: response.data.account.userName
-                    });
-                    this.props.navigation.navigate("MyProfile");
+                  console.log(response.data);
+                  if (response.data) {
+                    // store.save("userName", {
+                    //   userName: this.state.userName
+                    // });
+                    this.props.navigation.navigate("MyProfile", {});
                   }
                 });
             });
