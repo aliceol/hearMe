@@ -70,23 +70,26 @@ export default class EditUsername extends Component {
                   Authorization: "Bearer " + res.token
                 }
               };
+              console.log(config);
               axios
                 .post(
                   "https://hearme-api.herokuapp.com/api/user/changeMyUserName",
-                  config,
                   {
                     userName: this.state.userName
-                  }
+                  },
+                  config
                 )
                 .then(response => {
-                  if (response.data && response.data.token) {
-                    console.log(response.data);
-
-                    store.save("userToken", { token: response.data.token });
+                  console.log(response.data);
+                  if (response.data) {
                     store.save("userName", {
-                      userName: response.data.account.userName
+                      userName: this.state.userName
                     });
-                    this.props.navigation.navigate("MyProfile");
+                    this.props.navigation.state.params.onSave(
+                      this.state.userName
+                    );
+
+                    this.props.navigation.navigate("MyProfile", {});
                   }
                 });
             });

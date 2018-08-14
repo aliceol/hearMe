@@ -77,19 +77,19 @@ export default class EventPage extends Component {
       let artistName = "Hello World";
 
       for (let i = 0; i < this.state.thisEvent.performance.length; i++) {
-        //   if (this.state.thisEvent.performance.length > 0) {
-        //     if (
-        //       this.state.thisEvent.performance[i].artist.displayName.length > 12
-        //     ) {
-        //       artistName =
-        //         this.state.thisEvent.performance[i].artist.displayName.substr(
-        //           0,
-        //           12
-        //         ) + "...";
-        //     } else {
-        //       artistName = this.state.thisEvent.performance[i].artist.displayName;
-        //     }
-        //   }
+        if (this.state.thisEvent.performance.length > 0) {
+          if (
+            this.state.thisEvent.performance[i].artist.displayName.length > 12
+          ) {
+            artistName =
+              this.state.thisEvent.performance[i].artist.displayName.substr(
+                0,
+                12
+              ) + "...";
+          } else {
+            artistName = this.state.thisEvent.performance[i].artist.displayName;
+          }
+        }
         eventArtists.push(
           <TouchableOpacity
             key={i}

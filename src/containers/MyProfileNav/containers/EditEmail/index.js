@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import store from "react-native-simple-store";
+import axios from "axios";
 
 import {
   StyleSheet,
@@ -13,7 +14,6 @@ import {
 export default class EditEmail extends Component {
   state = {
     email: "",
-
     btnSaveDisable: true
   };
 
@@ -29,7 +29,7 @@ export default class EditEmail extends Component {
     headerBackTitle: null,
     headerLeftContainerStyle: { paddingLeft: 10 },
     headerTintColor: "white",
-    title: "Edit E-mail",
+    title: "Edit email",
     headerStyle: {
       backgroundColor: "#3498db"
     },
@@ -63,7 +63,33 @@ export default class EditEmail extends Component {
       return (
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={Keyboard.dismiss}
+          onPress={() => {
+            store.get("userToken").then(res => {
+              const config = {
+                headers: {
+                  Authorization: "Bearer " + res.token
+                }
+              };
+              console.log(config);
+              axios
+                .post(
+                  "https://hearme-api.herokuapp.com/api/user/changeMyEmail",
+                  {
+                    email: this.state.email
+                  },
+                  config
+                )
+                .then(response => {
+                  console.log(response.data);
+                  if (response.data) {
+                    store.save("email", {
+                      email: this.state.email
+                    });
+                    this.props.navigation.navigate("MyProfile", {});
+                  }
+                });
+            });
+          }}
         >
           <Text style={styles.buttonText}>SAVE</Text>
         </TouchableOpacity>
@@ -77,7 +103,7 @@ export default class EditEmail extends Component {
     return (
       <View>
         <Text style={styles.instructions}>
-          Please enter a new e-mail address and hit save
+          Please enter a new email and hit save
         </Text>
 
         <TextInput
