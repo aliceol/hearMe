@@ -24,7 +24,8 @@ export default class MyCalendar extends Component {
     myCalendar: [],
     isLoading: true,
     refreshing: false,
-    activeRowKey: null
+    activeRowKey: null,
+    date: null
   };
 
   getMyCalendar() {
@@ -45,6 +46,25 @@ export default class MyCalendar extends Component {
         });
     });
   }
+
+  componentDidMount() {
+    this.getMyCalendar();
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "willFocus",
+      () => {
+        this.getMyCalendar();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.willFocusSubscription.remove();
+  }
+
+  refreshData = () => {
+    this.setState({ isLoading: true });
+    this.getMyCalendar();
+  };
 
   renderLikesItem = ({ item }, index) => {
     const swipeSettings = {
@@ -94,7 +114,9 @@ export default class MyCalendar extends Component {
                         newCalendar.splice(j, 1);
                       }
                     }
+                    store.update("userCalendar", { calendar: newCalendar });
                     this.setState({ myCalendar: newCalendar });
+                    console.log("new one", this.state.myCalendar);
                   }
                 }
               ]

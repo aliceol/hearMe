@@ -233,9 +233,18 @@ export default class EventPage extends Component {
           </View>
           {this.state.thisEvent.venue ? (
             <View style={styles.infoView}>
-              <Text style={styles.venueName}>
-                {this.state.thisEvent.venue.name}
-              </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate("VenuePage", {
+                    id: this.state.thisEvent.venue.songKickId,
+                    name: this.state.thisEvent.venue.name
+                  })
+                }
+              >
+                <Text style={styles.venueName}>
+                  {this.state.thisEvent.venue.name}
+                </Text>
+              </TouchableOpacity>
               <Text style={styles.venueAddress}>
                 {this.state.thisEvent.venue.address}
               </Text>

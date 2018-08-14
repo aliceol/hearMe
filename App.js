@@ -30,6 +30,9 @@ const App = createStackNavigator({
   WelcomeScreen: {
     screen: Welcome
   },
+  LoginScreen: {
+    screen: Login
+  },
   TabScreen: {
     screen: TabScreen,
     navigationOptions: {
@@ -39,9 +42,6 @@ const App = createStackNavigator({
 
   SignUpScreen: {
     screen: SignUp
-  },
-  LoginScreen: {
-    screen: Login
   }
 
   /* HomePage: { screen: HomePage },

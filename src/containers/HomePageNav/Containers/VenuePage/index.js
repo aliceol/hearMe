@@ -20,7 +20,7 @@ export default class Venue extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeftContainerStyle: { paddingLeft: 10 },
     headerTintColor: "white",
-    // title: navigation.state.params.title,
+    title: navigation.state.params.name,
     headerStyle: {
       backgroundColor: "rgba(45,141,214,100)"
     },
@@ -61,6 +61,55 @@ export default class Venue extends Component {
         </View>
       );
     } else {
+      let venueEvents = [];
+      for (
+        let i = 0;
+        i < this.state.thisVenue.resultsPage.results.event.length;
+        i++
+      ) {
+        venueEvents.push(
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate("EventPage", {
+                id: this.state.thisVenue.resultsPage.results.event[i].id
+              });
+            }}
+          >
+            <View style={styles.unitEvent}>
+              <View style={styles.date}>
+                <Text style={styles.themeColor}>
+                  {this.state.thisVenue.resultsPage.results.event[i].start.date}
+                </Text>
+              </View>
+              <View style={styles.centralContent}>
+                <Text style={styles.artistName}>
+                  {
+                    this.state.thisVenue.resultsPage.results.event[i]
+                      .performance[0].artist.displayName
+                  }
+                </Text>
+              </View>
+
+              <View style={styles.location}>
+                <Icon name="map-marker" size={20} style={styles.mapPicker} />
+                <Text>
+                  {
+                    this.state.thisVenue.resultsPage.results.event[0].location
+                      .city
+                  }{" "}
+                  ,{" "}
+                </Text>
+                <Text>
+                  {
+                    this.state.thisVenue.resultsPage.results.event[0].location
+                      .country
+                  }
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        );
+      }
       return (
         <React.Fragment>
           <View style={styles.bg}>
