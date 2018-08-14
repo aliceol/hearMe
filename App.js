@@ -43,8 +43,6 @@ const App = createStackNavigator({
     screen: Login
   }
 
-  
-
   /* HomePage: { screen: HomePage },
 
     Welcome: {

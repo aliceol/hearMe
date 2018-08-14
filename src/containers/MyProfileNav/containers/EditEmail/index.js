@@ -1,12 +1,35 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import store from "react-native-simple-store";
+
+import {
+  StyleSheet,
+  Keyboard,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity
+} from "react-native";
 
 export default class EditEmail extends Component {
+  state = {
+    email: "",
+
+    btnSaveDisable: true
+  };
+
+  componentDidMount() {
+    store.get("email").then(res => {
+      this.setState({
+        email: res.email
+      });
+    });
+  }
+
   static navigationOptions = {
     headerBackTitle: null,
     headerLeftContainerStyle: { paddingLeft: 10 },
     headerTintColor: "white",
-    title: "Edit Email",
+    title: "Edit E-mail",
     headerStyle: {
       backgroundColor: "#3498db"
     },
@@ -15,43 +38,89 @@ export default class EditEmail extends Component {
     }
   };
 
+  onChange = (key, value) => {
+    this.setState(
+      {
+        [key]: value
+      },
+      () => {
+        const { email } = this.state;
+        if (email.length >= 1) {
+          this.setState({
+            btnSaveDisable: false
+          });
+        } else {
+          this.setState({
+            btnSaveDisable: true
+          });
+        }
+      }
+    );
+  };
+
+  renderBtn() {
+    if (this.state.email.length >= 1) {
+      return (
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={Keyboard.dismiss}
+        >
+          <Text style={styles.buttonText}>SAVE</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     return (
-      <React.Fragment>
+      <View>
         <Text style={styles.instructions}>
-          Your email address is used to log in to HearMe and for password
-          recovery.
+          Please enter a new e-mail address and hit save
         </Text>
+
         <TextInput
+          value={this.state.email}
+          onChangeText={text => {
+            this.onChange("email", text);
+          }}
           placeholderTextColor="black"
-          placeholder="current_email"
+          placeholder={this.state.email}
           autoCapitalize="none"
           autoCorrect={false}
           style={styles.input}
         />
-        <Text style={styles.subinfo}>
-          We will not expose your email address to other users on HearMe or send
-          you junk mail.
-        </Text>
-      </React.Fragment>
+        {this.renderBtn()}
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    justifyContent: "space-between"
+  },
   input: {
     backgroundColor: "lightgrey",
     color: "black",
     padding: 15
   },
-  subinfo: {
-    fontSize: 12,
-    padding: 15,
-    color: "#7f8c8d"
-  },
   instructions: {
     padding: 25,
     textAlign: "center"
+  },
+  buttonContainer: {
+    backgroundColor: "#2980b9",
+
+    padding: 15,
+    width: "100%"
+  },
+
+  buttonText: {
+    textAlign: "center",
+    color: "white",
+    fontWeight: "700"
   }
 });

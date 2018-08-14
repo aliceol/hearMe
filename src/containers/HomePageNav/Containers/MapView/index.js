@@ -100,8 +100,9 @@ export default class EventCarousel extends Component {
                       this._carousel.snapToItem(i);
                     }}
                     onCalloutPress={e => {
+                      console.log(this.state.events);
                       this.props.navigation.navigate("VenuePage", {
-                        id: this.state.events[i].id
+                        id: this.state.events[i].venue.id
                       });
                     }}
                   >
