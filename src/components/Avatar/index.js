@@ -19,7 +19,6 @@ class Avatar extends React.Component {
 
   componentDidMount() {
     store.get("userAvatar").then(userAvatar => {
-      console.log("userAvatar", userAvatar);
       if (userAvatar) {
         this.setState({ avatar: { uri: userAvatar.secure_url } });
       } else {
@@ -36,12 +35,8 @@ class Avatar extends React.Component {
       } else if (response.error) {
         console.log("Erreur : ", response.error);
       } else {
-        console.log("Photo : ", response.uri);
         let source = { uri: "data:image/jpeg;base64," + response.data };
-
-        console.log(source);
         let sourceBase64 = "data:image/jpeg;base64," + response.data;
-        console.log(sourceBase64);
         this.setState(
           {
             avatar: source,
@@ -64,7 +59,6 @@ class Avatar extends React.Component {
                   config
                 )
                 .then(response => {
-                  console.log("response.data", response.data);
                   store.save("userAvatar", response.data); // store.save("secure-url": secure_url)
                 })
                 .catch(err => {

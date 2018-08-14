@@ -36,7 +36,7 @@ export default class HomePageUpcoming extends Component {
   getEvents() {
     axios
       .get(
-        "https://hearme-api.herokuapp.com/api/city/upcoming/" +
+        "http://10.90.0.150:3000/api/city/upcoming/" +
           this.props.route.cityCode +
           "/" +
           this.state.page
@@ -72,13 +72,15 @@ export default class HomePageUpcoming extends Component {
 
   // Storing in an array all dates at which events are happening
   getDates(events) {
+    console.log(events);
     dates = [];
     for (let i = 0; i < events.length; i++) {
       if (dates.indexOf(events[i].start.date) === -1) {
         dates.push(events[i].start.date);
       }
     }
-    return dates;
+    console.log(dates.sort());
+    return dates.sort();
   }
 
   // rendering in an array all events happening on a defined date
@@ -156,7 +158,7 @@ export default class HomePageUpcoming extends Component {
           sections={sectionListData}
           keyExtractor={(item, index) => item + index}
           onEndReached={this.handleLoadMore}
-          onEndReachedThreshold={100}
+          onEndReachedThreshold={0.3}
         />
       );
     }

@@ -14,7 +14,6 @@ export default class MyProfile extends React.Component {
 
   componentDidMount() {
     store.get("userToken").then(res => {
-      console.log(res.token);
       const config = {
         headers: {
           Authorization: "Bearer " + res.token
@@ -23,12 +22,10 @@ export default class MyProfile extends React.Component {
       axios
         .get("https://hearme-api.herokuapp.com/api/user/getMyInfo", config)
         .then(response => {
-          console.log(response);
           this.setState({
             userName: response.data,
             isLoading: false
           });
-          console.log(response.data);
         });
     });
   }

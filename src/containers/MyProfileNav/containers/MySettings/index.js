@@ -13,14 +13,12 @@ export default class Settings extends Component {
 
   componentDidMount() {
     store.get("userName").then(res => {
-      console.log(res.userName);
       this.setState({
         userName: res.userName
       });
     });
 
     store.get("email").then(res => {
-      console.log(res.email);
       this.setState({
         email: res.email
       });
