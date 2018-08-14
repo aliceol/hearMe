@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import store from "react-native-simple-store";
+import axios from "axios";
 
 import {
   StyleSheet,
@@ -13,7 +14,6 @@ import {
 export default class EditUsername extends Component {
   state = {
     userName: "",
-
     btnSaveDisable: true
   };
 
@@ -63,7 +63,34 @@ export default class EditUsername extends Component {
       return (
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={Keyboard.dismiss}
+          onPress={() => {
+            store.get("userToken").then(res => {
+              const config = {
+                headers: {
+                  Authorization: "Bearer " + res.token
+                }
+              };
+              axios
+                .post(
+                  "https://hearme-api.herokuapp.com/api/user/changeMyUserName",
+                  config,
+                  {
+                    userName: this.state.userName
+                  }
+                )
+                .then(response => {
+                  if (response.data && response.data.token) {
+                    console.log(response.data);
+
+                    store.save("userToken", { token: response.data.token });
+                    store.save("userName", {
+                      userName: response.data.account.userName
+                    });
+                    this.props.navigation.navigate("MyProfile");
+                  }
+                });
+            });
+          }}
         >
           <Text style={styles.buttonText}>SAVE</Text>
         </TouchableOpacity>

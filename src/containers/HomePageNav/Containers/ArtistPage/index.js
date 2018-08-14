@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import ButtonLike from "../../Components/ButtonLike";
 
-export default class LoginForm extends Component {
+export default class ArtistPage extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeftContainerStyle: { paddingLeft: 10 },
     headerTintColor: "white",

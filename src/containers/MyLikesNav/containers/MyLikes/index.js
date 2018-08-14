@@ -1,7 +1,3 @@
-//creer une copie du tableau dans le state,
-//faire le slice sur cette copie
-// set state sur la nouvelle copie slicée
-
 import React, { Component } from "react";
 import Swipeout from "react-native-swipeout";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -32,10 +28,6 @@ export default class MyLikes extends Component {
     activeRowKey: null
   };
 
-  _onRefresh = () => {
-    this.setState({ refreshing: true });
-  };
-
   getMyLikes() {
     store.get("userToken").then(res => {
       const config = {
@@ -46,6 +38,7 @@ export default class MyLikes extends Component {
       axios
         .get("https://hearme-api.herokuapp.com/api/user/getMyLikes", config)
         .then(response => {
+          console.log(response.data);
           this.setState({
             myLikes: response.data,
             isLoading: false
@@ -86,7 +79,23 @@ export default class MyLikes extends Component {
                 {
                   text: "Yes",
                   onPress: () => {
-                    //axios --> call the API to remove the item from the list
+                    store.get("userToken").then(res => {
+                      const config = {
+                        headers: {
+                          Authorization: "Bearer " + res.token
+                        }
+                      };
+                      axios
+                        .get(
+                          "https://hearme-api.herokuapp.com/api/user/like/artist/" +
+                            item.songKickId,
+                          config
+                        )
+                        .then(response => {
+                          console.log(response.data);
+                        });
+                    });
+
                     let newArtists = [...this.state.myLikes];
                     for (let j = 0; j < newArtists.length; j++) {
                       if (newArtists[j].songKickId === item.songKickId) {
@@ -147,6 +156,11 @@ export default class MyLikes extends Component {
   };
 
   // rendering the FlatList "renderArtistList" calling the the function renderArtistItem
+
+  _onRefresh = () => {
+    this.getMyLikes();
+  };
+
   renderArtistsList() {
     return (
       <FlatList
@@ -174,18 +188,6 @@ export default class MyLikes extends Component {
       );
     } else {
       return <React.Fragment>{this.renderArtistsList()}</React.Fragment>;
-      // const like = [];
-      // for (let i = 0; i < this.state.myLikes.length; i++) {
-      //   like.push(
-      //     <TouchableOpacity>
-      //       <View>
-      //         <Text>{this.state.myLikes[i].displayName}</Text>
-      //       </View>
-      //     </TouchableOpacity>
-      //   );
-      // }
-
-      // return <React.Fragment>{this.renderArtistsList()}</React.Fragment>;
     }
   }
 }

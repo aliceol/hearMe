@@ -12,9 +12,9 @@ import {
   ScrollView,
   ImageBackground,
   ActivityIndicator,
+  FlatList,
   AlertIOS
 } from "react-native";
-import ButtonLike from "../../Components/ButtonLike";
 
 export default class Venue extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -28,29 +28,30 @@ export default class Venue extends Component {
       color: "white"
     }
   });
-
   state = {
-    thisVenue: [],
+    thisVenue: {},
+    events: [],
     isLoading: true
   };
 
-  /* getVenueInfo() {
+  _keyExtractor = (item, index) => item._id;
+
+  getVenueInfo() {
+    console.log(this.props.navigation.state.params.id);
     axios
       .get(
-        "https://hearme-api.herokuapp.com/api/venue/" +
-          this.props.navigation.state.params.id +
-          "-" +
-          this.props.navigation.state.params.name +
-          "/1"
+        "http://10.90.0.150:3000/api/venues/" +
+          this.props.navigation.state.params.id
       )
       .then(response => {
+        console.log(response.data);
         this.setState({
-          thisArtist: response.data,
+          thisVenue: response.data.response.venueDetails,
+          events: response.data.response.event,
           isLoading: false
         });
       });
   }
- */
 
   render() {
     if (this.state.isLoading) {
@@ -62,42 +63,92 @@ export default class Venue extends Component {
     } else {
       return (
         <React.Fragment>
-          <View style={styles.container}>
-            <Text>Venue Page</Text>
+          <View style={styles.bg}>
+            <View style={styles.venueNameAndStreet}>
+              <Text style={styles.venueName}>
+                {this.state.thisVenue.displayName}
+              </Text>
+              <View style={styles.address}>
+                <Text>{this.state.thisVenue.street + ", "}</Text>
+
+                <Text>{this.state.thisVenue.zip + " "}</Text>
+                <Text>{this.state.thisVenue.metroArea.displayName}</Text>
+              </View>
+            </View>
+            <Text style={styles.upcomingEvents}>Upcoming Events</Text>
+
+            <FlatList
+              keyExtractor={this._keyExtractor}
+              data={this.state.events}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.navigate("EventPage", {
+                        id: item.id
+                      });
+                    }}
+                  >
+                    <View style={styles.rowitem}>
+                      <View style={styles.card}>
+                        <View style={styles.month}>
+                          <Text style={styles.textMonth}>
+                            {moment(item.start.date).format("MMM")}
+                          </Text>
+                        </View>
+                        <Text style={styles.textNumber}>
+                          {item.start.date.substring(8)}
+                        </Text>
+                      </View>
+                      <View style={styles.content}>
+                        <View style={styles.cityAndVenue}>
+                          <Text style={styles.artistName}>
+                            {item.performance[0].displayName}
+                          </Text>
+                          <View style={styles.markerAndText}>
+                            <Icon
+                              name="clock-o"
+                              size={20}
+                              style={styles.mapMarker}
+                            />
+                            <Text style={styles.textCityName}>
+                              {item.start.time
+                                ? item.start.time.substring(0, 5)
+                                : "N/A"}
+                            </Text>
+                          </View>
+                        </View>
+
+                        <View>
+                          <Icon name="chevron-right" size={25} />
+                        </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+            />
           </View>
         </React.Fragment>
       );
     }
   }
 
-  /* componentDidMount() {
+  componentDidMount() {
     this.getVenueInfo();
-  } */
+  }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 20
+  rowitem: {
+    padding: 15,
+    backgroundColor: "#ecf0f1",
+    flexDirection: "row",
+    borderColor: "#bdc3c7",
+    borderBottomWidth: 1
   },
-  artistImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 80 / 2,
-
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  icons: {
-    height: 20,
-    width: 20
-  },
-  themeColor: {
-    color: "#3498db"
-  },
-  WholeCalendar: {
-    marginTop: 60
+  bg: {
+    backgroundColor: "#ecf0f1"
   },
   upcomingEvents: {
     borderBottomColor: "red",
@@ -107,42 +158,72 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700"
   },
-  unitEvent: {
-    borderColor: "rgba(45,141,214,100)",
-    borderBottomWidth: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
+  month: {
+    height: 25,
+    width: 80,
+    backgroundColor: "#e74c3c",
+    textAlign: "center",
     alignItems: "center",
-    padding: 10
+    justifyContent: "center"
+  },
+  card: {
+    height: 80,
+    width: 80,
+    borderRadius: 5,
+    backgroundColor: "white",
+    overflow: "hidden",
+    alignItems: "center"
+  },
+  textMonth: {
+    fontWeight: "bold",
+    fontSize: 15,
+    color: "white"
+  },
+  textNumber: {
+    fontSize: 35,
+    fontWeight: "700",
+    marginTop: 5
+  },
+  venueName: {
+    fontSize: 25,
+    color: "black",
+    fontWeight: "800"
+  },
+  venueNameAndStreet: {
+    padding: 10,
+    height: 70,
+    justifyContent: "space-between",
+    marginTop: 10
+  },
+  address: {
+    flexDirection: "row"
   },
 
-  date: {
+  cityAndVenue: {
     flexDirection: "column",
-    width: 40,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "justify"
-  },
-  locationMarker: {
-    width: 20,
-    height: 20
-  },
-  location: {
-    flexDirection: "row",
-    width: 50,
-    justifyContent: "space-between"
-  },
-  mapPicker: {
-    color: "#3498db"
+    justifyContent: "space-around",
+
+    height: 80,
+    marginLeft: 20
   },
   artistName: {
-    fontSize: 16,
-    color: "#2980b9"
+    fontSize: 20,
+    fontWeight: "500"
   },
-  centralContent: {
+  markerAndText: {
+    flexDirection: "row"
+  },
+  textCityName: {
+    fontSize: 20
+  },
+  mapMarker: {
+    marginRight: 10,
+    color: "blue"
+  },
+  content: {
+    flexDirection: "row",
     alignItems: "center",
-    height: 60,
-    justifyContent: "space-around"
+    flex: 1,
+    justifyContent: "space-between"
   }
 });
