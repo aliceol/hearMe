@@ -110,7 +110,7 @@ export default class EventCarousel extends Component {
                         name="map-pin"
                         size={30}
                         style={{
-                          color: i === this.state.activeMarker ? "red" : "black"
+                          color: "black"
                         }}
                       />
                     </Text>
@@ -169,6 +169,7 @@ export default class EventCarousel extends Component {
           "/1"
       )
       .then(response => {
+        console.log(response);
         this.setState({
           isLoading: false,
           events: response.data
