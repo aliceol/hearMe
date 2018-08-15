@@ -40,7 +40,18 @@ export default class TabViewPage extends React.Component {
       isOpen: false,
       isDisabled: false,
       swipeToClose: true,
-      cities: ["Paris", "Berlin", "Barcelona", "London", "Oslo"],
+      cities: [
+        "Paris",
+        "Berlin",
+        "Barcelona",
+        "London",
+        "Oslo",
+        "Shanghai",
+        "Hong-Kong",
+        "Bordeaux",
+        "Cannes",
+        "Nice"
+      ],
       query: "",
       matchingCities: []
     };
@@ -51,7 +62,12 @@ export default class TabViewPage extends React.Component {
     Berlin: "28443",
     Barcelona: "28714",
     London: "24426",
-    Oslo: "31422"
+    Oslo: "31422",
+    Shanghai: "28033",
+    HongKong: "34358",
+    Bordeaux: "28851",
+    Cannes: "28857",
+    Nice: "28903"
   };
 
   citiesCoordinates = {
@@ -59,7 +75,12 @@ export default class TabViewPage extends React.Component {
     Berlin: { lat: 52.52, lng: 13.405 },
     Barcelona: { lat: 41.3851, lng: 2.1734 },
     London: { lat: 51.5074, lng: 0.1278 },
-    Oslo: { lat: 59.9139, lng: 10.7522 }
+    Oslo: { lat: 59.9139, lng: 10.7522 },
+    Shanghai: { lat: 31.226444, lng: 121.560501 },
+    HongKong: { lat: 22.302219, lng: 114.174637 },
+    Bordeaux: { lat: 44.837994, lng: -0.576675 },
+    Cannes: { lat: 43.552849, lng: 7.017369 },
+    Nice: { lat: 43.675819, lng: 7.289429 }
   };
 
   compareCities = () => {

@@ -42,6 +42,8 @@ export default class MyProfile extends React.Component {
     // if (this.state.isLoading) {
     //   return <Text>is loading</Text>;
     // } else
+
+    //    console.log("this.props.rootNavigation", this.props.rootNavigation);
     return (
       <React.Fragment>
         <View style={styles.container}>

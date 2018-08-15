@@ -106,16 +106,6 @@ export default class EventPage extends Component {
                 source={require("../../Components/ConcertCard/photos/concert3.jpg")}
                 style={styles.artistsPicture}
               />
-              <Icon
-                name="play"
-                size={20}
-                color="white"
-                style={{
-                  position: "absolute",
-                  top: 20,
-                  left: 23
-                }}
-              />
             </View>
 
             <Text style={{ fontSize: 10, marginTop: 5, textAlign: "center" }}>
@@ -206,6 +196,17 @@ export default class EventPage extends Component {
           showsVerticalScrollIndicator={false}
           style={styles.container}
         >
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => this.addToCalendar()}
+          >
+            <Icon
+              name="plus-circle"
+              size={50}
+              color="#7E97FC"
+              style={{ marginLeft: 1 }}
+            />
+          </TouchableOpacity>
           <View>
             <ImageBackground
               source={require("../../../../images/placeholder_concert.jpg")}
@@ -233,9 +234,18 @@ export default class EventPage extends Component {
           </View>
           {this.state.thisEvent.venue ? (
             <View style={styles.infoView}>
-              <Text style={styles.venueName}>
-                {this.state.thisEvent.venue.name}
-              </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate("VenuePage", {
+                    id: this.state.thisEvent.venue.songKickId,
+                    name: this.state.thisEvent.venue.name
+                  })
+                }
+              >
+                <Text style={styles.venueName}>
+                  {this.state.thisEvent.venue.name}
+                </Text>
+              </TouchableOpacity>
               <Text style={styles.venueAddress}>
                 {this.state.thisEvent.venue.address}
               </Text>
@@ -244,14 +254,7 @@ export default class EventPage extends Component {
               </Text>
             </View>
           ) : null}
-          <Text
-            style={{
-              height: 1,
-              width: Dimensions.get("window").width - 35,
-              marginLeft: 15,
-              backgroundColor: "grey"
-            }}
-          />
+          <Text style={styles.greyBar} />
           <View style={styles.infoView}>
             <Text style={styles.titles}>Line Up</Text>
             <ScrollView
@@ -261,14 +264,7 @@ export default class EventPage extends Component {
               {this.renderEventArtists()}
             </ScrollView>
           </View>
-          <Text
-            style={{
-              height: 1,
-              width: Dimensions.get("window").width - 35,
-              marginLeft: 15,
-              backgroundColor: "grey"
-            }}
-          />
+          <Text style={styles.greyBar} />
 
           <View style={styles.infoView}>
             {/* {this.renderMap(this.state.thisEvent.venue)} */}
@@ -327,12 +323,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 15,
     right: 15,
-    backgroundColor: "white",
-    borderRadius: 18,
+    backgroundColor: "red",
+    borderRadius: 27,
     alignItems: "center",
     justifyContent: "center",
-    width: 36,
-    height: 36
+    width: 54,
+    height: 54
   },
   infoView: {
     marginTop: 10,
@@ -347,6 +343,11 @@ const styles = StyleSheet.create({
   venueAddress: {
     fontSize: 12,
     color: "grey"
+  },
+  greyBar: {
+    height: 1,
+    width: Dimensions.get("window").width,
+    backgroundColor: "grey"
   },
   eventTitle: {
     fontSize: 12,

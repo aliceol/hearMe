@@ -5,6 +5,7 @@ import ChooseLocation from "./containers/ChooseLocation";
 import EditUsername from "./containers/EditUsername";
 import EditEmail from "./containers/EditEmail";
 import SpotifyConnect from "./containers/SpotifyConnect";
+import Welcome from "../Welcome/index.js";
 
 const Profile = createStackNavigator({
   MyProfile: {
@@ -92,6 +93,9 @@ const Profile = createStackNavigator({
         color: "white"
       }
     }
+  },
+  WelcomeScreen: {
+    screen: Welcome
   }
 });
 export default Profile;

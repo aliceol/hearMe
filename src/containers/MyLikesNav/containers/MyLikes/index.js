@@ -49,7 +49,22 @@ export default class MyLikes extends Component {
 
   componentDidMount() {
     this.getMyLikes();
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "willFocus",
+      () => {
+        this.getMyLikes();
+      }
+    );
   }
+
+  componentWillUnmount() {
+    this.willFocusSubscription.remove();
+  }
+
+  refreshData = () => {
+    this.setState({ isLoading: true });
+    this.getMyLikes();
+  };
 
   //rendering one artist from the SK API
   renderArtistItem = ({ item }, index) => {
