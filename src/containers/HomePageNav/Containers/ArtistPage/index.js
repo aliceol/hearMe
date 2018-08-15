@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
 import moment from "moment";
-
+import store from "react-native-simple-store";
 import {
   StyleSheet,
   View,
@@ -11,15 +11,16 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
-  ActivityIndicator
+  ActivityIndicator,
+  AlertIOS
 } from "react-native";
 import ButtonLike from "../../Components/ButtonLike";
 
-export default class LoginForm extends Component {
+export default class ArtistPage extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeftContainerStyle: { paddingLeft: 10 },
     headerTintColor: "white",
-    // title: navigation.state.params.title,
+    title: navigation.state.params.name,
     headerStyle: {
       backgroundColor: "rgba(45,141,214,100)"
     },
@@ -51,7 +52,27 @@ export default class LoginForm extends Component {
   }
 
   //onLike function will call the API to register the Like.
-  onLike = () => {};
+  onLike = () => {
+    store.get("userToken").then(res => {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + res.token
+        }
+      };
+
+      axios
+        .get(
+          "https://hearme-api.herokuapp.com/api/user/like/artist/" +
+            this.props.navigation.state.params.id,
+          config
+        )
+        ///then console.log(req.user.events)
+        // dans MyCalendar --> faire le componentdidmount pour récupérer le tableau des events de l'utilisateur
+        .then(response => {
+          AlertIOS.alert("You just added this artist to your likes");
+        });
+    });
+  };
   render() {
     if (this.state.isLoading) {
       return (
@@ -77,8 +98,7 @@ export default class LoginForm extends Component {
         } else {
           eventCity = myResult.event[i].location.city;
         }
-        console.log("id", myResult.event[i].id);
-        console.log("name", myResult.event[i].name);
+
         myEvent.push(
           <TouchableOpacity
             onPress={() => {
@@ -88,68 +108,63 @@ export default class LoginForm extends Component {
               });
             }}
             style={styles.unitEvent}
+            key={i}
           >
-            <Text style={styles.date}>
+            <View style={styles.rowitem}>
+              <View style={styles.card}>
+                <View style={styles.month}>
+                  <Text style={styles.textMonth}>
+                    {" "}
+                    {moment(myResult.event[i].start.date).format("MMM")}
+                  </Text>
+                </View>
+                <Text style={styles.textNumber}>
+                  {myResult.event[i].start.date.substring(8)}
+                </Text>
+              </View>
+              <View style={styles.content}>
+                <View style={styles.cityAndVenue}>
+                  <Text style={styles.artistName}>{eventName}</Text>
+                  <View style={styles.markerAndText}>
+                    <Icon
+                      name="map-marker"
+                      size={20}
+                      style={styles.mapMarker}
+                    />
+                    <Text style={styles.textCityName}>{eventCity}</Text>
+                  </View>
+                </View>
+
+                <View>
+                  <Icon name="chevron-right" size={25} />
+                </View>
+              </View>
+            </View>
+
+            {/* <Text style={styles.date}>
               {moment(myResult.event[i].start.date).format("MMM Do YY")}
             </Text>
             <Text>{eventName}</Text>
-            <Text>{eventCity}</Text>
+            <Text>{eventCity}</Text> */}
           </TouchableOpacity>
         );
       }
       return (
-        <React.Fragment>
+        <ScrollView style={{ backgroundColor: "#ecf0f1" }}>
           <View style={styles.container}>
-            <ImageBackground
+            <Image
               style={styles.artistImage}
               source={require("../../../../images/artist_2.jpg")}
               imageStyle={{ borderRadius: 40 }}
-            >
-              <Image
-                style={styles.icons}
-                source={require("../../../../images/player.png")}
-              />
-            </ImageBackground>
-            {/* <Text>{this.props.navigation.state.params.name}</Text> */}
+            />
+
             <ButtonLike onLike={this.onLike} />
           </View>
           <View style={styles.WholeCalendar}>
             <Text style={styles.upcomingEvents}>Upcoming Events</Text>
-            {/* <ScrollView>
-              <View style={styles.unitEvent}>
-                <View style={styles.date}>
-                  <Text>WED</Text>
-                  <Text style={styles.themeColor}>20</Text>
-                  <Text style={styles.themeColor}>JUN</Text>
-                </View>
-                <View style={styles.centralContent}>
-                  <Text>Venue Name</Text>
-                </View>
-
-                <View style={styles.location}>
-                  <Icon name="map-marker" size={20} style={styles.mapPicker} />
-                  <Text>City</Text>
-                </View>
-              </View>
-              <View style={styles.unitEvent}>
-                <View style={styles.date}>
-                  <Text>WED</Text>
-                  <Text style={styles.themeColor}>20</Text>
-                  <Text style={styles.themeColor}>JUN</Text>
-                </View>
-                <View style={styles.centralContent}>
-                  <Text>Venue Name</Text>
-                </View>
-
-                <View style={styles.location}>
-                  <Icon name="map-marker" size={20} style={styles.mapPicker} />
-                  <Text>City</Text>
-                </View>
-              </View>
-            </ScrollView> */}
-            <ScrollView>{myEvent}</ScrollView>
+            <View>{myEvent}</View>
           </View>
-        </React.Fragment>
+        </ScrollView>
       );
     }
   }
@@ -163,6 +178,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
+
     margin: 20
   },
   artistImage: {
@@ -181,7 +197,113 @@ const styles = StyleSheet.create({
     color: "#3498db"
   },
   WholeCalendar: {
-    marginTop: 60
+    marginTop: 20
+  },
+  // upcomingEvents: {
+  //   borderBottomColor: "red",
+  //   borderBottomWidth: 1,
+  //   paddingLeft: 10,
+  //   paddingBottom: 10,
+  //   fontSize: 18,
+  //   fontWeight: "700"
+  // },
+  // unitEvent: {
+  //   borderColor: "rgba(45,141,214,100)",
+  //   borderBottomWidth: 1,
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   padding: 10
+  // },
+
+  // date: {
+  //   flexDirection: "column",
+  //   width: 40,
+  //   height: 60,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   textAlign: "justify"
+  // },
+  // locationMarker: {
+  //   width: 20,
+  //   height: 20
+  // },
+  // location: {
+  //   flexDirection: "row",
+  //   width: 50,
+  //   justifyContent: "space-between"
+  // },
+  // mapPicker: {
+  //   color: "#3498db"
+  // },
+  // artistName: {
+  //   fontSize: 16,
+  //   color: "#2980b9"
+  // },
+  // centralContent: {
+  //   alignItems: "center",
+  //   height: 60,
+  //   justifyContent: "space-around"
+  // },
+  rowitem: {
+    padding: 15,
+    backgroundColor: "#ecf0f1",
+    flexDirection: "row",
+    borderColor: "#bdc3c7",
+    borderBottomWidth: 1
+  },
+  month: {
+    height: 25,
+    width: 80,
+    backgroundColor: "#e74c3c",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  card: {
+    height: 80,
+    width: 80,
+    borderRadius: 5,
+    backgroundColor: "white",
+    overflow: "hidden",
+    alignItems: "center"
+  },
+  textMonth: {
+    fontWeight: "bold",
+    fontSize: 15,
+    color: "white"
+  },
+  textNumber: {
+    fontSize: 35,
+    fontWeight: "700",
+    marginTop: 5
+  },
+  cityAndVenue: {
+    flexDirection: "column",
+    justifyContent: "space-around",
+
+    height: 80,
+    marginLeft: 20
+  },
+  artistName: {
+    fontSize: 20,
+    fontWeight: "700"
+  },
+  markerAndText: {
+    flexDirection: "row"
+  },
+  textCityName: {
+    fontSize: 20
+  },
+  mapMarker: {
+    marginRight: 10,
+    color: "blue"
+  },
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "space-between"
   },
   upcomingEvents: {
     borderBottomColor: "red",
@@ -189,44 +311,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingBottom: 10,
     fontSize: 18,
-    fontWeight: "700"
-  },
-  unitEvent: {
-    borderColor: "rgba(45,141,214,100)",
-    borderBottomWidth: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10
-  },
 
-  date: {
-    flexDirection: "column",
-    width: 40,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "justify"
-  },
-  locationMarker: {
-    width: 20,
-    height: 20
-  },
-  location: {
-    flexDirection: "row",
-    width: 50,
-    justifyContent: "space-between"
-  },
-  mapPicker: {
-    color: "#3498db"
-  },
-  artistName: {
-    fontSize: 16,
-    color: "#2980b9"
-  },
-  centralContent: {
-    alignItems: "center",
-    height: 60,
-    justifyContent: "space-around"
+    fontWeight: "700"
   }
 });

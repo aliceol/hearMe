@@ -7,97 +7,60 @@ import store from "react-native-simple-store";
 import axios from "axios";
 
 export default class MyProfile extends React.Component {
-  // state = {
-  //   isLoading: true,
-  //   userName: ""
-  // };
+  state = {
+    isLoading: true,
+    userName: ""
+  };
 
-  // componentDidMount() {
-  //   axios
-  //     .get("https://hearme-api.herokuapp.com/api/user/getMyInfo")
-  //     .then(response => {
-  //       console.log(response);
-  //       this.setState({
-  //         userName: response.data,
-  //         isLoading: false
-  //       });
-  //       console.log(response.data);
-  //     });
-  // }
+  componentWillUnmount() {
+    store.get("userName").then(res => {
+      this.setState({
+        userName: res.userName
+      });
+    });
+  }
+
+  componentDidMount() {
+    store.get("userToken").then(res => {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + res.token
+        }
+      };
+      axios
+        .get("https://hearme-api.herokuapp.com/api/user/getMyInfo", config)
+        .then(response => {
+          this.setState({
+            userName: response.data,
+            isLoading: false
+          });
+        });
+    });
+  }
 
   render() {
     // if (this.state.isLoading) {
     //   return <Text>is loading</Text>;
     // } else
+
+    //    console.log("this.props.rootNavigation", this.props.rootNavigation);
     return (
       <React.Fragment>
         <View style={styles.container}>
           <View style={styles.photocontainer}>
             <Avatar />
-            <Text style={styles.usernameDisplay}>Username</Text>
+            <Text style={styles.usernameDisplay}>{this.state.userName}</Text>
           </View>
 
           <View style={styles.allOptions}>
-            {/* 
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate("MySettings");
-              }}
-            >
-              <View style={styles.oneOption}>
-                <View style={styles.iconAndText}>
-                  <View style={{ paddingLeft: 30 }}>
-                    <Icon name="cog" size={30} style={styles.fontAwesomeCal} />
-                    <Text style={styles.optionTitle}>Settings</Text>
-                  </View>
-                </View>
-                <Icon name="chevron-right" size={20} style={styles.chevron} />
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate("ChooseLocation");
-              }}
-            >
-              <View style={styles.oneOption}>
-                <View style={styles.iconAndText}>
-                  <Icon
-                    name="location-arrow"
-                    size={30}
-                    style={styles.fontAwesomeLoc}
-                  />
-
-                  <Text style={styles.optionTitle}>Location</Text>
-                </View>
-                <Icon name="chevron-right" size={20} style={styles.chevron} />
-              </View>
-            </TouchableOpacity> */}
-
-            {/* <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate("MyLikes", {
-                  artists: [2596951, 253846, 757422]
-                });
-              }}
-            >
-              <View style={styles.lastOption}>
-                <View style={styles.iconAndText}>
-                  <Icon
-                    name="heart"
-                    size={20}
-                    style={styles.fontAwesomeHeart}
-                  />
-
-                  <Text style={styles.optionTitle}>My Likes</Text>
-                </View>
-                <Icon name="chevron-right" size={20} style={styles.chevron} />
-              </View>
-            </TouchableOpacity> */}
             <TouchableOpacity
               style={styles.oneOption}
               onPress={() => {
-                this.props.navigation.navigate("MySettings");
+                this.props.navigation.navigate("MySettings", {
+                  onSave: name => {
+                    this.setState({ userName: name });
+                  }
+                });
               }}
             >
               <View style={styles.iconAndText}>

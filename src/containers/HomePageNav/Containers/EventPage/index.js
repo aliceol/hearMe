@@ -2,17 +2,21 @@ import React, { Component } from "react";
 import {
   Text,
   View,
+  Button,
   ScrollView,
   ActivityIndicator,
   StyleSheet,
   Image,
   Dimensions,
   TouchableOpacity,
-  AlertIOS
+  AlertIOS,
+  WebView,
+  ImageBackground
 } from "react-native";
 
 import { withNavigation } from "react-navigation";
-import MapView from "react-native-maps";
+import { MapView, Marker } from "react-native-maps";
+import store from "react-native-simple-store";
 
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -34,12 +38,33 @@ export default class EventPage extends Component {
       .then(response => {
         this.setState({
           thisEvent: response.data,
-          isLoading: false,
-          userToken: this.props.navigation.state.params.token
+          isLoading: false
         });
       })
       .catch(err => console.log("getThisEvent", err));
   }
+
+  addToCalendar = () => {
+    store.get("userToken").then(res => {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + res.token
+        }
+      };
+
+      axios
+        .get(
+          "https://hearme-api.herokuapp.com/api/user/add/event/" +
+            this.props.navigation.state.params.id,
+          config
+        )
+        ///then console.log(req.user.events)
+        // dans MyCalendar --> faire le componentdidmount pour récupérer le tableau des events de l'utilisateur
+        .then(response => {
+          AlertIOS.alert("You just added this event to your calendar");
+        });
+    });
+  };
 
   refreshData = () => {
     this.setState({ isLoading: true });
@@ -49,19 +74,21 @@ export default class EventPage extends Component {
   renderEventArtists() {
     if (this.state.thisEvent.performance) {
       const eventArtists = [];
-      let artistName = "";
+      let artistName = "Hello World";
 
       for (let i = 0; i < this.state.thisEvent.performance.length; i++) {
-        if (
-          this.state.thisEvent.performance[i].artist.displayName.length > 12
-        ) {
-          artistName =
-            this.state.thisEvent.performance[i].artist.displayName.substr(
-              0,
-              12
-            ) + "...";
-        } else {
-          artistName = this.state.thisEvent.performance[i].artist.displayName;
+        if (this.state.thisEvent.performance.length > 0) {
+          if (
+            this.state.thisEvent.performance[i].artist.displayName.length > 12
+          ) {
+            artistName =
+              this.state.thisEvent.performance[i].artist.displayName.substr(
+                0,
+                12
+              ) + "...";
+          } else {
+            artistName = this.state.thisEvent.performance[i].artist.displayName;
+          }
         }
         eventArtists.push(
           <TouchableOpacity
@@ -79,16 +106,6 @@ export default class EventPage extends Component {
                 source={require("../../Components/ConcertCard/photos/concert3.jpg")}
                 style={styles.artistsPicture}
               />
-              <Icon
-                name="play"
-                size={20}
-                color="white"
-                style={{
-                  position: "absolute",
-                  top: 20,
-                  left: 23
-                }}
-              />
             </View>
 
             <Text style={{ fontSize: 10, marginTop: 5, textAlign: "center" }}>
@@ -103,6 +120,69 @@ export default class EventPage extends Component {
     }
   }
 
+  renderMap = venue => {
+    if (venue.lat) {
+      return (
+        <MapView
+          style={{
+            height: 300,
+            width: Dimensions.get("window").width - 20
+          }}
+          initialRegion={{
+            latitude: Number(venue.lat),
+            longitude: Number(venue.lng),
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01
+          }}
+          rotateEnabled={false}
+          scrollEnabled={false}
+        >
+          <Marker
+            coordinate={{
+              latitude: Number(venue.lat),
+              longitude: Number(venue.lng)
+            }}
+            title={venue.name}
+          />
+        </MapView>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  renderAddtionalDetails = event => {
+    if (event.additionalDetails) {
+      return (
+        <View>
+          <Text style={styles.titles}>Additionnal Details</Text>
+          <Text>{event.additionalDetails}</Text>
+        </View>
+      );
+    }
+  };
+
+  renderBio = event => {
+    if (event.biography) {
+      return (
+        <View>
+          <Text style={styles.titles}>
+            {event.performance[0].artist.displayName} Biography
+          </Text>
+          <Text>{event.biography}</Text>
+          <Button
+            title="Read More..."
+            onPress={() =>
+              this.props.navigation.navigate("WebView", {
+                URI: "https://www.songkick.com" + event.biographyLink
+              })
+            }
+          />
+        </View>
+      );
+    }
+  };
+  // {event.biographyLink}
   render() {
     if (this.state.isLoading) {
       return (
@@ -116,27 +196,33 @@ export default class EventPage extends Component {
           showsVerticalScrollIndicator={false}
           style={styles.container}
         >
-          <View>
-            <Image
-              style={styles.image}
-              source={require("../../Components/ConcertCard/photos/concert1.jpg")}
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => this.addToCalendar()}
+          >
+            <Icon
+              name="plus-circle"
+              size={50}
+              color="#7E97FC"
+              style={{ marginLeft: 1 }}
             />
+          </TouchableOpacity>
+          <View>
+            <ImageBackground
+              source={require("../../../../images/placeholder_concert.jpg")}
+              style={styles.image}
+            >
+              <Image
+                style={styles.image}
+                source={{
+                  uri:
+                    "https://www.songkick.com/" + this.state.thisEvent.photoURI
+                }}
+              />
+            </ImageBackground>
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() =>
-                axios
-                  .get(
-                    "https://hearme-api.herokuapp.com/api/event/" +
-                      this.props.navigation.state.params.id
-                  )
-                  ///then console.log(req.user.events)
-                  // dans MyCalendar --> faire le componentdidmount pour récupérer le tableau des events de l'utilisateur
-                  .then(response => {
-                    AlertIOS.alert(
-                      "You just added this event to your calendar"
-                    );
-                  })
-              }
+              onPress={() => this.addToCalendar()}
             >
               <Icon
                 name="plus-circle"
@@ -148,9 +234,18 @@ export default class EventPage extends Component {
           </View>
           {this.state.thisEvent.venue ? (
             <View style={styles.infoView}>
-              <Text style={styles.venueName}>
-                {this.state.thisEvent.venue.name}
-              </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate("VenuePage", {
+                    id: this.state.thisEvent.venue.songKickId,
+                    name: this.state.thisEvent.venue.name
+                  })
+                }
+              >
+                <Text style={styles.venueName}>
+                  {this.state.thisEvent.venue.name}
+                </Text>
+              </TouchableOpacity>
               <Text style={styles.venueAddress}>
                 {this.state.thisEvent.venue.address}
               </Text>
@@ -159,14 +254,7 @@ export default class EventPage extends Component {
               </Text>
             </View>
           ) : null}
-          <Text
-            style={{
-              height: 1,
-              width: Dimensions.get("window").width - 35,
-              marginLeft: 15,
-              backgroundColor: "grey"
-            }}
-          />
+          <Text style={styles.greyBar} />
           <View style={styles.infoView}>
             <Text style={styles.titles}>Line Up</Text>
             <ScrollView
@@ -176,39 +264,31 @@ export default class EventPage extends Component {
               {this.renderEventArtists()}
             </ScrollView>
           </View>
-          <Text
-            style={{
-              height: 1,
-              width: Dimensions.get("window").width - 35,
-              marginLeft: 15,
-              backgroundColor: "grey"
-            }}
-          />
+          <Text style={styles.greyBar} />
 
           <View style={styles.infoView}>
-            <MapView
-              style={{
-                height: 100,
-                width: Dimensions.get("window").width - 20
-              }}
-              initialRegion={{
-                latitude: 48.856614,
-                longitude: 2.3522219,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421
-              }}
-            />
-            <Text style={styles.titles}>Description</Text>
-            <Text>
-              Dumque ibi diu moratur commeatus opperiens, quorum translationem
-              ex Aquitania verni imbres solito crebriores prohibebant auctique
-              torrentes, Herculanus advenit protector domesticus, Hermogenis ex
-              magistro equitum filius, apud Constantinopolim, ut supra
-              rettulimus, populari quondam turbela discerpti. quo verissime
-              referente quae Gallus egerat, damnis super praeteritis maerens et
-              futurorum timore suspensus angorem animi quam diu potuit
-              emendabat.
-            </Text>
+            {/* {this.renderMap(this.state.thisEvent.venue)} */}
+            {this.renderBio(this.state.thisEvent)}
+            {this.renderAddtionalDetails(this.state.thisEvent)}
+            <Text style={styles.titles}>More Info</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                style={styles.sk_logo}
+                source={require("../../../../images/powered-by-songkick-pink.png")}
+              />
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate("WebView", {
+                    URI:
+                      this.state.thisEvent.uri.slice(0, 4) +
+                      "s" +
+                      this.state.thisEvent.uri.slice(4)
+                  })
+                }
+              >
+                <Text>Browse this event on SongKick Website</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       );
@@ -233,23 +313,22 @@ export default class EventPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    marginTop: 20
+    backgroundColor: "white"
   },
   image: {
     width: Dimensions.get("window").width,
-    height: 200
+    height: Dimensions.get("window").width
   },
   addButton: {
     position: "absolute",
     top: 15,
     right: 15,
     backgroundColor: "white",
-    borderRadius: 18,
+    borderRadius: 27,
     alignItems: "center",
     justifyContent: "center",
-    width: 36,
-    height: 36
+    width: 54,
+    height: 54
   },
   infoView: {
     marginTop: 10,
@@ -264,6 +343,11 @@ const styles = StyleSheet.create({
   venueAddress: {
     fontSize: 12,
     color: "grey"
+  },
+  greyBar: {
+    height: 1,
+    width: Dimensions.get("window").width,
+    backgroundColor: "grey"
   },
   eventTitle: {
     fontSize: 12,
@@ -289,5 +373,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginBottom: 30,
     marginTop: 5
+  },
+  sk_logo: {
+    width: 100,
+    height: 30,
+    resizeMode: "contain"
   }
 });

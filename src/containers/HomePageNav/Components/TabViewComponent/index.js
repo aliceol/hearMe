@@ -10,24 +10,24 @@ class TabViewComponent extends React.Component {
     super(props);
     this.state = {
       index: 0,
-      cityName: props.state.cityName,
-      cityCode: props.state.cityCode,
+      cityName: props.cityName,
+      cityCode: props.cityCode,
       routes: [
         {
-          key: props.state.routes[0].key,
-          title: props.state.routes[0].title,
-          cityCode: props.state.routes[0].cityCode
+          key: props.routes[0].key,
+          title: props.routes[0].title,
+          cityCode: props.routes[0].cityCode
         },
         {
-          key: props.state.routes[1].key,
-          title: props.state.routes[1].title,
-          cityCode: props.state.routes[1].cityCode
+          key: props.routes[1].key,
+          title: props.routes[1].title,
+          cityCode: props.routes[1].cityCode
         }
       ],
       isOpen: false,
       isDisabled: false,
       swipeToClose: true,
-      cities: props.state.cities,
+      cities: props.cities,
       query: "",
       matchingCities: []
     };

@@ -1,9 +1,32 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
+import store from "react-native-simple-store";
 
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
+import { StackActions, NavigationActions } from "react-navigation";
+
 export default class Settings extends Component {
+  state = {
+    isLoading: true,
+    userName: "",
+    email: ""
+  };
+
+  componentDidMount() {
+    store.get("userName").then(res => {
+      this.setState({
+        userName: res.userName
+      });
+    });
+
+    store.get("email").then(res => {
+      this.setState({
+        email: res.email
+      });
+    });
+  }
+
   static navigationOptions = {
     headerBackTitle: null,
     headerLeftContainerStyle: { paddingLeft: 10 },
@@ -16,21 +39,29 @@ export default class Settings extends Component {
       color: "white"
     }
   };
-  logout() {
-    alert("log out");
-  }
+  logout = () => {
+    console.log(Object.keys(this.props));
+
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: "WelcomeScreen" })]
+    });
+    this.props.navigation.dispatch(resetAction);
+  };
   render() {
     return (
       <React.Fragment>
         <View style={styles.optionsBlock1}>
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.navigate("EditUsername");
+              this.props.navigation.navigate("EditUsername", {
+                onSave: this.props.navigation.state.params.onSave
+              });
             }}
           >
             <View style={styles.settingOptionsBlock}>
               <Text style={styles.settingInfo}>Username</Text>
-              <Text style={styles.editableInfo}>NameOfTheUser</Text>
+              <Text style={styles.editableInfo}>{this.state.userName}</Text>
             </View>
           </TouchableOpacity>
 
@@ -41,7 +72,7 @@ export default class Settings extends Component {
           >
             <View style={styles.lastSettingOption}>
               <Text style={styles.settingInfo}>Email</Text>
-              <Text style={styles.editableInfo}>Email@oftheuser</Text>
+              <Text style={styles.editableInfo}>{this.state.email}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -64,7 +95,7 @@ const styles = StyleSheet.create({
   optionsBlock1: {
     marginTop: 40,
     borderColor: "grey",
-    backgroundColor: "lightgrey",
+    backgroundColor: "whitesmoke",
     borderTopWidth: 1,
     borderBottomWidth: 1
   },
@@ -96,7 +127,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     borderBottomWidth: 1,
     borderTopWidth: 1,
-    backgroundColor: "lightgrey",
+    backgroundColor: "whitesmoke",
 
     flexDirection: "row",
     alignItems: "center"

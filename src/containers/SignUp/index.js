@@ -60,10 +60,7 @@ export default class SignUp extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.signupInfo}>
-          Please enter the following information to create your HearMe account
-          and start exploring concerts nearby!
-        </Text>
+        <Text style={styles.signupInfo}>Create an account</Text>
         <View style={styles.allInputs}>
           <TextInput
             value={this.state.userName}
@@ -117,7 +114,6 @@ export default class SignUp extends Component {
                 disabled={this.state.btnNextDisable}
                 style={styles.nextButton}
                 onPress={() => {
-                  console.log("store", store);
                   axios
                     .post("https://hearme-api.herokuapp.com/api/user/sign_up", {
                       userName: this.state.userName,
@@ -126,13 +122,15 @@ export default class SignUp extends Component {
                     })
                     .then(response => {
                       if (response.data && response.data.token) {
-                        console.log(response.data);
+                        store.delete("userAvatar");
 
-                        store.save("userToken", {}).then(() =>
-                          store.update("userToken", {
-                            token: response.data.token
-                          })
-                        );
+                        store.save("userToken", { token: response.data.token });
+                        store.save("userName", {
+                          userName: response.data.account.userName
+                        });
+                        store.save("email", {
+                          email: response.data.account.email
+                        });
                         this.props.navigation.navigate("TabScreen");
                       }
                     })

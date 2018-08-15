@@ -19,7 +19,7 @@ import axios from "axios";
 
 import ConcertCard from "../../Components/ConcertCard";
 
-export default class HomePageUpcoming extends Component {
+export default class HomePagePopular extends Component {
   static navigationOptions = {
     title: "HomePageUpcoming"
   };
@@ -33,8 +33,7 @@ export default class HomePageUpcoming extends Component {
   getEvents() {
     axios
       .get(
-        "https://hearme-api.herokuapp.com/api/city/popular/" +
-          this.props.route.cityCode
+        "http://10.90.0.150:3000/api/city/popular/" + this.props.route.cityCode
       )
       .then(response => {
         this.setState({
@@ -98,39 +97,3 @@ const styles = StyleSheet.create({
     backgroundColor: "#F4F8FF"
   }
 });
-
-/* <SectionList
-          
-          renderItem={({ item, index, section }) => (
-            <View key={index}>{item}</View>
-          )}
-          renderSectionHeader={({ section: { title } }) => (
-            <Text
-              style={[
-                {
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100%",
-                  textAlign: "center",
-                  marginBottom: 10,
-                  paddingVertical: 5,
-                  fontWeight: "bold",
-                  color: "#2D3436"
-                },
-                styles.backgroundOfPage
-              ]}
-            >
-              {this.renderDateTitle(title)}
-            </Text>
-          )}
-          sections={sectionListData}
-          keyExtractor={(item, index) => item + index}
-        /> */
-/* <Flatlist
-          data={this.state.events}
-          keyExtractor={(item, index) => item}
-          renderItem={({ obj }) => <Text>{obj.title}</Text>}
-        /> */
-
-/* <ConcertCard event={obj.item} navigate={this.props.navigate} /> */

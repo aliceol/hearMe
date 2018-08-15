@@ -91,12 +91,26 @@ export default class Login extends Component {
                     })
                     .then(response => {
                       if (response.data && response.data.token) {
+                        if (response.data.account.profilePic) {
+                          store.save(
+                            "userAvatar",
+                            response.data.account.profilePic
+                          );
+                        } else {
+                          store.delete("userAvatar");
+                        }
+
                         store.save("userToken", { token: response.data.token });
+                        store.save("userName", {
+                          userName: response.data.account.userName
+                        });
+                        store.save("email", {
+                          email: response.data.account.email
+                        });
                         this.props.navigation.navigate("TabScreen", {});
                       }
                     })
                     .catch(err => {
-                      console.log(err.response.status);
                       if (err.response.status === 401) {
                         alert("Wrong password");
                       } else if (err.response.status === 400) {

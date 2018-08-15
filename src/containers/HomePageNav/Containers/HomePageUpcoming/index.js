@@ -20,155 +20,153 @@ import ConcertCard from "../../Components/ConcertCard";
 
 import store from "react-native-simple-store";
 
-export default withNavigation(
-  class HomePageUpcoming extends Component {
-    static navigationOptions = {
-      title: "HomePageUpcoming"
-    };
+export default class HomePageUpcoming extends Component {
+  static navigationOptions = {
+    title: "HomePageUpcoming"
+  };
 
-    state = {
-      events: [],
-      page: 1,
-      isLoading: true,
-      error: "",
-      isLoadingMore: false
-    };
+  state = {
+    events: [],
+    page: 1,
+    isLoading: true,
+    error: "",
+    isLoadingMore: false
+  };
 
-    getEvents() {
-      axios
-        .get(
-          "https://hearme-api.herokuapp.com/api/city/upcoming/" +
-            this.props.route.cityCode +
-            "/" +
-            this.state.page
-        )
-        .then(response => {
-          this.setState({
-            events: [...this.state.events, ...response.data],
-            isLoading: false,
-            isLoadingMore: false
-          });
-        })
-        .catch(function(error) {
-          console.log(
-            "There has been a problem with your operation: " + error.message
-          );
-          throw error;
+  getEvents() {
+    axios
+      .get(
+        "http://10.90.0.150:3000/api/city/upcoming/" +
+          this.props.route.cityCode +
+          "/" +
+          this.state.page
+      )
+      .then(response => {
+        this.setState({
+          events: [...this.state.events, ...response.data],
+          isLoading: false,
+          isLoadingMore: false
         });
-    }
-    // after reaching the end of the displayed events list, this function is called to display 50 more events.
-    handleLoadMore = () => {
-      if (!this.state.isLoadingMore) {
-        this.setState(
-          {
-            page: this.state.page + 1,
-            isLoadingMore: true
-          },
-          () => {
-            this.getEvents();
-          }
+      })
+      .catch(function(error) {
+        console.log(
+          "There has been a problem with your operation: " + error.message
         );
-      }
-    };
-
-    // Storing in an array all dates at which events are happening
-    getDates(events) {
-      dates = [];
-      for (let i = 0; i < events.length; i++) {
-        if (dates.indexOf(events[i].start.date) === -1) {
-          dates.push(events[i].start.date);
+        throw error;
+      });
+  }
+  // after reaching the end of the displayed events list, this function is called to display 50 more events.
+  handleLoadMore = () => {
+    if (!this.state.isLoadingMore) {
+      this.setState(
+        {
+          page: this.state.page + 1,
+          isLoadingMore: true
+        },
+        () => {
+          this.getEvents();
         }
-      }
-      return dates;
-    }
-
-    // rendering in an array all events happening on a defined date
-    renderEventsCard(date, events) {
-      eventsByDate = [];
-      for (let i = 0; i < events.length; i++) {
-        if (events[i].start.date === date) {
-          eventsByDate.push(
-            <ConcertCard event={events[i]} navigation={this.props.navigation} />
-          );
-        }
-      }
-      return eventsByDate;
-    }
-
-    // creating object with adequate formatting for generating the section list
-    renderSectionListContent(events) {
-      let dates = this.getDates(events);
-      let sectionContents = [];
-      for (let i = 0; i < dates.length; i++) {
-        sectionContents.push({
-          title: dates[i],
-          data: this.renderEventsCard(dates[i], events)
-        });
-      }
-      return sectionContents;
-    }
-
-    // formating the date header before the list of events happening at this date
-    renderDateTitle(date) {
-      return (
-        moment(date).format("dddd") + ", " + moment(date).format("MMMM Do")
       );
     }
+  };
 
-    render() {
-      if (this.state.isLoading) {
-        return (
-          <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-        );
-      } else {
-        sectionListData = this.renderSectionListContent(this.state.events);
-        // SectionList used with onEndReached for infinite scrolling
-        return (
-          <SectionList
-            style={[
-              {
-                paddingHorizontal: 10
-              },
-              styles.backgroundOfPage
-            ]}
-            renderItem={({ item, index, section }) => (
-              <View key={index}>{item}</View>
-            )}
-            renderSectionHeader={({ section: { title } }) => (
-              <Text
-                style={[
-                  {
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100%",
-                    textAlign: "center",
-                    marginBottom: 10,
-                    paddingVertical: 5,
-                    fontWeight: "bold",
-                    color: "#2D3436"
-                  },
-                  styles.backgroundOfPage
-                ]}
-              >
-                {this.renderDateTitle(title)}
-              </Text>
-            )}
-            sections={sectionListData}
-            keyExtractor={(item, index) => item + index}
-            onEndReached={this.handleLoadMore}
-            onEndReachedThreshold={100}
-          />
+  // Storing in an array all dates at which events are happening
+  getDates(events) {
+    console.log(events);
+    dates = [];
+    for (let i = 0; i < events.length; i++) {
+      if (dates.indexOf(events[i].start.date) === -1) {
+        dates.push(events[i].start.date);
+      }
+    }
+    console.log(dates.sort());
+    return dates.sort();
+  }
+
+  // rendering in an array all events happening on a defined date
+  renderEventsCard(date, events) {
+    eventsByDate = [];
+    for (let i = 0; i < events.length; i++) {
+      if (events[i].start.date === date) {
+        eventsByDate.push(
+          <ConcertCard event={events[i]} navigation={this.props.navigation} />
         );
       }
     }
-    componentDidMount() {
-      this.getEvents();
+    return eventsByDate;
+  }
+
+  // creating object with adequate formatting for generating the section list
+  renderSectionListContent(events) {
+    let dates = this.getDates(events);
+    let sectionContents = [];
+    for (let i = 0; i < dates.length; i++) {
+      sectionContents.push({
+        title: dates[i],
+        data: this.renderEventsCard(dates[i], events)
+      });
+    }
+    return sectionContents;
+  }
+
+  // formating the date header before the list of events happening at this date
+  renderDateTitle(date) {
+    return moment(date).format("dddd") + ", " + moment(date).format("MMMM Do");
+  }
+
+  render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={[styles.container, styles.horizontal]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
+    } else {
+      sectionListData = this.renderSectionListContent(this.state.events);
+      // SectionList used with onEndReached for infinite scrolling
+      return (
+        <SectionList
+          style={[
+            {
+              paddingHorizontal: 10
+            },
+            styles.backgroundOfPage
+          ]}
+          renderItem={({ item, index, section }) => (
+            <View key={index}>{item}</View>
+          )}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text
+              style={[
+                {
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  textAlign: "center",
+                  marginBottom: 10,
+                  paddingVertical: 5,
+                  fontWeight: "bold",
+                  color: "#2D3436"
+                },
+                styles.backgroundOfPage
+              ]}
+            >
+              {this.renderDateTitle(title)}
+            </Text>
+          )}
+          sections={sectionListData}
+          keyExtractor={(item, index) => item + index}
+          onEndReached={this.handleLoadMore}
+          onEndReachedThreshold={0.3}
+        />
+      );
     }
   }
-);
+  componentDidMount() {
+    this.getEvents();
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
