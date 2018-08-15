@@ -20,6 +20,8 @@ export default class ArtistPage extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeftContainerStyle: { paddingLeft: 10 },
     headerTintColor: "white",
+    headerBackTitle: null,
+
     title: navigation.state.params.name,
     headerStyle: {
       backgroundColor: "rgba(45,141,214,100)"

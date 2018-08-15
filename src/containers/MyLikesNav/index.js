@@ -21,9 +21,9 @@ const MyLikesNav = createStackNavigator({
   ArtistPage: {
     screen: ArtistPage,
     navigationOptions: {
-      //navigationOptions = ({navigation}) =>({headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "#b2bec3",
-      //title: navigation.state.params.name,
+      // headerBackTitle: null,
+
       headerStyle: {
         backgroundColor: "#2d3436"
       },

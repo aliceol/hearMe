@@ -33,7 +33,7 @@ export default class Welcome extends Component {
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={() => {
-                this.props.navigation.navigate("SignUpScreen");
+                this.props.navigation.navigate("SignUp");
               }}
             >
               <Text style={styles.buttonText}>Create an account</Text>
@@ -42,7 +42,7 @@ export default class Welcome extends Component {
             <TouchableOpacity
               style={styles.LoginButtonContainer}
               onPress={() => {
-                this.props.navigation.navigate("LoginScreen");
+                this.props.navigation.navigate("Login");
               }}
             >
               <Text style={styles.LoginButtonText}>Login</Text>

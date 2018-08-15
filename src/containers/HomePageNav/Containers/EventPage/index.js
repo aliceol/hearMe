@@ -22,7 +22,7 @@ import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class EventPage extends Component {
-  static navigationOptions = { header: null };
+  // static navigationOptions = { header: null };
 
   state = {
     thisEvent: [],

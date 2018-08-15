@@ -20,6 +20,8 @@ import {
 } from "react-native";
 
 export default class MyCalendar extends Component {
+  static navigationOptions = { headerBackTitle: null };
+
   state = {
     myCalendar: [],
     isLoading: true,

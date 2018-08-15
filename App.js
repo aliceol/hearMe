@@ -5,18 +5,6 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 
 // TOUTES NOS PAGES
 
-/* import HomePageUpcoming from "./src/containers/HomePageUpcoming";
-import HomePagePopular from "./src/containers/HomePagePopular";
-import EventPage from "./src/containers/EventPage";
-import MyLikes from "./src/containers/MyLikes";
-import ArtistPage from "./src/containers/ArtistPage";
-import MyProfile from "./src/containers/MyProfile";
-import MyCalendar from "./src/containers/MyCalendar";
-import MySettings from "./src/containers/MySettings";
-import HomePage from "./src/containers/HomePage";
-import EditUsername from "./src/containers/EditUsername";
-import EditEmail from "./src/containers/EditEmail";
-import ChooseLocation from "./src/containers/ChooseLocation"; */
 import Welcome from "./src/containers/Welcome";
 import SignUp from "./src/containers/SignUp";
 import Login from "./src/containers/Login";
@@ -31,17 +19,17 @@ const App = createStackNavigator({
     screen: TabScreen,
     navigationOptions: {
       header: null
-    }
-  },
+    },
+    Welcome: {
+      screen: Welcome
+    },
 
-  SignUpScreen: {
-    screen: SignUp
-  },
-  LoginScreen: {
-    screen: Login
-  },
-  WelcomeScreen: {
-    screen: Welcome
+    SignUp: {
+      screen: SignUp
+    },
+    Login: {
+      screen: Login
+    }
   }
 
   /* HomePage: { screen: HomePage },
