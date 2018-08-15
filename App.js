@@ -36,6 +36,12 @@ const App = createStackNavigator({
 
   SignUpScreen: {
     screen: SignUp
+  },
+  LoginScreen: {
+    screen: Login
+  },
+  WelcomeScreen: {
+    screen: Welcome
   }
 
   /* HomePage: { screen: HomePage },
