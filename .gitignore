@@ -56,4 +56,5 @@ buck-out/
 *.jsbundle
 
 #Pod files
-ios/Pods
+ios/Pods/
+
