@@ -33,7 +33,9 @@ export default class ArtistPage extends Component {
 
   state = {
     thisArtist: [],
-    isLoading: true
+    isLoadingArtistInfo: true,
+    isLoadingLikes: true,
+    liked: false
   };
 
   getArtistInfo() {
@@ -41,16 +43,46 @@ export default class ArtistPage extends Component {
       .get(
         "https://hearme-api.herokuapp.com/api/artist/" +
           this.props.navigation.state.params.id +
-          "-" +
-          this.props.navigation.state.params.name +
+          // "-" +
+          // this.props.navigation.state.params.name +
           "/1"
       )
       .then(response => {
-        this.setState({
-          thisArtist: response.data,
-          isLoading: false
-        });
+        console.log("response:", response.data);
+
+        this.setState(
+          {
+            thisArtist: response.data.response.resultsPage.results,
+            isLoadingArtistInfo: false
+          },
+          () => this.artistLiked() // callback of the setState: once the state is set, the function is called
+        );
       });
+  }
+
+  artistLiked() {
+    let artistLiked = [];
+
+    store.get("userToken").then(res => {
+      const config = {
+        headers: {
+          Authorization: "Bearer " + res.token
+        }
+      };
+      axios
+        .get("https://hearme-api.herokuapp.com/api/user/getMyLikes", config)
+        .then(response => {
+          for (let i = 0; i < response.data.length; i++) {
+            artistLiked.push(response.data[i].songKickId);
+          }
+          if (artistLiked.indexOf(this.state.thisArtist.artistId) !== -1) {
+            this.setState({ liked: true });
+          }
+          this.setState({
+            isLoadingLikes: false
+          });
+        });
+    });
   }
 
   //onLike function will call the API to register the Like.
@@ -71,12 +103,18 @@ export default class ArtistPage extends Component {
         ///then console.log(req.user.events)
         // dans MyCalendar --> faire le componentdidmount pour récupérer le tableau des events de l'utilisateur
         .then(response => {
-          AlertIOS.alert("You just added this artist to your likes");
+          AlertIOS.alert(
+            this.state.liked
+              ? "you just removed this artist from your likes"
+              : "You just added this artist to your likes"
+          );
+          this.setState({ liked: !this.state.liked });
         });
     });
   };
   render() {
-    if (this.state.isLoading) {
+    console.log("state", this.state);
+    if (this.state.isLoadingArtistInfo || this.state.isLoadingLikes) {
       return (
         <View style={[styles.container, styles.horizontal]}>
           <ActivityIndicator size="large" color="#0000ff" />
@@ -84,7 +122,7 @@ export default class ArtistPage extends Component {
       );
     } else {
       const myEvent = [];
-      const myResult = this.state.thisArtist.response.resultsPage.results;
+      const myResult = this.state.thisArtist;
       let eventName = "";
       let eventCity = "";
 
@@ -142,25 +180,27 @@ export default class ArtistPage extends Component {
                 </View>
               </View>
             </View>
-
-            {/* <Text style={styles.date}>
-              {moment(myResult.event[i].start.date).format("MMM Do YY")}
-            </Text>
-            <Text>{eventName}</Text>
-            <Text>{eventCity}</Text> */}
           </TouchableOpacity>
         );
       }
       return (
         <ScrollView style={{ backgroundColor: "#ecf0f1" }}>
           <View style={styles.container}>
-            <Image
+            <ImageBackground
               style={styles.artistImage}
-              source={require("../../../../images/artist_2.jpg")}
-              imageStyle={{ borderRadius: 40 }}
-            />
+              source={require("../../../../images/placeholder_concert.jpg")}
+            >
+              <Image
+                style={styles.artistImage}
+                // source={require("../../../../images/artist_2.jpg")}
+                source={{
+                  uri: "https:" + myResult.artistPicURI
+                }}
+                imageStyle={{ borderRadius: 40 }}
+              />
+            </ImageBackground>
 
-            <ButtonLike onLike={this.onLike} />
+            <ButtonLike onLike={this.onLike} liked={this.state.liked} />
           </View>
           <View style={styles.WholeCalendar}>
             <Text style={styles.upcomingEvents}>Upcoming Events</Text>
@@ -186,7 +226,8 @@ const styles = StyleSheet.create({
   artistImage: {
     width: 80,
     height: 80,
-    borderRadius: 80 / 2,
+    borderRadius: 40,
+    overflow: "hidden",
 
     justifyContent: "center",
     alignItems: "center"

@@ -4,7 +4,7 @@ import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 export default class ButtonLike extends Component {
   //by default the button is "liked"(toggle:true) if the user accesses the artist from his "My_Likes"
   state = {
-    toggle: false
+    toggle: this.props.liked
   };
 
   _onPress() {
@@ -15,6 +15,7 @@ export default class ButtonLike extends Component {
     this.props.onLike();
   }
   render() {
+    console.log("bdkdjd", this.state);
     const { toggle } = this.state;
     const textValue = toggle ? "Liked" : "Like";
     const buttonBg = toggle ? "dodgerblue" : "white";
