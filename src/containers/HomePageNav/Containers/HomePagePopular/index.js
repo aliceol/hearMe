@@ -27,18 +27,38 @@ export default class HomePagePopular extends Component {
   state = {
     events: [],
     isLoading: true,
+    isLoadingMore: false,
+    page: 1,
     error: ""
+  };
+
+  handleLoadMore = () => {
+    if (!this.state.isLoadingMore) {
+      this.setState(
+        {
+          page: this.state.page + 1,
+          isLoadingMore: true
+        },
+        () => {
+          this.getEvents();
+        }
+      );
+    }
   };
 
   getEvents() {
     axios
       .get(
-        "http://10.90.0.150:3000/api/city/popular/" + this.props.route.cityCode
+        "https://hearme-api.herokuapp.com/api/city/popular/" +
+          this.props.route.cityCode +
+          "/" +
+          this.state.page
       )
       .then(response => {
         this.setState({
-          events: response.data,
-          isLoading: false
+          events: [...this.state.events, ...response.data],
+          isLoading: false,
+          isLoadingMore: false
         });
       })
       .catch(function(error) {
@@ -66,7 +86,9 @@ export default class HomePagePopular extends Component {
             styles.backgroundOfPage
           ]}
           data={this.state.events}
-          keyExtractor={(item, index) => item.displayName}
+          keyExtractor={(item, index) => item.displayName + index}
+          onEndReached={this.handleLoadMore}
+          onEndReachedThreshold={0.3}
           renderItem={obj => {
             return (
               <ConcertCard event={obj.item} navigate={this.props.navigate} />
