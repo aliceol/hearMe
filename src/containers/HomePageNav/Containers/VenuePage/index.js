@@ -49,7 +49,7 @@ export default class Venue extends Component {
           thisVenue: response.data.response.venueDetails,
           events: response.data.response.event,
           isLoading: false
-        });
+        })
       });
   }
 
@@ -211,16 +211,14 @@ const styles = StyleSheet.create({
     fontWeight: "500"
   },
   markerAndText: {
-    flexDirection: "row",
-    borderColor: "red",
-    borderWidth: 1
+    flexDirection: "row"
   },
   textTime: {
     fontSize: 20
   },
   mapMarker: {
     marginRight: 10,
-    marginBottom: 0,
+    marginTop: 2,
     color: "blue"
   },
   content: {

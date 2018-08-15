@@ -60,7 +60,7 @@ export default class Settings extends Component {
             }}
           >
             <View style={styles.settingOptionsBlock}>
-              <Text style={styles.settingInfo}>userName</Text>
+              <Text style={styles.settingInfo}>Username</Text>
               <Text style={styles.editableInfo}>{this.state.userName}</Text>
             </View>
           </TouchableOpacity>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   optionsBlock1: {
     marginTop: 40,
     borderColor: "grey",
-    backgroundColor: "lightgrey",
+    backgroundColor: "whitesmoke",
     borderTopWidth: 1,
     borderBottomWidth: 1
   },
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     borderBottomWidth: 1,
     borderTopWidth: 1,
-    backgroundColor: "lightgrey",
+    backgroundColor: "whitesmoke",
 
     flexDirection: "row",
     alignItems: "center"
