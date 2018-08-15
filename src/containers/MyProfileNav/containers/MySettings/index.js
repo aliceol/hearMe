@@ -4,6 +4,8 @@ import store from "react-native-simple-store";
 
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
+import { StackActions, NavigationActions } from "react-navigation";
+
 export default class Settings extends Component {
   state = {
     isLoading: true,
@@ -37,9 +39,15 @@ export default class Settings extends Component {
       color: "white"
     }
   };
-  logout() {
-    alert("log out");
-  }
+  logout = () => {
+    console.log(Object.keys(this.props));
+
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: "WelcomeScreen" })]
+    });
+    this.props.navigation.dispatch(resetAction);
+  };
   render() {
     return (
       <React.Fragment>
