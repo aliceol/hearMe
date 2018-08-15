@@ -23,6 +23,8 @@ const itemWidth = slideWidth + horizontalMargin * 2;
 const itemHeight = 80;
 
 export default class EventCarousel extends Component {
+  static navigationOptions = { headerBackTitle: null };
+
   state = {
     latitude: this.props.navigation.state.params.coordinates.lat,
     longitude: this.props.navigation.state.params.coordinates.lng,

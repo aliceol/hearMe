@@ -49,7 +49,6 @@ const Home = createStackNavigator({
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "#b2bec3",
-      title: "Artist Page",
       headerStyle: {
         backgroundColor: "#2d3436"
       },

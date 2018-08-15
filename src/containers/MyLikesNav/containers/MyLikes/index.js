@@ -21,6 +21,8 @@ import {
 import store from "react-native-simple-store";
 
 export default class MyLikes extends Component {
+  static navigationOptions = { headerBackTitle: null };
+
   state = {
     myLikes: [],
     isLoading: true,

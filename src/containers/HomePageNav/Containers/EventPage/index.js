@@ -22,7 +22,7 @@ import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class EventPage extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = { headerBackTitle: null };
 
   state = {
     thisEvent: [],
@@ -90,6 +90,10 @@ export default class EventPage extends Component {
             artistName = this.state.thisEvent.performance[i].artist.displayName;
           }
         }
+        console.log(
+          "name",
+          this.state.thisEvent.performance[i].artist.displayName
+        );
         eventArtists.push(
           <TouchableOpacity
             key={i}
@@ -133,9 +137,9 @@ export default class EventPage extends Component {
             longitude: Number(venue.lng),
             latitudeDelta: 0.01,
             longitudeDelta: 0.01
-          }} /* 
+          }}
           rotateEnabled={false}
-          scrollEnabled={false} */
+          scrollEnabled={false}
         >
           <Marker
             coordinate={{
@@ -191,7 +195,6 @@ export default class EventPage extends Component {
         </View>
       );
     } else {
-      console.log(this.state.thisEvent);
       return (
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -268,7 +271,7 @@ export default class EventPage extends Component {
           <Text style={styles.greyBar} />
 
           <View style={styles.infoView}>
-            {this.renderMap(this.state.thisEvent.venue)}
+            {/* {this.renderMap(this.state.thisEvent.venue)} */}
             {this.renderBio(this.state.thisEvent)}
             {this.renderAddtionalDetails(this.state.thisEvent)}
             <Text style={styles.titles}>More Info</Text>
