@@ -29,7 +29,45 @@ export default class EventCarousel extends Component {
     error: null,
     events: [],
     isLoading: true,
-    activeMarker: 0
+    activeMarker: 0,
+    isLoadingMore: false,
+    page: 1
+  };
+
+  getEvents = () => {
+    axios
+      .get(
+        "https://hearme-api.herokuapp.com/api/city/upcoming/" +
+          this.props.navigation.state.params.cityCode +
+          "/" +
+          this.state.page
+      )
+      .then(response => {
+        this.setState({
+          isLoading: false,
+          isLoadingMore: false,
+          events: [...this.state.events, ...response.data]
+        });
+      })
+
+      .catch(function(error) {
+        // handle error
+        console.log(error);
+      });
+  };
+
+  handleLoadMore = () => {
+    if (!this.state.isLoadingMore) {
+      this.setState(
+        {
+          page: this.state.page + 1,
+          isLoadingMore: true
+        },
+        () => {
+          this.getEvents();
+        }
+      );
+    }
   };
 
   removeEventsWithoutLoc(events) {
@@ -110,7 +148,7 @@ export default class EventCarousel extends Component {
                         name="map-pin"
                         size={30}
                         style={{
-                          color: i === this.state.activeMarker ? "red" : "black"
+                          color: "black"
                         }}
                       />
                     </Text>
@@ -150,11 +188,13 @@ export default class EventCarousel extends Component {
             paddingHorizontal={horizontalMargin}
             inactiveSlideOpacity={1}
             inactiveSlideScale={0}
-            loop={true}
+            loop={false}
             containerCustomStyle={{ position: "absolute", bottom: 0 }}
             onSnapToItem={slideIndex => {
               this._centerMapOnMarker(slideIndex);
             }}
+            onEndReached={this.handleLoadMore}
+            onEndReachedThreshold={0.3}
           />
         </View>
       );
@@ -162,23 +202,7 @@ export default class EventCarousel extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get(
-        "https://hearme-api.herokuapp.com/api/city/upcoming/" +
-          this.props.navigation.state.params.cityCode +
-          "/1"
-      )
-      .then(response => {
-        this.setState({
-          isLoading: false,
-          events: response.data
-        });
-      })
-
-      .catch(function(error) {
-        // handle error
-        console.log(error);
-      });
+    this.getEvents();
 
     if (Platform.OS == "ios") {
       // permission will be asked automatically by ios
