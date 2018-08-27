@@ -15,11 +15,11 @@ export default createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
           return <Icon name="home" size={30} color={tintColor} />;
+        },
+        tabBarOptions: {
+          activeTintColor: "#2B2D5B",
+          inactiveTintColor: "gray"
         }
-      },
-      tabBarOptions: {
-        activeTintColor: "blue",
-        inactiveTintColor: "gray"
       }
     },
     "My Calendar": {
@@ -27,11 +27,11 @@ export default createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
           return <Icon name="calendar" size={30} color={tintColor} />;
+        },
+        tabBarOptions: {
+          activeTintColor: "#2B2D5B",
+          inactiveTintColor: "gray"
         }
-      },
-      tabBarOptions: {
-        activeTintColor: "blue",
-        inactiveTintColor: "gray"
       }
     },
     "My Likes": {
@@ -39,11 +39,11 @@ export default createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
           return <Icon name="heart" size={30} color={tintColor} />;
+        },
+        tabBarOptions: {
+          activeTintColor: "#2B2D5B",
+          inactiveTintColor: "gray"
         }
-      },
-      tabBarOptions: {
-        activeTintColor: "blue",
-        inactiveTintColor: "gray"
       }
     },
     Profile: {
@@ -51,11 +51,11 @@ export default createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
           return <Icon name="user" size={30} color={tintColor} />;
+        },
+        tabBarOptions: {
+          activeTintColor: "#2B2D5B",
+          inactiveTintColor: "gray"
         }
-      },
-      tabBarOptions: {
-        activeTintColor: "blue",
-        inactiveTintColor: "gray"
       }
     }
   },
