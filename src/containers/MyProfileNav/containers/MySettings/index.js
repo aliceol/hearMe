@@ -40,8 +40,6 @@ export default class Settings extends Component {
     }
   };
   logout = () => {
-    console.log(Object.keys(this.props));
-
     const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: "WelcomeScreen" })]

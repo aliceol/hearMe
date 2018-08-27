@@ -22,7 +22,7 @@ export default class ChooseLocation extends Component {
   state = {
     cities: ["Paris", "Berlin", "Barcelona", "London", "Oslo"],
     query: "",
-    matchingCities: []
+    matchingCities: ["Paris", "Berlin", "Barcelona", "London", "Oslo"]
   };
 
   citiesCodes = {

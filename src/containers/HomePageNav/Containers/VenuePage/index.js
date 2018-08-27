@@ -44,12 +44,11 @@ export default class Venue extends Component {
           this.props.navigation.state.params.id
       )
       .then(response => {
-        console.log(response.data);
         this.setState({
           thisVenue: response.data.response.venueDetails,
           events: response.data.response.event,
           isLoading: false
-        })
+        });
       });
   }
 
