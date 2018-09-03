@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   Modal
 } from "react-native";
+
+import axios from "axios";
+
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 
 import { SearchBar } from "react-native-elements";
@@ -33,8 +36,67 @@ export default class TabViewPage extends React.Component {
           title: "Upcoming Events"
         },
         { key: "popular", title: "Popular Events" }
-      ]
+      ],
+      popular: { page: 1, events: [], isLoading: true, isLoadingMore: false },
+      upcoming: { page: 1, events: [], isLoading: true, isLoadingMore: false }
     };
+  }
+
+  handleLoadMore = cat => {
+    categoryState = { ...this.state[cat] };
+    if (!categoryState.isLoadingMore) {
+      categoryState.page += 1;
+      categoryState.isLoadingMore = true;
+      this.setState(
+        {
+          [cat]: categoryState
+        },
+        () => {
+          this.getEvents(cat);
+        }
+      );
+    }
+  };
+
+  getEvents(cat) {
+    categoryState = { ...this.state[cat] };
+    axios
+      .get(
+        "https://hearme-api.herokuapp.com/api/city/" +
+          cat +
+          "/" +
+          this.state.city.code +
+          "/" +
+          this.state[cat].page
+      )
+      .then(response => {
+        categoryState.events += response.data;
+        categoryState.isLoading = false;
+        categoryState.isLoadingMore = false;
+        this.setState(
+          {
+            [cat]: categoryState
+          },
+          () => {
+            console.log(
+              this.state.popular.events.length > 0
+                ? this.state.popular.events[0]
+                : "0"
+            );
+            console.log(
+              this.state.upcoming.events.length > 0
+                ? this.state.upcoming.events[0]
+                : "0"
+            );
+          }
+        );
+      })
+      .catch(function(error) {
+        console.log(
+          "There has been a problem with your operation: " + error.message
+        );
+        throw error;
+      });
   }
 
   render() {
@@ -66,6 +128,10 @@ export default class TabViewPage extends React.Component {
         <TabViewComponent {...this.state} />
       </Fragment>
     );
+  }
+  componentDidMount() {
+    this.getEvents("upcoming");
+    this.getEvents("popular");
   }
 }
 
