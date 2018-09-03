@@ -25,7 +25,6 @@ const App = createStackNavigator({
   Welcome: {
     screen: Welcome
   },
-
   SignUp: {
     screen: SignUp
   },

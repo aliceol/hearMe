@@ -37,7 +37,7 @@ export default class HomePageUpcoming extends Component {
     axios
       .get(
         "https://hearme-api.herokuapp.com/api/city/upcoming/" +
-          this.props.route.cityCode +
+          this.props.city.code +
           "/" +
           this.state.page
       )

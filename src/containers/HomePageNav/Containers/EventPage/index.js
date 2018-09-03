@@ -75,7 +75,6 @@ export default class EventPage extends Component {
     if (this.state.thisEvent.performance) {
       const eventArtists = [];
       let artistName = "Hello World";
-
       for (let i = 0; i < this.state.thisEvent.performance.length; i++) {
         if (this.state.thisEvent.performance.length > 0) {
           if (
@@ -90,10 +89,7 @@ export default class EventPage extends Component {
             artistName = this.state.thisEvent.performance[i].artist.displayName;
           }
         }
-        console.log(
-          "name",
-          this.state.thisEvent.performance[i].artist.displayName
-        );
+
         eventArtists.push(
           <TouchableOpacity
             key={i}

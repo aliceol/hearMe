@@ -44,7 +44,6 @@ class Avatar extends React.Component {
           },
           () => {
             store.get("userToken").then(res => {
-              console.log(res.token);
               const config = {
                 headers: {
                   Authorization: "Bearer " + res.token

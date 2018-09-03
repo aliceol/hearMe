@@ -7,6 +7,7 @@ import HomePagePopular from "./Containers/HomePagePopular";
 import HomePageUpcoming from "./Containers/HomePageUpcoming";
 import WebView from "./Containers/WebView";
 import MapView from "./Containers/MapView";
+import ChooseLocation from "../MyProfileNav/containers/ChooseLocation";
 
 const Home = createStackNavigator({
   HomePage: {
@@ -112,6 +113,10 @@ const Home = createStackNavigator({
         color: "white"
       }
     }
+  },
+  ChooseLocation: {
+    screen: ChooseLocation
   }
 });
+
 export default Home;

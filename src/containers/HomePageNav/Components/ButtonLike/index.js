@@ -15,7 +15,6 @@ export default class ButtonLike extends Component {
     this.props.onLike();
   }
   render() {
-    console.log("bdkdjd", this.state);
     const { toggle } = this.state;
     const textValue = toggle ? "Liked" : "Like";
     const buttonBg = toggle ? "dodgerblue" : "white";
