@@ -11,69 +11,117 @@ export default class ChooseLocation extends Component {
     header: null
   };
 
-  generateCitiesArray = () => {
-    const citiesNamesArray = [];
-    for (let i = 0; i < cities.length; i++) {
-      citiesNamesArray.push(cities[i].name);
+  cities = {
+    paris: {
+      name: "Paris",
+      code: "28909",
+      coordinates: { lat: 48.8566, lng: 2.3522 }
+    },
+    berlin: {
+      name: "Berlin",
+      code: "28443",
+      coordinates: { lat: 52.52, lng: 13.405 }
+    },
+    barcelona: {
+      name: "Barcelona",
+      code: "28714",
+      coordinates: { lat: 41.3851, lng: 2.1734 }
+    },
+    london: {
+      name: "London",
+      code: "24426",
+      coordinates: { lat: 51.5074, lng: 0.1278 }
+    },
+    oslo: {
+      name: "Oslo",
+      code: "31422",
+      coordinates: { lat: 59.9139, lng: 10.7522 }
+    },
+    shanghai: {
+      name: "Shanghai",
+      code: "28033",
+      coordinates: { lat: 31.226444, lng: 121.560501 }
+    },
+    hongkong: {
+      name: "Hong-Kong",
+      code: "34358",
+      coordinates: { lat: 22.302219, lng: 114.174637 }
+    },
+    bordeaux: {
+      name: "Bordeaux",
+      code: "28851",
+      coordinates: { lat: 44.837994, lng: -0.576675 }
+    },
+    cannes: {
+      name: "Cannes",
+      code: "28857",
+      coordinates: { lat: 43.552849, lng: 7.017369 }
+    },
+    nice: {
+      name: "Nice",
+      code: "28903",
+      coordinates: { lat: 43.675819, lng: 7.289429 }
     }
-    this.setState({ cities: citiesNamesArray });
   };
 
   state = {
-    cities: ["Paris", "Berlin", "Barcelona", "London", "Oslo"],
     query: "",
     matchingCities: []
-  };
-
-  citiesCodes = {
-    Paris: "28909",
-    Berlin: "28443",
-    Barcelona: "28714",
-    London: "24426",
-    Oslo: "31422"
-  };
-
-  citiesCoordinates = {
-    Paris: { lat: 48.8566, lng: 2.3522 },
-    Berlin: { lat: 52.52, lng: 13.405 },
-    Barcelona: { lat: 41.3851, lng: 2.1734 },
-    London: { lat: 51.5074, lng: 0.1278 },
-    Oslo: { lat: 59.9139, lng: 10.7522 }
   };
 
   compareCities = () => {
     let queryLength = this.state.query.length;
     let matchingCities = [];
+    let cities = Object.keys(this.cities);
     if (queryLength > 0) {
-      for (let i = 0; i < this.state.cities.length; i++) {
-        if (this.state.query === this.state.cities[i].slice(0, queryLength)) {
-          matchingCities.push(
-            <TouchableOpacity
-              onPress={() => this.navigateToCity(this.state.cities[i])}
-              key={this.state.cities[i]}
-            >
-              <Text>{this.state.cities[i]}</Text>
-            </TouchableOpacity>
-          );
+      for (let i = 0; i < cities.length; i++) {
+        if (
+          this.state.query.toLowerCase() ===
+          cities[i].slice(0, queryLength).toLowerCase()
+        ) {
+          matchingCities.push(cities[i]);
         }
       }
     }
     this.setState({ matchingCities: matchingCities });
   };
 
-  navigateToCity = cityName => {
-    this.props.navigation.replace("HomePage", {
-      cityName: cityName,
-      cityCode: this.citiesCodes[cityName]
-    });
+  renderMatchingCities = cities => {
+    let matchingCities = [];
+    for (let i = 0; i < cities.length; i++) {
+      matchingCities.push(
+        <TouchableOpacity
+          onPress={() => this.navigateToCity(this.cities[cities[i]])}
+          key={cities[i]}
+          style={styles.cityButton}
+        >
+          <Text style={{ fontSize: 20 }}>{this.cities[cities[i]].name}</Text>
+        </TouchableOpacity>
+      );
+    }
+    return matchingCities;
   };
 
-  /* handleChangeText = query => {
+  navigateToCity = city => {
+    this.setState(
+      {
+        query: "",
+        matchingCities: []
+      },
+      () => {
+        this.props.navigation.replace("HomePage", {
+          city: city
+        });
+      }
+    );
+  };
+
+  handleChangeText = query => {
     this.setState(
       state => ({ ...state, query: query || "" }),
       () => this.compareCities()
     );
-  }; */
+  };
 
   handleClear = () => {
     this.handleChangeText("");
@@ -101,7 +149,7 @@ export default class ChooseLocation extends Component {
           inputStyle={styles.input}
           value={this.state.query}
         />
-        <View>{this.state.matchingCities}</View>
+        <View>{this.renderMatchingCities(this.state.matchingCities)}</View>
       </React.Fragment>
     );
   }
@@ -114,5 +162,28 @@ const styles = StyleSheet.create({
   closeIcon: {
     marginTop: 20,
     margin: 10
+  },
+  citySearch: {
+    backgroundColor: "#F4F8FF",
+    height: 60,
+    display: "flex",
+    justifyContent: "space-between",
+    paddingHorizontal: 30,
+    flexDirection: "row",
+    alignItems: "center",
+    color: "whitesmoke",
+    marginTop: 20
+  },
+  cityDisplay: {
+    fontSize: 30,
+    fontWeight: "500"
+  },
+  closeIcon: {
+    marginTop: 20,
+    margin: 10
+  },
+  cityButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10
   }
 });

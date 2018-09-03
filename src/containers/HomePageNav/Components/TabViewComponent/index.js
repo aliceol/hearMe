@@ -10,8 +10,7 @@ class TabViewComponent extends React.Component {
     super(props);
     this.state = {
       index: 0,
-      cityName: props.cityName,
-      cityCode: props.cityCode,
+      city: props.city,
       routes: [
         {
           key: props.routes[0].key,
@@ -51,10 +50,18 @@ class TabViewComponent extends React.Component {
         )}
         renderScene={SceneMap({
           upcoming: props => (
-            <HomePageUpcoming {...props} navigation={this.props.navigation} />
+            <HomePageUpcoming
+              {...props}
+              navigation={this.props.navigation}
+              city={this.state.city}
+            />
           ),
           popular: props => (
-            <HomePagePopular {...props} navigation={this.props.navigation} />
+            <HomePagePopular
+              {...props}
+              navigation={this.props.navigation}
+              city={this.state.city}
+            />
           )
         })}
         onIndexChange={index => this.setState({ index })}

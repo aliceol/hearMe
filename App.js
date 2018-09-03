@@ -19,17 +19,17 @@ const App = createStackNavigator({
     screen: TabScreen,
     navigationOptions: {
       header: null
-    },
-    Welcome: {
-      screen: Welcome
-    },
-
-    SignUp: {
-      screen: SignUp
-    },
-    Login: {
-      screen: Login
     }
+  },
+  SignUp: {
+    screen: SignUp
+  },
+  Login: {
+    screen: Login
+  },
+
+  Welcome: {
+    screen: Welcome
   }
 
   /* HomePage: { screen: HomePage },

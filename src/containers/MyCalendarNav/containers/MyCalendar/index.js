@@ -6,7 +6,6 @@ import moment from "moment";
 import store from "react-native-simple-store";
 import _ from "lodash";
 
-
 import {
   StyleSheet,
   View,
@@ -119,7 +118,6 @@ export default class MyCalendar extends Component {
                     }
                     store.update("userCalendar", { calendar: newCalendar });
                     this.setState({ myCalendar: newCalendar });
-                    console.log("new one", this.state.myCalendar);
                   }
                 }
               ]
@@ -130,7 +128,6 @@ export default class MyCalendar extends Component {
         }
       ]
     };
-    console.log("item", item);
     return (
       <Swipeout {...swipeSettings}>
         <TouchableOpacity
@@ -167,7 +164,6 @@ export default class MyCalendar extends Component {
                 <Icon name="chevron-right" size={25} />
               </View>
             </View>
-
           </View>
         </TouchableOpacity>
       </Swipeout>
@@ -175,7 +171,6 @@ export default class MyCalendar extends Component {
   };
 
   _onRefresh = () => {
-
     this.getMyCalendar();
   };
 

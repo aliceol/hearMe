@@ -26,8 +26,8 @@ export default class EventCarousel extends Component {
   static navigationOptions = { headerBackTitle: null };
 
   state = {
-    latitude: this.props.navigation.state.params.coordinates.lat,
-    longitude: this.props.navigation.state.params.coordinates.lng,
+    latitude: this.props.navigation.state.params.city.coordinates.lat,
+    longitude: this.props.navigation.state.params.city.coordinates.lng,
     error: null,
     events: [],
     isLoading: true,
@@ -40,7 +40,7 @@ export default class EventCarousel extends Component {
     axios
       .get(
         "https://hearme-api.herokuapp.com/api/city/upcoming/" +
-          this.props.navigation.state.params.cityCode +
+          this.props.navigation.state.params.city.code +
           "/" +
           this.state.page
       )
@@ -139,7 +139,6 @@ export default class EventCarousel extends Component {
                       this._carousel.snapToItem(i);
                     }}
                     onCalloutPress={e => {
-                      console.log(this.state.events);
                       this.props.navigation.navigate("VenuePage", {
                         id: this.state.events[i].venue.id
                       });

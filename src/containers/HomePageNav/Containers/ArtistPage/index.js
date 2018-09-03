@@ -48,8 +48,6 @@ export default class ArtistPage extends Component {
           "/1"
       )
       .then(response => {
-        console.log("response:", response.data);
-
         this.setState(
           {
             thisArtist: response.data.response.resultsPage.results,
@@ -113,7 +111,6 @@ export default class ArtistPage extends Component {
     });
   };
   render() {
-    console.log("state", this.state);
     if (this.state.isLoadingArtistInfo || this.state.isLoadingLikes) {
       return (
         <View style={[styles.container, styles.horizontal]}>
@@ -125,7 +122,6 @@ export default class ArtistPage extends Component {
       const myResult = this.state.thisArtist;
       let eventName = "";
       let eventCity = "";
-
       for (let i = 0; i < myResult.event.length; i++) {
         if (myResult.event[i].displayName.length > 25) {
           eventName = myResult.event[i].displayName.substr(0, 25) + "...";
