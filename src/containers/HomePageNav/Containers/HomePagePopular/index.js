@@ -50,7 +50,7 @@ export default class HomePagePopular extends Component {
     axios
       .get(
         "https://hearme-api.herokuapp.com/api/city/popular/" +
-          this.props.route.cityCode +
+          this.props.city.code +
           "/" +
           this.state.page
       )
@@ -99,7 +99,7 @@ export default class HomePagePopular extends Component {
     }
   }
   componentDidMount() {
-    if (this.props.route.cityCode !== "") {
+    if (this.props.city.code !== "") {
       this.getEvents();
     }
   }

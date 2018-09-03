@@ -37,7 +37,6 @@ export default class Venue extends Component {
   _keyExtractor = (item, index) => item._id;
 
   getVenueInfo() {
-    console.log(this.props.navigation.state.params.id);
     axios
       .get(
         "https://hearme-api.herokuapp.com/api/venues/" +
