@@ -153,6 +153,20 @@ export default class MyLikes extends Component {
               />
             </ImageBackground>
 
+            {/* <ImageBackground
+              style={styles.artistImage}
+              source={require("../../../../images/placeholder_concert.jpg")}
+            >
+              <Image
+                style={styles.artistImage}
+                // source={require("../../../../images/artist_2.jpg")}
+                source={{
+                  uri: "https:" + myResult.artistPicURI
+                }}
+                imageStyle={{ borderRadius: 40 }}
+              />
+            </ImageBackground> */}
+
             <View style={styles.artistInfo}>
               <View>
                 <Text style={styles.artistName}>{item.displayName}</Text>

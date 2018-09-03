@@ -16,7 +16,7 @@ const Profile = createStackNavigator({
       headerTintColor: "#b2bec3",
       title: "My Profile",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"
