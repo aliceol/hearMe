@@ -24,13 +24,16 @@ export default class HomePagePopular extends Component {
     title: "HomePageUpcoming"
   };
 
-  state = {
-    events: [],
-    isLoading: true,
-    isLoadingMore: false,
-    page: 1,
-    error: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      events: props.eventsData.events,
+      isLoading: props.eventsData.isLoading,
+      isLoadingMore: props.eventsData.isLoadingMore,
+      page: props.eventsData.page,
+      error: ""
+    };
+  }
 
   handleLoadMore = () => {
     if (!this.state.isLoadingMore) {
@@ -98,11 +101,11 @@ export default class HomePagePopular extends Component {
       );
     }
   }
-  componentDidMount() {
+  /*   componentDidMount() {
     if (this.props.city.code !== "") {
       this.getEvents();
-    }
-  }
+    } 
+  }*/
 }
 
 const styles = StyleSheet.create({

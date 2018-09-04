@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  KeyboardAvoidingView,
+  Text,
+  TouchableOpacity
+} from "react-native";
 
 import { SearchBar } from "react-native-elements";
 
@@ -73,7 +80,9 @@ export default class ChooseLocation extends Component {
     let queryLength = this.state.query.length;
     let matchingCities = [];
     let cities = Object.keys(this.cities);
-    if (queryLength > 0) {
+    if (queryLength === 0) {
+      this.setState({ matchingCities: cities });
+    } else if (queryLength > 0) {
       for (let i = 0; i < cities.length; i++) {
         if (
           this.state.query.toLowerCase() ===
@@ -82,8 +91,8 @@ export default class ChooseLocation extends Component {
           matchingCities.push(cities[i]);
         }
       }
+      this.setState({ matchingCities: matchingCities });
     }
-    this.setState({ matchingCities: matchingCities });
   };
 
   renderMatchingCities = cities => {
@@ -149,9 +158,21 @@ export default class ChooseLocation extends Component {
           inputStyle={styles.input}
           value={this.state.query}
         />
-        <View>{this.renderMatchingCities(this.state.matchingCities)}</View>
+        <ScrollView>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={300}
+            behavior="padding"
+            style={{ flexGrow: 1 }}
+          >
+            {this.renderMatchingCities(this.state.matchingCities)}
+          </KeyboardAvoidingView>
+        </ScrollView>
       </React.Fragment>
     );
+  }
+
+  componentDidMount() {
+    this.compareCities();
   }
 }
 

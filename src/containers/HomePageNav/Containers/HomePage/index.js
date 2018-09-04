@@ -43,7 +43,9 @@ export default class TabViewPage extends React.Component {
   }
 
   handleLoadMore = cat => {
+    console.log(cat);
     categoryState = { ...this.state[cat] };
+
     if (!categoryState.isLoadingMore) {
       categoryState.page += 1;
       categoryState.isLoadingMore = true;
@@ -52,44 +54,63 @@ export default class TabViewPage extends React.Component {
           [cat]: categoryState
         },
         () => {
-          this.getEvents(cat);
+          if (cat === "popular") {
+            this.getPopularEvents();
+          } else if (cat === "upcoming") {
+            this.getUpcomingEvents();
+          }
         }
       );
     }
   };
 
-  getEvents(cat) {
-    categoryState = { ...this.state[cat] };
+  getUpcomingEvents() {
+    upcomingState = { ...this.state.upcoming };
     axios
       .get(
-        "https://hearme-api.herokuapp.com/api/city/" +
-          cat +
-          "/" +
+        "https://hearme-api.herokuapp.com/api/city/upcoming/" +
           this.state.city.code +
           "/" +
-          this.state[cat].page
+          this.state.upcoming.page
       )
       .then(response => {
-        categoryState.events += response.data;
-        categoryState.isLoading = false;
-        categoryState.isLoadingMore = false;
-        this.setState(
-          {
-            [cat]: categoryState
-          },
-          () => {
-            console.log(
-              this.state.popular.events.length > 0
-                ? this.state.popular.events[0]
-                : "0"
-            );
-            console.log(
-              this.state.upcoming.events.length > 0
-                ? this.state.upcoming.events[0]
-                : "0"
-            );
-          }
+        loadedUpcommingEvents = upcomingState.events;
+        upcomingState.events = [...loadedUpcommingEvents, ...response.data];
+
+        upcomingState.isLoading = false;
+        upcomingState.isLoadingMore = false;
+        this.setState({
+          upcoming: upcomingState
+        });
+      })
+      .catch(function(error) {
+        console.log(
+          "There has been a problem with your operation: " + error.message
         );
+        throw error;
+      });
+  }
+
+  getPopularEvents() {
+    popularState = { ...this.state.popular };
+    axios
+      .get(
+        "https://hearme-api.herokuapp.com/api/city/popular/" +
+          this.state.city.code +
+          "/" +
+          this.state.popular.page
+      )
+      .then(response => {
+        loadedUpcommingEvents = popularState.events;
+        loadedUpcommingEvents.length > 0
+          ? (popularState.events = loadedUpcommingEvents + response.data)
+          : (popularState.events = response.data);
+
+        popularState.isLoading = false;
+        popularState.isLoadingMore = false;
+        this.setState({
+          popular: popularState
+        });
       })
       .catch(function(error) {
         console.log(
@@ -100,7 +121,7 @@ export default class TabViewPage extends React.Component {
   }
 
   render() {
-    console.log("props", this.props);
+    console.log("hpstate", this.state);
     return (
       <Fragment>
         <View style={styles.citySearch}>
@@ -125,13 +146,16 @@ export default class TabViewPage extends React.Component {
           <Text style={styles.mapViewText}>Map View</Text>
         </TouchableOpacity>
 
-        <TabViewComponent {...this.state} />
+        <TabViewComponent
+          {...this.state}
+          handleLoadMore={this.handleLoadMore}
+        />
       </Fragment>
     );
   }
   componentDidMount() {
-    this.getEvents("upcoming");
-    this.getEvents("popular");
+    this.getPopularEvents();
+    this.getUpcomingEvents();
   }
 }
 

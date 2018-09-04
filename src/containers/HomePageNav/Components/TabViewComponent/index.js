@@ -23,12 +23,8 @@ class TabViewComponent extends React.Component {
           cityCode: props.routes[1].cityCode
         }
       ],
-      isOpen: false,
-      isDisabled: false,
-      swipeToClose: true,
-      cities: props.cities,
-      query: "",
-      matchingCities: []
+      popular: props.popular,
+      upcoming: props.upcoming
     };
   }
 
@@ -54,6 +50,8 @@ class TabViewComponent extends React.Component {
               {...props}
               navigation={this.props.navigation}
               city={this.state.city}
+              eventsData={this.props.upcoming}
+              handleLoadMore={this.props.handleLoadMore}
             />
           ),
           popular: props => (
@@ -61,6 +59,8 @@ class TabViewComponent extends React.Component {
               {...props}
               navigation={this.props.navigation}
               city={this.state.city}
+              eventsData={this.props.popular}
+              handleLoadMore={this.props.handleLoadMore}
             />
           )
         })}
