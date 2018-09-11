@@ -8,7 +8,7 @@ const MyLikesNav = createStackNavigator({
     screen: MyLikes,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       title: "My Likes",
       headerStyle: {
         backgroundColor: "#2B2D5B"
@@ -21,11 +21,11 @@ const MyLikesNav = createStackNavigator({
   ArtistPage: {
     screen: ArtistPage,
     navigationOptions: {
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       // headerBackTitle: null,
 
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"
@@ -36,10 +36,10 @@ const MyLikesNav = createStackNavigator({
       screen: EventPage,
       navigationOptions: {
         headerLeftContainerStyle: { paddingLeft: 10 },
-        headerTintColor: "#b2bec3",
+        headerTintColor: "white",
         title: "Event",
         headerStyle: {
-          backgroundColor: "#2d3436"
+          backgroundColor: "#2B2D5B"
         },
         headerTitleStyle: {
           color: "white"

@@ -25,13 +25,16 @@ export default class HomePageUpcoming extends Component {
     title: "HomePageUpcoming"
   };
 
-  state = {
-    events: [],
-    page: 1,
-    isLoading: true,
-    error: "",
-    isLoadingMore: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      events: props.eventsData.events,
+      isLoading: props.eventsData.isLoading,
+      isLoadingMore: props.eventsData.isLoadingMore,
+      page: props.eventsData.page,
+      error: ""
+    };
+  }
 
   getEvents() {
     axios
@@ -56,7 +59,8 @@ export default class HomePageUpcoming extends Component {
       });
   }
   // after reaching the end of the displayed events list, this function is called to display 50 more events.
-  handleLoadMore = () => {
+  /*   handleLoadMore = () => {
+    console.log("more");
     if (!this.state.isLoadingMore) {
       this.setState(
         {
@@ -68,7 +72,7 @@ export default class HomePageUpcoming extends Component {
         }
       );
     }
-  };
+  }; */
 
   // Storing in an array all dates at which events are happening
   getDates(events) {
@@ -116,7 +120,7 @@ export default class HomePageUpcoming extends Component {
     if (this.state.isLoading) {
       return (
         <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
     } else {
@@ -155,15 +159,15 @@ export default class HomePageUpcoming extends Component {
           )}
           sections={sectionListData}
           keyExtractor={(item, index) => item + index + "upcoming"}
-          onEndReached={this.handleLoadMore}
-          onEndReachedThreshold={0.3}
+          onEndReachedThreshold={0.5}
+          onEndReached={this.props.handleLoadMoreUpcoming}
         />
       );
     }
   }
-  componentDidMount() {
+  /*  componentDidMount() {
     this.getEvents();
-  }
+  } */
 }
 
 const styles = StyleSheet.create({

@@ -194,7 +194,7 @@ export default class MyCalendar extends Component {
     if (this.state.isLoading) {
       return (
         <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
     }
@@ -224,6 +224,11 @@ export default class MyCalendar extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 20
+  },
   infoContent: {
     flexDirection: "column",
     marginTop: 50

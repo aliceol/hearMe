@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {
   Text,
   View,
@@ -15,7 +15,8 @@ import {
 } from "react-native";
 
 import { withNavigation } from "react-navigation";
-import { MapView, Marker } from "react-native-maps";
+import MapView from "react-native-maps";
+import { Marker } from "react-native-maps";
 import store from "react-native-simple-store";
 
 import axios from "axios";
@@ -102,10 +103,19 @@ export default class EventPage extends Component {
             }}
           >
             <View>
-              <Image
+              <ImageBackground
                 source={require("../../Components/ConcertCard/photos/concert3.jpg")}
                 style={styles.artistsPicture}
-              />
+              >
+                <Image
+                  source={{
+                    uri:
+                      "https:" +
+                      this.state.thisEvent.performance[i].artist.pictureURI
+                  }}
+                  style={styles.artistsPicture}
+                />
+              </ImageBackground>
             </View>
 
             <Text style={{ fontSize: 10, marginTop: 5, textAlign: "center" }}>
@@ -136,6 +146,7 @@ export default class EventPage extends Component {
           }}
           rotateEnabled={false}
           scrollEnabled={false}
+          showsUserLocation={true}
         >
           <Marker
             coordinate={{
@@ -187,110 +198,100 @@ export default class EventPage extends Component {
     if (this.state.isLoading) {
       return (
         <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
     } else {
       return (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={styles.container}
-        >
+        <Fragment>
           <TouchableOpacity
             style={styles.addButton}
             onPress={() => this.addToCalendar()}
           >
             <Icon
               name="plus-circle"
-              size={50}
-              color="#7E97FC"
+              size={30}
+              color="#2B2D5B"
               style={{ marginLeft: 1 }}
             />
           </TouchableOpacity>
-          <View>
-            <ImageBackground
-              source={require("../../../../images/placeholder_concert.jpg")}
-              style={styles.image}
-            >
-              <Image
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.container}
+          >
+            <View>
+              <ImageBackground
+                source={require("../../../../images/placeholder_concert.jpg")}
                 style={styles.image}
-                source={{
-                  uri:
-                    "https://www.songkick.com/" + this.state.thisEvent.photoURI
-                }}
-              />
-            </ImageBackground>
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => this.addToCalendar()}
-            >
-              <Icon
-                name="plus-circle"
-                size={30}
-                color="#7E97FC"
-                style={{ marginLeft: 1 }}
-              />
-            </TouchableOpacity>
-          </View>
-          {this.state.thisEvent.venue ? (
-            <View style={styles.infoView}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("VenuePage", {
-                    id: this.state.thisEvent.venue.songKickId,
-                    name: this.state.thisEvent.venue.name
-                  })
-                }
               >
-                <Text style={styles.venueName}>
-                  {this.state.thisEvent.venue.name}
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: "https:" + this.state.thisEvent.photoURI
+                  }}
+                />
+              </ImageBackground>
+            </View>
+            {this.state.thisEvent.venue ? (
+              <View style={styles.infoView}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate("VenuePage", {
+                      id: this.state.thisEvent.venue.songKickId,
+                      name: this.state.thisEvent.venue.name
+                    })
+                  }
+                >
+                  <Text style={styles.venueName}>
+                    {this.state.thisEvent.venue.name}
+                  </Text>
+                </TouchableOpacity>
+                <Text style={styles.venueAddress}>
+                  {this.state.thisEvent.venue.address}
                 </Text>
-              </TouchableOpacity>
-              <Text style={styles.venueAddress}>
-                {this.state.thisEvent.venue.address}
-              </Text>
-              <Text style={styles.eventTitle}>
-                {this.state.thisEvent.title}
-              </Text>
-            </View>
-          ) : null}
-          <Text style={styles.greyBar} />
-          <View style={styles.infoView}>
-            <Text style={styles.titles}>Line Up</Text>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
-              {this.renderEventArtists()}
-            </ScrollView>
-          </View>
-          <Text style={styles.greyBar} />
-
-          <View style={styles.infoView}>
-            {/* {this.renderMap(this.state.thisEvent.venue)} */}
-            {this.renderBio(this.state.thisEvent)}
-            {this.renderAddtionalDetails(this.state.thisEvent)}
-            <Text style={styles.titles}>More Info</Text>
-            <View style={{ flexDirection: "row" }}>
-              <Image
-                style={styles.sk_logo}
-                source={require("../../../../images/powered-by-songkick-pink.png")}
-              />
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("WebView", {
-                    URI:
-                      this.state.thisEvent.uri.slice(0, 4) +
-                      "s" +
-                      this.state.thisEvent.uri.slice(4)
-                  })
-                }
+                <Text style={styles.eventTitle}>
+                  {this.state.thisEvent.title}
+                </Text>
+              </View>
+            ) : null}
+            <Text style={styles.greyBar} />
+            <View style={styles.infoView}>
+              <Text style={styles.titles}>Line Up</Text>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
               >
-                <Text>Browse this event on SongKick Website</Text>
-              </TouchableOpacity>
+                {this.renderEventArtists()}
+              </ScrollView>
             </View>
-          </View>
-        </ScrollView>
+            <Text style={styles.greyBar} />
+
+            <View style={styles.infoView}>
+              {this.renderMap(this.state.thisEvent.venue)}
+              {this.renderBio(this.state.thisEvent)}
+              {this.renderAddtionalDetails(this.state.thisEvent)}
+              <Text style={styles.titles}>More Info</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Image
+                  style={styles.sk_logo}
+                  source={require("../../../../images/powered-by-songkick-pink.png")}
+                />
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate("WebView", {
+                      URI:
+                        this.state.thisEvent.uri.slice(0, 4) +
+                        "s" +
+                        this.state.thisEvent.uri.slice(4)
+                    })
+                  }
+                >
+                  <Text>Browse this event on SongKick Website</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </Fragment>
       );
     }
   }
@@ -328,7 +329,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: 54,
-    height: 54
+    height: 54,
+    zIndex: 999
   },
   infoView: {
     marginTop: 10,
@@ -362,7 +364,8 @@ const styles = StyleSheet.create({
   artistsPicture: {
     width: 60,
     height: 60,
-    borderRadius: 30
+    borderRadius: 30,
+    overflow: "hidden"
   },
   horizontal: {
     flexDirection: "row",

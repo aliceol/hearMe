@@ -13,7 +13,7 @@ const Profile = createStackNavigator({
     navigationOptions: {
       headerBackTitle: null,
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       title: "My Profile",
       headerStyle: {
         backgroundColor: "#2B2D5B"
@@ -28,10 +28,10 @@ const Profile = createStackNavigator({
     screen: ChooseLocation,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       title: "Location",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "black"
@@ -42,10 +42,10 @@ const Profile = createStackNavigator({
     screen: MySettings,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       title: "Settings",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"
@@ -56,10 +56,10 @@ const Profile = createStackNavigator({
     screen: EditUsername,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "#white",
       title: "Edit Username",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"
@@ -70,10 +70,10 @@ const Profile = createStackNavigator({
     screen: EditEmail,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "#white",
       title: "Edit email",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"
@@ -84,10 +84,10 @@ const Profile = createStackNavigator({
     screen: SpotifyConnect,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       title: "Spotify Connect",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"

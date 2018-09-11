@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   SectionList,
+  Dimensions,
   FlatList
 } from "react-native";
 import { withNavigation } from "react-navigation";
@@ -19,18 +20,23 @@ import axios from "axios";
 
 import ConcertCard from "../../Components/ConcertCard";
 
+const widthScreen = Dimensions.get("window").width;
 export default class HomePagePopular extends Component {
   static navigationOptions = {
     title: "HomePageUpcoming"
   };
 
-  state = {
-    events: [],
-    isLoading: true,
-    isLoadingMore: false,
-    page: 1,
-    error: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      events: props.eventsData.events,
+      isLoading: props.eventsData.isLoading,
+      isLoadingMore: props.eventsData.isLoadingMore,
+      page: props.eventsData.page,
+      error: "",
+      index: props.eventsData.index
+    };
+  }
 
   handleLoadMore = () => {
     if (!this.state.isLoadingMore) {
@@ -73,7 +79,7 @@ export default class HomePagePopular extends Component {
     if (this.state.isLoading) {
       return (
         <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
     } else {
@@ -87,8 +93,15 @@ export default class HomePagePopular extends Component {
           ]}
           data={this.state.events}
           keyExtractor={(item, index) => item.displayName + index}
-          onEndReached={this.handleLoadMore}
-          onEndReachedThreshold={0.3}
+          onEndReachedThreshold={0.5}
+          onEndReached={this.props.handleLoadMorePopular}
+          getItemLayout={(data, index) => ({
+            length: widthScreen,
+            offset: widthScreen * index,
+            index
+          })}
+          onScroll={event => this.props.handleScroll("popular", event)}
+          initialScrollIndex={this.state.index - 1}
           renderItem={obj => {
             return (
               <ConcertCard event={obj.item} navigate={this.props.navigate} />
@@ -98,11 +111,11 @@ export default class HomePagePopular extends Component {
       );
     }
   }
-  componentDidMount() {
+  /*   componentDidMount() {
     if (this.props.city.code !== "") {
       this.getEvents();
-    }
-  }
+    } 
+  }*/
 }
 
 const styles = StyleSheet.create({

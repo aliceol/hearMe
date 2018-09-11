@@ -55,7 +55,7 @@ export default class Venue extends Component {
     if (this.state.isLoading) {
       return (
         <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
     } else {
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   mapMarker: {
     marginRight: 10,
     marginTop: 2,
-    color: "blue"
+    color: "#2B2D5B"
   },
   content: {
     flexDirection: "row",
