@@ -24,10 +24,10 @@ const Home = createStackNavigator({
       headerTintColor: "#b2bec3",
       title: "Popular Events",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
-        color: "black"
+        color: "white"
       }
     }
   },
@@ -38,7 +38,7 @@ const Home = createStackNavigator({
       headerTintColor: "#b2bec3",
       title: "Upcoming Events",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"
@@ -49,9 +49,9 @@ const Home = createStackNavigator({
     screen: ArtistPage,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"
@@ -62,10 +62,10 @@ const Home = createStackNavigator({
     screen: EventPage,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       title: "Event",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"
@@ -76,10 +76,10 @@ const Home = createStackNavigator({
     screen: VenuePage,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       title: "Venue",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"
@@ -90,10 +90,10 @@ const Home = createStackNavigator({
     screen: WebView,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       title: "Biography",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"
@@ -104,10 +104,10 @@ const Home = createStackNavigator({
     screen: MapView,
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
-      headerTintColor: "#b2bec3",
+      headerTintColor: "white",
       title: "Map",
       headerStyle: {
-        backgroundColor: "#2d3436"
+        backgroundColor: "#2B2D5B"
       },
       headerTitleStyle: {
         color: "white"

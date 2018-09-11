@@ -114,7 +114,7 @@ export default class ArtistPage extends Component {
     if (this.state.isLoadingArtistInfo || this.state.isLoadingLikes) {
       return (
         <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
     } else {
@@ -123,17 +123,9 @@ export default class ArtistPage extends Component {
       let eventName = "";
       let eventCity = "";
       for (let i = 0; i < myResult.event.length; i++) {
-        if (myResult.event[i].displayName.length > 25) {
-          eventName = myResult.event[i].displayName.substr(0, 25) + "...";
-        } else {
-          eventName = myResult.event[i].displayName;
-        }
+        eventName = myResult.event[i].displayName;
 
-        if (myResult.event[i].location.city.length > 13) {
-          eventCity = myResult.event[i].location.city.substr(0, 13) + "...";
-        } else {
-          eventCity = myResult.event[i].location.city;
-        }
+        eventCity = myResult.event[i].location.city;
 
         myEvent.push(
           <TouchableOpacity
@@ -160,14 +152,18 @@ export default class ArtistPage extends Component {
               </View>
               <View style={styles.content}>
                 <View style={styles.cityAndVenue}>
-                  <Text style={styles.artistName}>{eventName}</Text>
+                  <Text style={styles.artistName} numberOfLines={1}>
+                    {eventName}
+                  </Text>
                   <View style={styles.markerAndText}>
                     <Icon
                       name="map-marker"
                       size={20}
                       style={styles.mapMarker}
                     />
-                    <Text style={styles.textCityName}>{eventCity}</Text>
+                    <Text style={styles.textCityName} numberOfLines={1}>
+                      {eventCity}
+                    </Text>
                   </View>
                 </View>
 
@@ -216,7 +212,6 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-
     margin: 20
   },
   artistImage: {
@@ -320,9 +315,9 @@ const styles = StyleSheet.create({
   cityAndVenue: {
     flexDirection: "column",
     justifyContent: "space-around",
-
     height: 80,
-    marginLeft: 20
+    marginLeft: 20,
+    paddingRight: 10
   },
   artistName: {
     fontSize: 20,
@@ -336,7 +331,7 @@ const styles = StyleSheet.create({
   },
   mapMarker: {
     marginRight: 10,
-    color: "blue"
+    color: "#2B2D5B"
   },
   content: {
     flexDirection: "row",

@@ -120,7 +120,7 @@ export default class HomePageUpcoming extends Component {
     if (this.state.isLoading) {
       return (
         <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
     } else {
@@ -159,10 +159,8 @@ export default class HomePageUpcoming extends Component {
           )}
           sections={sectionListData}
           keyExtractor={(item, index) => item + index + "upcoming"}
-          onEndReached={() => {
-            this.props.handleLoadMore("upcoming");
-          }}
-          onEndReachedThreshold={0.3}
+          onEndReachedThreshold={0.5}
+          onEndReached={this.props.handleLoadMoreUpcoming}
         />
       );
     }

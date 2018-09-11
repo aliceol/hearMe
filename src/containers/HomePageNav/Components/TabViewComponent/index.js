@@ -51,7 +51,8 @@ class TabViewComponent extends React.Component {
               navigation={this.props.navigation}
               city={this.state.city}
               eventsData={this.props.upcoming}
-              handleLoadMore={this.props.handleLoadMore}
+              handleLoadMoreUpcoming={this.props.handleLoadMoreUpcoming}
+              handleScroll={this.props.handleScroll}
             />
           ),
           popular: props => (
@@ -60,7 +61,8 @@ class TabViewComponent extends React.Component {
               navigation={this.props.navigation}
               city={this.state.city}
               eventsData={this.props.popular}
-              handleLoadMore={this.props.handleLoadMore}
+              handleLoadMorePopular={this.props.handleLoadMorePopular}
+              handleScroll={this.props.handleScroll}
             />
           )
         })}

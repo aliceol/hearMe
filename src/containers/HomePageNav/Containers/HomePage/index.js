@@ -37,13 +37,25 @@ export default class TabViewPage extends React.Component {
         },
         { key: "popular", title: "Popular Events" }
       ],
-      popular: { page: 1, events: [], isLoading: true, isLoadingMore: false },
-      upcoming: { page: 1, events: [], isLoading: true, isLoadingMore: false }
+      popular: {
+        page: 1,
+        events: [],
+        index: 1,
+        isLoading: true,
+        isLoadingMore: false
+      },
+      upcoming: {
+        page: 1,
+        events: [],
+        index: 1,
+        isLoading: true,
+        isLoadingMore: false
+      }
     };
   }
 
   handleLoadMore = cat => {
-    console.log(cat);
+    console.log("handleLoadMore", cat);
     categoryState = { ...this.state[cat] };
 
     if (!categoryState.isLoadingMore) {
@@ -64,6 +76,61 @@ export default class TabViewPage extends React.Component {
     }
   };
 
+  handleLoadMorePopular = () => {
+    console.log("handleLoadMorePopular");
+    categoryState = { ...this.state.popular };
+
+    if (!categoryState.isLoadingMore) {
+      categoryState.page += 1;
+      categoryState.isLoadingMore = true;
+      this.setState(
+        {
+          popular: categoryState
+        },
+        () => {
+          this.getPopularEvents();
+        }
+      );
+    }
+  };
+
+  handleLoadMoreUpcoming = () => {
+    console.log("handleLoadMoreUpcoming");
+    categoryState = { ...this.state.upcoming };
+
+    if (!categoryState.isLoadingMore) {
+      categoryState.page += 1;
+      categoryState.isLoadingMore = true;
+      this.setState(
+        {
+          upcoming: categoryState
+        },
+        () => {
+          this.getUpcomingEvents();
+        }
+      );
+    }
+  };
+
+  handleScroll = (cat, event) => {
+    console.log(this.state[cat].index, event.nativeEvent.contentOffset.y / 201);
+
+    if (
+      event.nativeEvent.contentOffset.y / 201 - this.state[cat].index >= 0 ||
+      event.nativeEvent.contentOffset.y / 201 - this.state[cat].index <= -1
+    ) {
+      categoryState = { ...this.state[cat] };
+      categoryState.index =
+        Math.floor(event.nativeEvent.contentOffset.y / 201) + 1;
+      this.setState(
+        {
+          [cat]: categoryState
+        },
+        console.log("after setstate", this.state[cat].index)
+      );
+    }
+  };
+
   getUpcomingEvents() {
     upcomingState = { ...this.state.upcoming };
     axios
@@ -74,11 +141,12 @@ export default class TabViewPage extends React.Component {
           this.state.upcoming.page
       )
       .then(response => {
-        loadedUpcommingEvents = upcomingState.events;
-        upcomingState.events = [...loadedUpcommingEvents, ...response.data];
+        loadedUpcomingEvents = [...upcomingState.events];
+        upcomingState.events = [...loadedUpcomingEvents, ...response.data];
 
         upcomingState.isLoading = false;
         upcomingState.isLoadingMore = false;
+        console.log("upcost", upcomingState);
         this.setState({
           upcoming: upcomingState
         });
@@ -101,11 +169,8 @@ export default class TabViewPage extends React.Component {
           this.state.popular.page
       )
       .then(response => {
-        loadedUpcommingEvents = popularState.events;
-        loadedUpcommingEvents.length > 0
-          ? (popularState.events = loadedUpcommingEvents + response.data)
-          : (popularState.events = response.data);
-
+        loadedPopularEvents = [...popularState.events];
+        popularState.events = [...loadedPopularEvents, ...response.data];
         popularState.isLoading = false;
         popularState.isLoadingMore = false;
         this.setState({
@@ -148,7 +213,9 @@ export default class TabViewPage extends React.Component {
 
         <TabViewComponent
           {...this.state}
-          handleLoadMore={this.handleLoadMore}
+          handleLoadMorePopular={this.handleLoadMorePopular}
+          handleLoadMoreUpcoming={this.handleLoadMoreUpcoming}
+          handleScroll={this.handleScroll}
         />
       </Fragment>
     );

@@ -146,12 +146,7 @@ export default class MyLikes extends Component {
               style={styles.artistImage}
               source={require("../../../../images/artist_2.jpg")}
               imageStyle={{ borderRadius: 40 }}
-            >
-              <Image
-                style={styles.icons}
-                source={require("../../../../images/player.png")}
-              />
-            </ImageBackground>
+            />
 
             {/* <ImageBackground
               style={styles.artistImage}
@@ -213,7 +208,7 @@ export default class MyLikes extends Component {
     if (this.state.isLoading) {
       return (
         <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
     }
@@ -238,6 +233,11 @@ export default class MyLikes extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 20
+  },
   infoContent: {
     flexDirection: "column",
     marginTop: 50
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     backgroundColor: "whitesmoke"
   },
   unitArtist: {
-    borderColor: "#3498db",
+    borderColor: "#2B2D5B",
     borderBottomWidth: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   chevron: {
-    color: "#3498db"
+    color: "#2B2D5B"
   },
   artistName: {
     fontSize: 18,

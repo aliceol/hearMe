@@ -17,7 +17,7 @@ export default class ButtonLike extends Component {
   render() {
     const { toggle } = this.state;
     const textValue = toggle ? "Liked" : "Like";
-    const buttonBg = toggle ? "dodgerblue" : "white";
+    const buttonBg = toggle ? "#2B2D5B" : "white";
     const textColor = toggle ? "white" : "black";
     return (
       <View style={styles.container}>
@@ -30,7 +30,7 @@ export default class ButtonLike extends Component {
             width: "20%",
             height: 40,
             borderRadius: 10,
-            borderColor: "dodgerblue",
+            borderColor: "#2B2D5B",
             borderWidth: 2
           }}
         >
