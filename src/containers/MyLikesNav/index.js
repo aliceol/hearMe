@@ -37,7 +37,6 @@ const MyLikesNav = createStackNavigator({
       navigationOptions: {
         headerLeftContainerStyle: { paddingLeft: 10 },
         headerTintColor: "white",
-        title: "Event",
         headerStyle: {
           backgroundColor: "#2B2D5B"
         },

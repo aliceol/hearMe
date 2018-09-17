@@ -70,6 +70,7 @@ export default class MyLikes extends Component {
   //rendering one artist from the SK API
   renderArtistItem = ({ item }, index) => {
     let artistName = item.displayName;
+    let artistPicURI = "https:" + item.pictureURI;
     const swipeSettings = {
       autoClose: true,
       onClose: () => {
@@ -144,7 +145,7 @@ export default class MyLikes extends Component {
           <View style={styles.unitArtist}>
             <ImageBackground
               style={styles.artistImage}
-              source={require("../../../../images/artist_2.jpg")}
+              source={{ uri: artistPicURI }}
               imageStyle={{ borderRadius: 40 }}
             />
 
@@ -207,7 +208,7 @@ export default class MyLikes extends Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={[styles.container, styles.horizontal]}>
+        <View style={[styles.activityIndicator]}>
           <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
@@ -233,10 +234,13 @@ export default class MyLikes extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
+  activityIndicator: {
+    flex: 1,
     alignItems: "center",
-    margin: 20
+    justifyContent: "center"
+  },
+  container: {
+    flex: 1
   },
   infoContent: {
     flexDirection: "column",

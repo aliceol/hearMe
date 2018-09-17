@@ -22,7 +22,6 @@ const Home = createStackNavigator({
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "#b2bec3",
-      title: "Popular Events",
       headerStyle: {
         backgroundColor: "#2B2D5B"
       },
@@ -36,7 +35,6 @@ const Home = createStackNavigator({
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "#b2bec3",
-      title: "Upcoming Events",
       headerStyle: {
         backgroundColor: "#2B2D5B"
       },
@@ -63,7 +61,6 @@ const Home = createStackNavigator({
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "white",
-      title: "Event",
       headerStyle: {
         backgroundColor: "#2B2D5B"
       },
@@ -77,7 +74,6 @@ const Home = createStackNavigator({
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "white",
-      title: "Venue",
       headerStyle: {
         backgroundColor: "#2B2D5B"
       },
@@ -91,7 +87,6 @@ const Home = createStackNavigator({
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "white",
-      title: "Biography",
       headerStyle: {
         backgroundColor: "#2B2D5B"
       },
@@ -105,7 +100,6 @@ const Home = createStackNavigator({
     navigationOptions: {
       headerLeftContainerStyle: { paddingLeft: 10 },
       headerTintColor: "white",
-      title: "Map",
       headerStyle: {
         backgroundColor: "#2B2D5B"
       },

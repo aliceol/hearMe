@@ -14,7 +14,9 @@ import {
 } from "react-native";
 
 export default class EventPage extends Component {
-  static navigationOptions = {};
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.state.params.URI
+  });
 
   render() {
     return (
@@ -22,7 +24,6 @@ export default class EventPage extends Component {
         source={{
           uri: this.props.navigation.state.params.URI
         }}
-        style={{ marginTop: 20 }}
       />
     );
   }
@@ -31,8 +32,7 @@ export default class EventPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    marginTop: 20
+    backgroundColor: "white"
   },
   image: {
     width: Dimensions.get("window").width,

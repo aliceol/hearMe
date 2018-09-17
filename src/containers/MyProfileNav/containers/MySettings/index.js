@@ -40,11 +40,14 @@ export default class Settings extends Component {
     }
   };
   logout = () => {
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: "WelcomeScreen" })]
+    store.delete("userToken").then(() => {
+      /* const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: "WelcomeScreen" })]
+      });
+      this.props.navigation.dispatch(resetAction); */
+      this.props.screenProps.rootNavigation.navigate("Welcome");
     });
-    this.props.navigation.dispatch(resetAction);
   };
   render() {
     return (

@@ -21,6 +21,7 @@ import axios from "axios";
 import ConcertCard from "../../Components/ConcertCard";
 
 const widthScreen = Dimensions.get("window").width;
+
 export default class HomePagePopular extends Component {
   static navigationOptions = {
     title: "HomePageUpcoming"
@@ -34,11 +35,12 @@ export default class HomePagePopular extends Component {
       isLoadingMore: props.eventsData.isLoadingMore,
       page: props.eventsData.page,
       error: "",
-      index: props.eventsData.index
+      index: props.eventsData.index,
+      scrollIndex: props.eventsData.scrollIndex
     };
   }
 
-  handleLoadMore = () => {
+  /*  handleLoadMore = () => {
     if (!this.state.isLoadingMore) {
       this.setState(
         {
@@ -50,8 +52,8 @@ export default class HomePagePopular extends Component {
         }
       );
     }
-  };
-
+  }; */
+  /* 
   getEvents() {
     axios
       .get(
@@ -73,18 +75,19 @@ export default class HomePagePopular extends Component {
         );
         throw error;
       });
-  }
+  } */
 
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={[styles.container, styles.horizontal]}>
+        <View style={[styles.activityIndicator]}>
           <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
     } else {
       return (
         <FlatList
+          ref="_FlatListPop"
           style={[
             {
               padding: 10
@@ -93,15 +96,10 @@ export default class HomePagePopular extends Component {
           ]}
           data={this.state.events}
           keyExtractor={(item, index) => item.displayName + index}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.99}
           onEndReached={this.props.handleLoadMorePopular}
-          getItemLayout={(data, index) => ({
-            length: widthScreen,
-            offset: widthScreen * index,
-            index
-          })}
           onScroll={event => this.props.handleScroll("popular", event)}
-          initialScrollIndex={this.state.index - 1}
+          contentOffset={{ x: 0, y: this.state.scrollIndex }}
           renderItem={obj => {
             return (
               <ConcertCard event={obj.item} navigate={this.props.navigate} />
@@ -119,6 +117,11 @@ export default class HomePagePopular extends Component {
 }
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
   container: {
     flex: 1,
     justifyContent: "center"

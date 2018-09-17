@@ -70,7 +70,6 @@ export default class EditEmail extends Component {
                   Authorization: "Bearer " + res.token
                 }
               };
-              console.log(config);
               axios
                 .post(
                   "https://hearme-api.herokuapp.com/api/user/changeMyEmail",
@@ -80,7 +79,6 @@ export default class EditEmail extends Component {
                   config
                 )
                 .then(response => {
-                  console.log(response.data);
                   if (response.data) {
                     store.save("email", {
                       email: this.state.email
