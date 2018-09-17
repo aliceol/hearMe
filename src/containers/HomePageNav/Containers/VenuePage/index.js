@@ -20,7 +20,7 @@ export default class Venue extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeftContainerStyle: { paddingLeft: 10 },
     headerTintColor: "white",
-    // title: navigation.state.params.title,
+    title: navigation.state.params.title,
     headerStyle: {
       backgroundColor: "rgba(45,141,214,100)"
     },
@@ -34,7 +34,9 @@ export default class Venue extends Component {
     isLoading: true
   };
 
-  _keyExtractor = (item, index) => item._id;
+  _keyExtractor = (item, index) => {
+    return item.id.toString();
+  };
 
   getVenueInfo() {
     axios
@@ -54,7 +56,7 @@ export default class Venue extends Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={[styles.container, styles.horizontal]}>
+        <View style={[styles.activityIndicator]}>
           <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
@@ -83,7 +85,8 @@ export default class Venue extends Component {
                   <TouchableOpacity
                     onPress={() => {
                       this.props.navigation.navigate("EventPage", {
-                        id: item.id
+                        id: item.id,
+                        title: item.displayName
                       });
                     }}
                   >
@@ -138,6 +141,14 @@ export default class Venue extends Component {
 }
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  container: {
+    flex: 1
+  },
   rowitem: {
     padding: 15,
     backgroundColor: "#ecf0f1",

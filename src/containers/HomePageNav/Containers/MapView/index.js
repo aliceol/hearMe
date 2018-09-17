@@ -11,6 +11,8 @@ import Carousel from "react-native-snap-carousel";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
 import { PermissionsAndroid } from "react-native";
+
+import { withNavigation } from "react-navigation";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ConcertCard from "../../Components/ConcertCard";
@@ -23,7 +25,10 @@ const itemWidth = slideWidth + horizontalMargin * 2;
 const itemHeight = 80;
 
 export default class EventCarousel extends Component {
-  static navigationOptions = { headerBackTitle: null };
+  static navigationOptions = ({ navigation }) => ({
+    headerBackTitle: null,
+    title: navigation.state.params.city.name
+  });
 
   state = {
     latitude: this.props.navigation.state.params.city.coordinates.lat,
@@ -115,7 +120,7 @@ export default class EventCarousel extends Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={[styles.container, styles.horizontal]}>
+        <View style={[styles.activityIndicator]}>
           <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
@@ -140,7 +145,8 @@ export default class EventCarousel extends Component {
                     }}
                     onCalloutPress={e => {
                       this.props.navigation.navigate("VenuePage", {
-                        id: this.state.events[i].venue.id
+                        id: this.state.events[i].venue.id,
+                        title: this.state.events[i].venue.displayName
                       });
                     }}
                   >
@@ -195,7 +201,7 @@ export default class EventCarousel extends Component {
               this._centerMapOnMarker(slideIndex);
             }}
             onEndReached={this.handleLoadMore}
-            onEndReachedThreshold={0.3}
+            onEndReachedThreshold={0.5}
           />
         </View>
       );
@@ -254,10 +260,13 @@ export default class EventCarousel extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
+  activityIndicator: {
+    flex: 1,
     alignItems: "center",
-    margin: 20
+    justifyContent: "center"
+  },
+  container: {
+    flex: 1
   },
   map: {
     flex: 1,

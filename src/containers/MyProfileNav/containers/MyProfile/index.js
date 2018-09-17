@@ -43,7 +43,6 @@ export default class MyProfile extends React.Component {
     //   return <Text>is loading</Text>;
     // } else
 
-    //    console.log("this.props.rootNavigation", this.props.rootNavigation);
     return (
       <React.Fragment>
         <View style={styles.container}>
@@ -93,7 +92,7 @@ export default class MyProfile extends React.Component {
               </View>
               <Icon name="chevron-right" size={20} style={styles.chevron} />
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.oneOption}
               onPress={() => {
                 this.props.navigation.navigate("SpotifyConnect");
@@ -113,7 +112,7 @@ export default class MyProfile extends React.Component {
                 </View>
               </View>
               <Icon name="chevron-right" size={20} style={styles.chevron} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </React.Fragment>

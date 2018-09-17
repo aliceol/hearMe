@@ -64,7 +64,8 @@ export default withNavigation(
             style={styles.concertCard}
             onPress={() => {
               this.props.navigation.navigate("EventPage", {
-                id: this.props.event.id
+                id: this.props.event.id,
+                title: this.props.event.displayName
               });
             }}
           >

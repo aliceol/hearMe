@@ -113,7 +113,7 @@ export default class ArtistPage extends Component {
   render() {
     if (this.state.isLoadingArtistInfo || this.state.isLoadingLikes) {
       return (
-        <View style={[styles.container, styles.horizontal]}>
+        <View style={[styles.activityIndicator]}>
           <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
@@ -132,7 +132,7 @@ export default class ArtistPage extends Component {
             onPress={() => {
               this.props.navigation.navigate("EventPage", {
                 id: myResult.event[i].id,
-                name: myResult.event[i].displayName
+                title: myResult.event[i].displayName
               });
             }}
             style={styles.unitEvent}
@@ -204,15 +204,29 @@ export default class ArtistPage extends Component {
   }
 
   componentDidMount() {
-    this.getArtistInfo();
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "willFocus",
+      () => {
+        this.getArtistInfo();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.willFocusSubscription.remove();
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
+  activityIndicator: {
+    flex: 1,
     alignItems: "center",
-    margin: 20
+    justifyContent: "center"
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 20
   },
   artistImage: {
     width: 80,

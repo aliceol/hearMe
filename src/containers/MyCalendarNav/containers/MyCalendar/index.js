@@ -40,7 +40,6 @@ export default class MyCalendar extends Component {
       axios
         .get("https://hearme-api.herokuapp.com/api/user/getMyCalendar", config)
         .then(response => {
-          console.log(response.data);
           this.setState({
             myCalendar: response.data,
             isLoading: false
@@ -50,7 +49,6 @@ export default class MyCalendar extends Component {
   }
 
   componentDidMount() {
-    this.getMyCalendar();
     this.willFocusSubscription = this.props.navigation.addListener(
       "willFocus",
       () => {
@@ -128,12 +126,14 @@ export default class MyCalendar extends Component {
         }
       ]
     };
+
     return (
       <Swipeout {...swipeSettings}>
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.navigate("EventPage", {
-              id: item.songKickId
+              id: item.songKickId,
+              title: item.title
             });
           }}
         >
@@ -193,7 +193,7 @@ export default class MyCalendar extends Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={[styles.container, styles.horizontal]}>
+        <View style={[styles.activityIndicator]}>
           <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
@@ -219,15 +219,27 @@ export default class MyCalendar extends Component {
   }
 
   componentDidMount() {
-    this.getMyCalendar();
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "willFocus",
+      () => {
+        this.getMyCalendar();
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.willFocusSubscription.remove();
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
+  activityIndicator: {
+    flex: 1,
     alignItems: "center",
-    margin: 20
+    justifyContent: "center"
+  },
+  container: {
+    flex: 1
   },
   infoContent: {
     flexDirection: "column",

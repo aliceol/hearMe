@@ -1,3 +1,4 @@
+import React, { Component } from "react";
 import { createStackNavigator } from "react-navigation";
 import MyProfile from "./containers/MyProfile";
 import MySettings from "./containers/MySettings";
@@ -7,7 +8,7 @@ import EditEmail from "./containers/EditEmail";
 import SpotifyConnect from "./containers/SpotifyConnect";
 import Welcome from "../Welcome/index.js";
 
-const Profile = createStackNavigator({
+const ProfileStackNavigation = createStackNavigator({
   MyProfile: {
     screen: MyProfile,
     navigationOptions: {
@@ -98,4 +99,12 @@ const Profile = createStackNavigator({
     screen: Welcome
   }
 });
-export default Profile;
+export default class Profile extends Component {
+  render() {
+    return (
+      <ProfileStackNavigation
+        screenProps={{ rootNavigation: this.props.navigation }}
+      />
+    );
+  }
+}

@@ -13,7 +13,9 @@ export default class Login extends Component {
   state = {
     email: "",
     password: "",
-    btnNextDisable: true
+    btnNextDisable: true /* ,
+    validEmail: true,
+    emailIsFocused: false */
   };
 
   onChange = (key, value) => {
@@ -32,6 +34,9 @@ export default class Login extends Component {
             btnNextDisable: true
           });
         }
+        /* if (!test.state.validEmail && !this.state.emailIsFocused) {
+          this.setState({ validEmail: false });
+        } */
       }
     );
   };
@@ -48,6 +53,20 @@ export default class Login extends Component {
       color: "white"
     }
   };
+
+  /*   handleInputFocus = () => this.setState({ emailIsFocused: true });
+
+  handleInputBlur = () => {
+    this.setState({
+      emailIsFocused: false,
+      validEmail: validateEmail(this.state.email)
+    });
+  };
+
+  validateEmail = mail => {
+    const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return re.test(mail);
+  }; */
 
   render() {
     return (
@@ -66,6 +85,8 @@ export default class Login extends Component {
             placeholder="email"
             autoCapitalize="none"
             autoCorrect={false}
+            onFocus={this.handleInputFocus}
+            onBlur={this.handleInputBlur}
             style={styles.input}
             ref={input => (this.email = input)}
           />
@@ -122,6 +143,9 @@ export default class Login extends Component {
                 <Text style={styles.textNextButton}>Next</Text>
               </TouchableOpacity>
             ) : null}
+            {/* this.state.validEmail ? null : (
+              <Text style={{ color: red }}>Pease enter a valid email</Text>
+            ) */}
           </View>
         </View>
       </View>

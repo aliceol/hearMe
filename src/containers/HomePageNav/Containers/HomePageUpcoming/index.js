@@ -32,11 +32,13 @@ export default class HomePageUpcoming extends Component {
       isLoading: props.eventsData.isLoading,
       isLoadingMore: props.eventsData.isLoadingMore,
       page: props.eventsData.page,
-      error: ""
+      error: "",
+      index: props.eventsData.index,
+      scrollIndex: props.eventsData.scrollIndex
     };
   }
 
-  getEvents() {
+  /* getEvents() {
     axios
       .get(
         "https://hearme-api.herokuapp.com/api/city/upcoming/" +
@@ -57,7 +59,7 @@ export default class HomePageUpcoming extends Component {
         );
         throw error;
       });
-  }
+  } */
   // after reaching the end of the displayed events list, this function is called to display 50 more events.
   /*   handleLoadMore = () => {
     console.log("more");
@@ -119,7 +121,7 @@ export default class HomePageUpcoming extends Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={[styles.container, styles.horizontal]}>
+        <View style={[styles.activityIndicator]}>
           <ActivityIndicator size="large" color="#2B2D5B" />
         </View>
       );
@@ -161,6 +163,8 @@ export default class HomePageUpcoming extends Component {
           keyExtractor={(item, index) => item + index + "upcoming"}
           onEndReachedThreshold={0.5}
           onEndReached={this.props.handleLoadMoreUpcoming}
+          onScroll={event => this.props.handleScroll("upcoming", event)}
+          contentOffset={{ x: 0, y: this.state.scrollIndex }}
         />
       );
     }
@@ -171,6 +175,11 @@ export default class HomePageUpcoming extends Component {
 }
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
   container: {
     flex: 1,
     justifyContent: "center"

@@ -18,6 +18,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import TabViewComponent from "../../Components/TabViewComponent";
 
+let scrollPopular = 0;
+let scrollUpcoming = 0;
 export default class TabViewPage extends React.Component {
   constructor(props) {
     super(props);
@@ -41,6 +43,7 @@ export default class TabViewPage extends React.Component {
         page: 1,
         events: [],
         index: 1,
+        scrollIndex: 0,
         isLoading: true,
         isLoadingMore: false
       },
@@ -48,16 +51,15 @@ export default class TabViewPage extends React.Component {
         page: 1,
         events: [],
         index: 1,
+        scrollIndex: 0,
         isLoading: true,
         isLoadingMore: false
       }
     };
   }
-
+  /* 
   handleLoadMore = cat => {
-    console.log("handleLoadMore", cat);
     categoryState = { ...this.state[cat] };
-
     if (!categoryState.isLoadingMore) {
       categoryState.page += 1;
       categoryState.isLoadingMore = true;
@@ -75,12 +77,11 @@ export default class TabViewPage extends React.Component {
       );
     }
   };
-
+ */
   handleLoadMorePopular = () => {
-    console.log("handleLoadMorePopular");
     categoryState = { ...this.state.popular };
-
     if (!categoryState.isLoadingMore) {
+      categoryState.scrollIndex = scrollPopular;
       categoryState.page += 1;
       categoryState.isLoadingMore = true;
       this.setState(
@@ -95,9 +96,8 @@ export default class TabViewPage extends React.Component {
   };
 
   handleLoadMoreUpcoming = () => {
-    console.log("handleLoadMoreUpcoming");
     categoryState = { ...this.state.upcoming };
-
+    categoryState.scrollIndex = scrollUpcoming;
     if (!categoryState.isLoadingMore) {
       categoryState.page += 1;
       categoryState.isLoadingMore = true;
@@ -112,11 +112,11 @@ export default class TabViewPage extends React.Component {
     }
   };
 
-  handleScroll = (cat, event) => {
+  /*   handleScroll = (cat, event) => {
     console.log(this.state[cat].index, event.nativeEvent.contentOffset.y / 201);
 
     if (
-      event.nativeEvent.contentOffset.y / 201 - this.state[cat].index >= 0 ||
+      event.nativeEvent.contentOffset.y /  - this.state[cat].index >= 0 ||
       event.nativeEvent.contentOffset.y / 201 - this.state[cat].index <= -1
     ) {
       categoryState = { ...this.state[cat] };
@@ -128,6 +128,18 @@ export default class TabViewPage extends React.Component {
         },
         console.log("after setstate", this.state[cat].index)
       );
+    }
+  }; */
+
+  handleScroll = (cat, event) => {
+    if (
+      cat === "popular" &&
+      Math.abs(event.nativeEvent.contentOffset.y - scrollPopular) < 500
+    ) {
+      scrollPopular = event.nativeEvent.contentOffset.y;
+    }
+    if (cat === "upcoming") {
+      scrollUpcoming = event.nativeEvent.contentOffset.y;
     }
   };
 
@@ -143,10 +155,10 @@ export default class TabViewPage extends React.Component {
       .then(response => {
         loadedUpcomingEvents = [...upcomingState.events];
         upcomingState.events = [...loadedUpcomingEvents, ...response.data];
-
         upcomingState.isLoading = false;
         upcomingState.isLoadingMore = false;
-        console.log("upcost", upcomingState);
+
+        upcomingState.scrollIndex = scrollUpcoming;
         this.setState({
           upcoming: upcomingState
         });
@@ -173,6 +185,8 @@ export default class TabViewPage extends React.Component {
         popularState.events = [...loadedPopularEvents, ...response.data];
         popularState.isLoading = false;
         popularState.isLoadingMore = false;
+
+        popularState.scrollIndex = scrollPopular;
         this.setState({
           popular: popularState
         });
@@ -186,7 +200,6 @@ export default class TabViewPage extends React.Component {
   }
 
   render() {
-    console.log("hpstate", this.state);
     return (
       <Fragment>
         <View style={styles.citySearch}>
